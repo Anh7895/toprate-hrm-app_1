@@ -1,0 +1,6 @@
+{
+  "textNoConnectionPleaseCheckYourConnectionAndTryAgain": "Connection lost, please try again later",
+  "textSystemIsBusyPleaseTryAgainLater": "The system is busy, please try again later",
+  "textError": "Error! An error occurred. Please try again later",
+  "invoices": "Invoices"
+}
