@@ -147,26 +147,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
       selectedLabelStyle: TextStyle(color: ThemeColor.clr_136849),
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          activeIcon: SvgPicture.asset(ic_salary, color: ThemeColor.clr_136849),
-          icon: SvgPicture.asset(ic_salary),
+          activeIcon: Icon(Icons.access_alarm, color: ThemeColor.clr_136849,),
+          icon: Icon(Icons.access_alarm),
           label: "Lương",
         ),
         BottomNavigationBarItem(
-          activeIcon:
-              SvgPicture.asset(ic_calendar, color: ThemeColor.clr_136849),
-          icon: SvgPicture.asset(ic_calendar),
+          activeIcon: Icon(Icons.access_alarm, color: ThemeColor.clr_136849,),
+          icon: Icon(Icons.access_alarm),
           label: "Chấm công",
         ),
         BottomNavigationBarItem(
-          activeIcon:
-              SvgPicture.asset(ic_notification, color: ThemeColor.clr_136849),
-          icon: SvgPicture.asset(ic_notification),
+          activeIcon: Icon(Icons.access_alarm, color: ThemeColor.clr_136849,),
+          icon: Icon(Icons.access_alarm),
           label: "Thông báo",
         ),
         BottomNavigationBarItem(
-          activeIcon:
-              SvgPicture.asset(ic_account_circle, color: ThemeColor.clr_136849),
-          icon: SvgPicture.asset(ic_account_circle),
+          activeIcon: Icon(Icons.access_alarm, color: ThemeColor.clr_136849,),
+          icon: Icon(Icons.access_alarm),
           label: "Cá nhân",
         )
       ],

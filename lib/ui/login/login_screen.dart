@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 backgroundColor: Colors.transparent,
                 resizeToAvoidBottomInset: false,
                 body: LocalImageWidget(
-                  url: png_background_login,
+                  url: png_ic_google,
                   width: double.infinity,
                   height: double.infinity,
                   boxFit: BoxFit.cover,
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   LocalImageWidget(
                                     margin: EdgeInsets.only(top: height_118),
-                                    url: png_logo_an_phu,
+                                    url: png_ic_google,
                                     width: width_191,
                                     height: height_117,
                                     boxFit: BoxFit.fill,
@@ -160,23 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   SizedBox(
                                     height: height_15,
-                                  ),
-                                  ButtonCustomWidget(
-                                    onPress: () {
-                                    },
-                                    leadingIcon: SVGImageWidget(
-                                      url: svg_ic_recruitment_infor,
-                                      width: width_24,
-                                      height: width_24,
-                                    ),
-                                    title:
-                                    TextConstants.textViewInfoRecruitment,
-                                    margin: EdgeInsets.only(
-                                        left: width_50,
-                                        right: width_50,
-                                        bottom: height_20),
-                                    color: ThemeColor.clr_136849,
-                                    height: height_40,
                                   ),
                                 ],
                               ),

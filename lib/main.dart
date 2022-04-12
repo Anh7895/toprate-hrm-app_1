@@ -98,15 +98,16 @@ Future<void> main() async {
 //
 //   // await fcmSubscribe();
 //
-//   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-//     statusBarColor: ThemeColor.appStyleColor,
-//   ));
-//
-//   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-//       .then((_) => runApp(
-//             BaseApp(),
-//           ));
-// }
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: ThemeColor.appStyleColor,
+  ));
+
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) => runApp(
+            BaseApp(),
+          ));
+
 //
 // fcmSubscribe() async{
 //   await FirebaseMessaging.instance.subscribeToTopic('TopicToListen');
