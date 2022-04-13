@@ -74,9 +74,11 @@ class _HomeScreensState extends State<HomeScreens> {
                                 Container(
                                   height: height_60,
                                   width: width_50,
-                                  decoration: BoxDecoration(color: Colors.amber,borderRadius: BorderRadius.circular(radius_20)),
+                                  decoration: BoxDecoration(image: DecorationImage(image: NetworkImage("https://upload.wikimedia.org/wikipedia/en/5/52/Phineas_Flynn.png")),borderRadius: BorderRadius.circular(radius_20)),
                                 ),
-                                Icon(Icons.circle,size: 15, color:ThemeColor.clr_CE6161),
+                                Container(
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(radius_32)),
+                                    child: Icon(Icons.circle,size: 16, color:ThemeColor.clr_CE6161)),
                               ],)
                             ],
                           ),
