@@ -43,6 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       : super(StartLoginState()) {
     on<GoogleLoginEvent>((event, emit){
       localUserData.accessToken = event.assetToken!;
+      print(localUserData.accessToken);
       emit(AddDeviceTokenSuccessState());
     });
     ///Change Obscure

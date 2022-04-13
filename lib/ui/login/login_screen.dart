@@ -92,11 +92,10 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Scaffold(
                 backgroundColor: Colors.transparent,
                 resizeToAvoidBottomInset: false,
-                body: LocalImageWidget(
-                  url: png_background_login,
+                body: Container(
                   width: double.infinity,
                   height: double.infinity,
-                  boxFit: BoxFit.cover,
+                  color: ThemeColor.clr_F4F6FA,
                   child: Stack(
                     children: [
                       SingleChildScrollView(
