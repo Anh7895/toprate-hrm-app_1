@@ -51,7 +51,8 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
   doLoginGoogle() {
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       account!.authentication.then((au) {
-        widget.callBackGoogle!(au.accessToken!);
+        widget.callBackGoogle!(au.idToken!);
+
       }).catchError((error, stackTrace) {});
     });
   }
@@ -108,6 +109,7 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       alignment: widget.alignment ?? Alignment.bottomCenter,
       child: Wrap(
