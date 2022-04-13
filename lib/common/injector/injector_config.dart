@@ -1,5 +1,6 @@
 import 'package:toprate_hrm/blocs/dashboard/dashboard_bloc.dart';
 import 'package:toprate_hrm/blocs/login/login_bloc.dart';
+import 'package:toprate_hrm/blocs/notification/notification_bloc.dart';
 import 'package:toprate_hrm/blocs/splash/splash_bloc.dart';
 import 'package:toprate_hrm/datasource/data/remote/login_datasource.dart';
 import 'package:toprate_hrm/datasource/network/dio/api_client.dart';
@@ -42,6 +43,7 @@ abstract class InjectorConfig {
   @Register.factory(SplashBloc)
   @Register.factory(DashboardBloc)
   @Register.factory(LoginBloc)
+  @Register.factory(NotificationBloc)
   void _configureBlocs();
 
   @Register.factory(LoginRepository)

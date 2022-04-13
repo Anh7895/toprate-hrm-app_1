@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "299593549185",
+    "project_id": "toprate-hrm-61acb",
+    "storage_bucket": "toprate-hrm-61acb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299593549185:android:66f9f16c34a48fa3595480",
+        "android_client_info": {
+          "package_name": "io.toprate.toprate_hrm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299593549185-6i3a47mo4jgdgc7qgqq8hv327nh4q8l2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhTjJGLmKOSwD8GdbOrAN1YjpI1lxL2LQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299593549185-6i3a47mo4jgdgc7qgqq8hv327nh4q8l2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

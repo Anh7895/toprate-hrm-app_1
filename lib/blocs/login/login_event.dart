@@ -1,4 +1,5 @@
 
+import 'package:toprate_hrm/datasource/data/local_user_data.dart';
 import 'package:toprate_hrm/datasource/data/model/request/login_request.dart';
 
 abstract class LoginEvent {}
@@ -10,7 +11,11 @@ class DoLoginEvent extends LoginEvent {
 
   DoLoginEvent({this.paramRequest});
 }
+class GoogleLoginEvent extends LoginEvent{
+  String? assetToken;
 
+  GoogleLoginEvent(this.assetToken);
+}
 class ChangeObscureEvent extends LoginEvent {
   ChangeObscureEvent();
 }

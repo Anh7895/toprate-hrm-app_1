@@ -29,14 +29,26 @@ class TextConstants {
   //Login
   static const textNameLogin = "Nhập tên đăng nhập";
   static const textPassword = "Nhập mật khẩu";
-  static const textInfo =
-      "Tính năng này chỉ được sử dụng cho các công nhân của hệ thống An Phú. Với các công nhân chưa có tài khoản, các bạn vui lòng liên hệ với bộ phận nhân sự để được cấp tài khoản";
-  static const textButtonLogin = "Đăng nhập";
+  static const textInfo = "Internal app for all TopRater";
+  static const textWelcome = "Welcome to";
+  static const textTopRate = "TopRate";
+  static const textApp = "App";
+  static const textButtonLogin = "Login";
   static const textForgotPass = "Bạn quên mật khẩu?";
   static const textViewInfoRecruitment = "Xem thông tin tuyển dụng";
   static const textSaveAcc= "Lưu tài khoản";
 
+  //Notification
+  static const textTopRateApp = "TopRate app";
+  static const textDetailNotification = "Maybe you need to do daily checkin now!";
 
+  //forgot password
+  static const textNewPassword = "Mật khẩu";
+  static const textConfirmPass = "Xác nhận mật khẩu";
+  static const textNumberOTP = "Mã xác nhận";
+  static const textSenOTP = "Gửi mã xác nhận";
+  static const textConfirm = "Xác nhận";
+  static const textNameLoginForgot = "Tên đăng nhập: ";
 
   static const textForgotPassword = "Quên mật khẩu";
 
@@ -44,10 +56,17 @@ class TextConstants {
   static const textTakePhoto = "Take photo";
   static const textChooseFromLibrary = "Choose from library";
 
+  // Notification
+  static const textNotification = "Thông báo";
+
+  // Font
+  static const textNotoSans = "Noto Sans";
 
 
-  static const textFailed = "Thất bại";
+
   static const textSuccess = "Thành công";
+  static const textFailed = "Thất bại";
+
   static const text101Err= "Mất kết nối đến máy chủ, vui lòng kiểm tra lại đường truyền và thử lại";
   static const text100Err= "Hệ thống đang bận, vui lòng thử lại sau";
   static const text106Err= "Phiên đăng nhập của bạn đã hết hạn, vui lòng đăng nhập lại để truy cập hệ thống";
