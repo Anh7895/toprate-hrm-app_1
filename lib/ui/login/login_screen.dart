@@ -99,55 +99,49 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Stack(
                     children: [
                       SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: width_16),
-                          child: Column(
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  LocalImageWidget(
-                                    margin: EdgeInsets.only(top: height_76),
-                                    url: png_ic_logo,
-                                    width: width_59,
-                                    height: height_60,
-                                    boxFit: BoxFit.fill,
-                                  ),
-                               SizedBox(height: height_26),
-                               Text(TextConstants.textWelcome, style:  TextStyleCommon.textStyleWelcome,),
-                               Container(
-                                 width: width_241,
-                                 height: height_64,
-                                 margin:  EdgeInsets.only(left: width_80,right: width_66),
-                                 child: Row(
-                                   children: [
-                                     Text(TextConstants.textTopRate, style: TextStyleCommon.textStyleTopRate,),
-                                     SizedBox(width: 5,),
-                                     Text(TextConstants.textApp, style:  TextStyleCommon.textStyleWelcome,),
-                                   ],
-                                 ),
-                               ),
-                                  Text(
-                                    TextConstants.textInfo,
-                                    style:TextStyleCommon.textStyleDetailWelcome,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Image.asset(png_image_login),
-                                    SizedBox(
-                                    height: height_27,
-                                  ),
-                                  GroupSocialScreen(showFacebook: false,
-                                    callBackGoogle: (value){
-                                    _bloc.add(GoogleLoginEvent(value));
-                                    },
-                                    callBackFacebook: null,
-                                    callBackApple: null,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                        child: Column(
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                LocalImageWidget(
+                                  margin: EdgeInsets.only(top: height_76),
+                                  url: png_ic_logo,
+                                  width: width_59,
+                                  height: height_60,
+                                  boxFit: BoxFit.fill,
+                                ),
+                             SizedBox(height: height_26),
+                             Text(TextConstants.textWelcome, style:  TextStyleCommon.textStyleWelcome,),
+                             Row(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
+                                 Text(TextConstants.textTopRate, style: TextStyleCommon.textStyleTopRate,),
+                                 SizedBox(width: 5,),
+                                 Text(TextConstants.textApp, style:  TextStyleCommon.textStyleWelcome,),
+                               ],
+                             ),
+                                SizedBox(height: height_16),
+                                Text(
+                                  TextConstants.textInfo,
+                                  style:TextStyleCommon.textStyleDetailWelcome,
+                                  textAlign: TextAlign.center,
+                                ),
+                                Image.asset(png_image_login),
+                                  SizedBox(
+                                  height: height_27,
+                                ),
+                                GroupSocialScreen(showFacebook: false,
+                                  callBackGoogle: (value){
+                                  _bloc.add(GoogleLoginEvent(value));
+                                  },
+                                  callBackFacebook: null,
+                                  callBackApple: null,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                       Visibility(
