@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
 import 'package:toprate_hrm/common/utils/preference_utils.dart';
@@ -27,10 +28,10 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
   OWhoAmI? user;
   RAuth? rAuth;
   bool isObscure = true;
-
+  GoogleSignIn signIn = GoogleSignIn();
   TextEditingController emailController = TextEditingController();
   FocusNode focusNodeEmail = FocusNode();
-
+  LocalUserData localUserData = LocalUserData();
   TextEditingController passwordController = TextEditingController();
   FocusNode focusNodePassword = FocusNode();
   TextEditingController confirmPassWordController = TextEditingController();
@@ -40,6 +41,10 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
 
   LoginBloc(this.loginRepository)
       : super(StartLoginState()) {
+    on<GoogleLoginEvent>((event, emit){
+      localUserData.accessToken = event.assetToken!;
+      emit(AddDeviceTokenSuccessState());
+    });
     ///Change Obscure
     on<ChangeObscureEvent>((event, emit){
       isObscure = !isObscure;
@@ -83,6 +88,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       emit(ChangeStatusSaveAccState());
     });
   }
+
 
   Future<void> doLogin(DoLoginEvent event, Emitter<BaseState> emit) async {
     emit(StartCallApiState());

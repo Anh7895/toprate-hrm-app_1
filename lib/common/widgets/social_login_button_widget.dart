@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toprate_hrm/common/resource/sizes.dart';
 import 'package:toprate_hrm/common/resource/theme_color.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -40,9 +41,9 @@ class SocialLoginButton extends StatelessWidget {
       this.imageAssetsPng,
       required this.doLogin,
       this.customWidget,
-      this.width = 120,
-      this.height = 30,
-      this.size = 20,
+      this.width = 220,
+      this.height = 40,
+      this.size = 30,
       this.styleName,
       this.colorBackground = Colors.white})
       : super(key: key);
@@ -54,7 +55,7 @@ class SocialLoginButton extends StatelessWidget {
         child: customWidget == null
             ? Card(
                 elevation: 2,
-                color: colorBackground,
+                color: ThemeColor.clr_CE6161,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Container(
@@ -62,9 +63,10 @@ class SocialLoginButton extends StatelessWidget {
                   height: height,
                   width: width,
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      SizedBox(width: width_10,),
                       imageAssetsPng != null
                           ? Image.asset(
                               imageAssetsPng!,
@@ -76,6 +78,7 @@ class SocialLoginButton extends StatelessWidget {
                               width: size,
                               height: size,
                             ),
+                      SizedBox(width: width_40,),
                       Container(
                           margin: EdgeInsets.only(left: 4),
                           child: Text(loginName!,

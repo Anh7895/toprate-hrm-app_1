@@ -38,7 +38,7 @@ class ButtonCustomWidget extends StatelessWidget {
         padding: padding ?? EdgeInsets.all(0),
         margin: margin ?? EdgeInsets.symmetric(vertical: width_8),
         decoration: BoxDecoration(
-            color: color ?? ThemeColor.clr_1472C9,
+            color: color ?? ThemeColor.clr_CE6161,
             borderRadius: BorderRadius.all(Radius.circular(radius_8))),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

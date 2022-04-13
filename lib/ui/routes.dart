@@ -1,6 +1,7 @@
 import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
 import 'package:toprate_hrm/ui/login/login_screen.dart';
+import 'package:toprate_hrm/ui/notification/notification_screen.dart';
 import 'package:toprate_hrm/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,6 +25,11 @@ class Routes {
             builder: (_) => SplashScreen(),
             settings:
             RouteSettings(name: RouteName.splashScreen));
+      case RouteName.notification:
+        return MaterialPageRoute(
+            builder: (_) => NotificationScreen(),
+            settings:
+            RouteSettings(name: RouteName.notification));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

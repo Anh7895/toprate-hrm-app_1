@@ -342,4 +342,36 @@ class TextStyleCommon {
       fontSize: fontSize_12,
       fontWeight: FontWeight.normal);
 
+  //login
+  static TextStyle textStyleWelcome = TextStyle(
+      color: ThemeColor.clr_2D3142,
+      fontSize: fontSize_28,
+      fontWeight: FontWeight.w500,);
+
+  static TextStyle textStyleTopRate = TextStyle(
+      color: ThemeColor.clr_CE6161,
+      fontSize: fontSize_28,
+      fontWeight: FontWeight.w500);
+
+  static TextStyle textStyleDetailWelcome = TextStyle(
+      color: ThemeColor.clr_4C5980,
+      fontSize: fontSize_16,
+      fontWeight: FontWeight.w400);
+
+  static TextStyle textStyleButtonWelcome = TextStyle(
+      color: ThemeColor.clr_FFFFFF,
+      fontSize: fontSize_16,
+      fontWeight: FontWeight.w500);
+
+  //notification
+  static TextStyle textStyleTopRateApp = TextStyle(
+      color: ThemeColor.clr_2D3142,
+      fontSize: fontSize_18,
+      fontWeight: FontWeight.w500);
+
+  static TextStyle textStyleDetailNotification = TextStyle(
+      color: ThemeColor.clr_2D3142,
+      fontSize: fontSize_12,
+      fontWeight: FontWeight.w400);
 }
+

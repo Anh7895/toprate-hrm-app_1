@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:toprate_hrm/common/resource/text_style.dart';
 
 import 'social_login_button_widget.dart';
 
@@ -109,12 +111,13 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
     return Container(
       alignment: widget.alignment ?? Alignment.bottomCenter,
       child: Wrap(
-        direction: widget.direction ?? Axis.horizontal,
-        alignment: widget.wrapAlignment ?? WrapAlignment.center,
+        // direction: widget.direction ?? Axis.horizontal,
+        // alignment: widget.wrapAlignment ?? WrapAlignment.center,
         children: [
           widget.callBackGoogle != null
               ? SocialLoginButton(
-                  loginName: "Google",
+                  loginName: "Login",
+                  styleName: TextStyleCommon.textStyleButtonWelcome,
                   imageAssetsPng: png_ic_google,
                   doLogin: () {
                     print("Login");

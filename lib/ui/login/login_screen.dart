@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/login/login_bloc.dart';
 import 'package:toprate_hrm/blocs/login/login_event.dart';
@@ -14,10 +16,12 @@ import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:toprate_hrm/common/widgets/images/local_image_widget.dart';
 import 'package:toprate_hrm/common/widgets/images/svg_image_widget.dart';
 import 'package:toprate_hrm/common/widgets/loading_widget.dart';
+import 'package:toprate_hrm/common/widgets/social_login_button_widget.dart';
 import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../common/widgets/social_login_bottom_widget.dart';
 import 'component/text_field_login.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -53,6 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: HttpStreamHandler<LoginBloc, BaseState>(
         bloc: _bloc,
         listener: (context, state) async {
+
           if (state is AddDeviceTokenSuccessState) {
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => DashboardScreen()),
@@ -88,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 backgroundColor: Colors.transparent,
                 resizeToAvoidBottomInset: false,
                 body: LocalImageWidget(
-                  url: png_ic_google,
+                  url: png_background_login,
                   width: double.infinity,
                   height: double.infinity,
                   boxFit: BoxFit.cover,
@@ -104,62 +109,41 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   LocalImageWidget(
-                                    margin: EdgeInsets.only(top: height_118),
-                                    url: png_ic_google,
-                                    width: width_191,
-                                    height: height_117,
+                                    margin: EdgeInsets.only(top: height_76),
+                                    url: png_ic_logo,
+                                    width: width_59,
+                                    height: height_60,
                                     boxFit: BoxFit.fill,
                                   ),
-                                  TextFieldLogin(
-                                    loginBloc: _bloc,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                        onChanged: (bool? value) {
-                                          _bloc.add(ChangeStatusSaveAccEvent());
-                                        },
-                                        activeColor: ThemeColor.clr_136849,
-                                        value: _bloc.saveAcc,
-                                      ),
-                                      Text(TextConstants.textSaveAcc,style: TextStyleCommon.font12pxStyleNormal(
-                                          context, height: 1), )
-                                    ],
-                                  ),
-                                  ButtonCustomWidget(
-                                    onPress: () {
-                                      // Navigator.pushNamed(context, RouteName.dashboard);
-                                      _bloc.add(ValidateLoginEvent());
-                                    },
-                                    title: TextConstants.textButtonLogin,
-                                    color: ThemeColor.clr_136849,
-                                    height: height_52,
-                                  ),
-                                  SizedBox(
-                                    height: height_21,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _bloc.add(ValidateSwitchForgotPasswordScreenEvent());
-                                    },
-                                    child: Text(
-                                      TextConstants.textForgotPass,
-                                      style:
-                                      TextStyleCommon.textButtonUnderline(
-                                          context),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: height_80,
-                                  ),
+                               SizedBox(height: height_26),
+                               Text(TextConstants.textWelcome, style:  TextStyleCommon.textStyleWelcome,),
+                               Container(
+                                 width: width_241,
+                                 height: height_64,
+                                 margin:  EdgeInsets.only(left: width_80,right: width_66),
+                                 child: Row(
+                                   children: [
+                                     Text(TextConstants.textTopRate, style: TextStyleCommon.textStyleTopRate,),
+                                     SizedBox(width: 5,),
+                                     Text(TextConstants.textApp, style:  TextStyleCommon.textStyleWelcome,),
+                                   ],
+                                 ),
+                               ),
                                   Text(
                                     TextConstants.textInfo,
-                                    style: TextStyleCommon.font12pxStyleNormal(
-                                        context),
+                                    style:TextStyleCommon.textStyleDetailWelcome,
                                     textAlign: TextAlign.center,
                                   ),
-                                  SizedBox(
-                                    height: height_15,
+                                  Image.asset(png_image_login),
+                                    SizedBox(
+                                    height: height_27,
+                                  ),
+                                  GroupSocialScreen(showFacebook: false,
+                                    callBackGoogle: (value){
+                                    _bloc.add(GoogleLoginEvent(value));
+                                    },
+                                    callBackFacebook: null,
+                                    callBackApple: null,
                                   ),
                                 ],
                               ),
