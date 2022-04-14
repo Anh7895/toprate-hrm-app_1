@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "299593549185",
-    "project_id": "toprate-hrm-61acb",
-    "storage_bucket": "toprate-hrm-61acb.appspot.com"
+    "project_number": "464585541979",
+    "project_id": "top-hrm",
+    "storage_bucket": "top-hrm.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:299593549185:android:66f9f16c34a48fa3595480",
+        "mobilesdk_app_id": "1:464585541979:android:4190e882356c3e1e02f27e",
         "android_client_info": {
-          "package_name": "io.toprate.toprate_hrm"
+          "package_name": "com.android.application"
         }
       },
       "oauth_client": [
         {
-          "client_id": "299593549185-6i3a47mo4jgdgc7qgqq8hv327nh4q8l2.apps.googleusercontent.com",
+          "client_id": "464585541979-o4q1gvtkdrb3pbiim1pi70qjqje0v2fp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.application",
+            "certificate_hash": "c6f8d31872ee7e17ad6b894a8bf732d8fd9db2b5"
+          }
+        },
+        {
+          "client_id": "464585541979-kqtm7q362ovcbrkleceuod6ejfi2uclf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDhTjJGLmKOSwD8GdbOrAN1YjpI1lxL2LQ"
+          "current_key": "AIzaSyBhDdbKSJDEPjbhIJDH6dVM4J_K-IUBff0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "299593549185-6i3a47mo4jgdgc7qgqq8hv327nh4q8l2.apps.googleusercontent.com",
+              "client_id": "464585541979-kqtm7q362ovcbrkleceuod6ejfi2uclf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

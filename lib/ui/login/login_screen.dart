@@ -58,11 +58,17 @@ class _LoginScreenState extends State<LoginScreen> {
         bloc: _bloc,
         listener: (context, state) async {
 
-          if (state is AddDeviceTokenSuccessState) {
+          if (state is LoginSuccessState) {
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => DashboardScreen()),
                     (Route<dynamic> route) => false);
             return;
+          }
+          if (state is LoginFailState) {
+
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Yêu Cầu Mail Công Ty"),
+            ));
           }
 
           if (state is ValidateLoginState) {
@@ -134,8 +140,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 GroupSocialScreen(showFacebook: false,
                                   callBackGoogle: (value){
-                                  _bloc.add(GoogleLoginEvent(value));
+                                  _bloc.add(GoogleLoginEvent(value[0],value[1]));
                                   },
+
                                   callBackFacebook: null,
                                   callBackApple: null,
                                 ),

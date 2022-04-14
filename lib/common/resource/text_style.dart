@@ -378,7 +378,8 @@ class TextStyleCommon {
   static TextStyle textHiName = TextStyle(
     color: ThemeColor.clr_2D3142,
     fontSize: fontSize_32,
-    fontWeight: FontWeight.w500
+    fontWeight: FontWeight.w500,
+
   );
 
   static TextStyle textDate =  TextStyle(
