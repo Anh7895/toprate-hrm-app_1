@@ -1,11 +1,13 @@
 import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
+import 'package:toprate_hrm/ui/day_off/day_off_screen.dart';
 import 'package:toprate_hrm/ui/login/login_screen.dart';
 import 'package:toprate_hrm/ui/notification/notification_screen.dart';
 import 'package:toprate_hrm/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:openapi/openapi.dart';
+import 'daily_check_in/daily_checkin_screen.dart';
 import 'login/login_screen.dart';
 
 class Routes {
@@ -25,6 +27,17 @@ class Routes {
             builder: (_) => SplashScreen(),
             settings:
             RouteSettings(name: RouteName.splashScreen));
+        case RouteName.dailyCheckInScreen:
+        return MaterialPageRoute(
+            builder: (_) => DailyCheckInScreen(),
+            settings:
+            RouteSettings(name: RouteName.dailyCheckInScreen));
+
+        case RouteName.dayOffScreen:
+        return MaterialPageRoute(
+            builder: (_) => DayOffScreen(),
+            settings:
+            RouteSettings(name: RouteName.dayOffScreen));
       case RouteName.notification:
         return MaterialPageRoute(
             builder: (_) => NotificationScreen(),

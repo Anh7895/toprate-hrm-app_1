@@ -4,5 +4,7 @@ class RouteName {
   static const mainNavigationBottomBarScreen = '/navigation_bottom_bar_screen';
   static const splashScreen = '/splash_screen';
   static const dashboard = '/dashboard';
+  static const dailyCheckInScreen = '/daily_check_in_screen';
+  static const dayOffScreen = '/day_off_screen';
   static const notification = '/notification';
 }
