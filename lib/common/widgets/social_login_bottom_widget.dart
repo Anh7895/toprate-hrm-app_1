@@ -12,6 +12,7 @@ import 'social_login_button_widget.dart';
 class GroupSocialScreen extends StatefulWidget {
   final bool? showFacebook;
   final bool? showGoogle;
+
   final callBackGoogle;
   final callBackFacebook;
   final callBackApple;
@@ -19,7 +20,7 @@ class GroupSocialScreen extends StatefulWidget {
   final Alignment? alignment;
   final WrapAlignment? wrapAlignment;
 
-  const GroupSocialScreen(
+   GroupSocialScreen(
       {Key? key,
       this.showFacebook = true,
       this.showGoogle = true,
@@ -50,8 +51,10 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
   ///
   doLoginGoogle() {
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+
       account!.authentication.then((au) {
-        widget.callBackGoogle!(au.accessToken!);
+        widget.callBackGoogle!([au.accessToken!, account.email]);
+
       }).catchError((error, stackTrace) {});
     });
   }
@@ -90,17 +93,17 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
   ///
   Future<void> handleLoginGoogle() async {
     _googleSignIn.signOut();
-    try {
-      await _googleSignIn.signIn();
-    } catch (error) {
-      _googleSignIn.signInSilently();
-      print(error);
-    }
+      try {
+        await _googleSignIn.signIn();
+      } catch (error) {
+        _googleSignIn.signInSilently();
+        print(error);
+      }
   }
 
   @override
   void initState() {
-    doLoginGoogle();
+
 
     _googleSignIn.signInSilently();
     super.initState();
@@ -108,6 +111,7 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       alignment: widget.alignment ?? Alignment.bottomCenter,
       child: Wrap(
@@ -119,8 +123,9 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
                   loginName: "Login",
                   styleName: TextStyleCommon.textStyleButtonWelcome,
                   imageAssetsPng: png_ic_google,
-                  doLogin: () {
+                  doLogin: () async{
                     print("Login");
+                    doLoginGoogle();
                     handleLoginGoogle();
                   },
                 )

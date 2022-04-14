@@ -373,5 +373,37 @@ class TextStyleCommon {
       color: ThemeColor.clr_2D3142,
       fontSize: fontSize_12,
       fontWeight: FontWeight.w400);
+
+  //Home
+  static TextStyle textHiName = TextStyle(
+    color: ThemeColor.clr_2D3142,
+    fontSize: fontSize_32,
+    fontWeight: FontWeight.w500,
+
+  );
+
+  static TextStyle textDate =  TextStyle(
+    color: ThemeColor.clr_CE6161,
+    fontSize: fontSize_12,
+    fontWeight: FontWeight.w500
+  );
+
+  static TextStyle textHomeTitle = TextStyle(
+    color:  ThemeColor.clr_2D3142,
+    fontSize: fontSize_18,
+    fontWeight: FontWeight.w500
+  );
+
+  static TextStyle textTopCardItem = TextStyle(
+      color: ThemeColor.clr_4C5980,
+      fontSize: fontSize_14,
+      fontWeight: FontWeight.w400,
+      );
+
+  static TextStyle textBottomCardItem = TextStyle(
+      color: ThemeColor.clr_9C9EB9,
+      fontSize: fontSize_14,
+      fontWeight: FontWeight.w400
+      );
 }
 

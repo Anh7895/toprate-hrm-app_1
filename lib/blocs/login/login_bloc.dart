@@ -27,6 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
   LoginModel? getInfoResponse;
   OWhoAmI? user;
   RAuth? rAuth;
+  String? email;
   bool isObscure = true;
   GoogleSignIn signIn = GoogleSignIn();
   TextEditingController emailController = TextEditingController();
@@ -43,9 +44,16 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       : super(StartLoginState()) {
     on<GoogleLoginEvent>((event, emit){
       localUserData.accessToken = event.assetToken!;
-      print(localUserData.accessToken);
-      emit(AddDeviceTokenSuccessState());
+      email = event.email;
+      if(email!.endsWith("toprate.io")){
+        emit(LoginSuccessState());
+        return;
+      }
+      else {
+        emit(LoginFailState());
+      }
     });
+
     ///Change Obscure
     on<ChangeObscureEvent>((event, emit){
       isObscure = !isObscure;

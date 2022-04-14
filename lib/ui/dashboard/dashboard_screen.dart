@@ -16,6 +16,8 @@ import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../home/home_screen.dart';
+
 class DashboardScreen extends StatefulWidget {
   final int? index;
 
@@ -124,7 +126,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             body: PageView(
               physics: NeverScrollableScrollPhysics(),
               children: [
-                Container(),
+                HomeScreens(),
                 Container(),
                 Container(),
                 Container(),

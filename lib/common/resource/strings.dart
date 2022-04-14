@@ -42,6 +42,16 @@ class TextConstants {
   static const textTopRateApp = "TopRate app";
   static const textDetailNotification = "Maybe you need to do daily checkin now!";
 
+  //Home
+  static const textHi = "Hi, TuanLQ";
+  static const textRemindTop = "You need to do";
+  static const textRemindBottom = "daily checkin now!";
+  static const textTitle = "  Utilities";
+  static const textCheckin = " Checkin now";
+  static const textMyCheckin = "My Checkin";
+  static const textDayOff = "Day off";
+  static const textNews  = "News";
+  static const textSurvey = "Survey";
   //forgot password
   static const textNewPassword = "Mật khẩu";
   static const textConfirmPass = "Xác nhận mật khẩu";

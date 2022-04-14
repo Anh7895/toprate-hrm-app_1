@@ -13,9 +13,14 @@ class DoLoginEvent extends LoginEvent {
 }
 class GoogleLoginEvent extends LoginEvent{
   String? assetToken;
-
-  GoogleLoginEvent(this.assetToken);
+  String? email;
+  GoogleLoginEvent(this.assetToken, this.email);
 }
+class GoogleLoginVerdifyEvent extends LoginEvent{
+  String email;
+  GoogleLoginVerdifyEvent(this.email);
+}
+
 class ChangeObscureEvent extends LoginEvent {
   ChangeObscureEvent();
 }
