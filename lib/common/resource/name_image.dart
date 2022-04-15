@@ -22,6 +22,16 @@ const ic_calendar = "assets/icons/svg/ic_calendar.svg";
 const ic_notification = "assets/icons/svg/ic_notification.svg";
 const ic_check_mark = "assets/icons/svg/ic_check_mark.svg";
 const ic_error = "assets/icons/svg/ic_error.svg";
+const ic_home = "assets/icons/svg/ic_home.svg";
+const ic_checkin = "assets/icons/svg/ic_checkin.svg";
+const ic_personal = "assets/icons/svg/ic_personal.svg";
+const ic_add_daily_checkIn = "assets/icons/svg/.svg";
+const ic_persic_remove_daily_checkInonal = "assets/icons/svg/ic_remove_daily_checkIn.svg";
+const ic_select_true = "assets/icons/svg/ic_select_true.svg";
+const ic_select_false = "assets/icons/svg/ic_select_false.svg";
+const ic_like = "assets/icons/svg/ic_like.svg";
+const ic_png_ic_calendar_without_color = "assets/icons/svg/png_ic_calendar_without_color.svg";
+
 const ic_daily = "assets/icons/svg/ic_daily.svg";
 
 const svg_ic_day_off = "assets/icons/svg/svg_ic_day_off.svg";

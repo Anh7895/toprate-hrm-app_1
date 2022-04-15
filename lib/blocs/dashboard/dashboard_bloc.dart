@@ -19,7 +19,6 @@ class DashboardBloc extends Bloc<HomePageEvent, BaseState> {
     Container(),
     Container(),
     Container(),
-    Container(),
   ];
 
   FutureOr<void> initPageData(

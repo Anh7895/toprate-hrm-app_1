@@ -38,7 +38,7 @@ class BaseButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: backgroundColor ?? ThemeColor.clr_E7EFFF,
-            borderRadius: BorderRadius.all(Radius.circular(radius_8))),
+            borderRadius: BorderRadius.all(Radius.circular(height_16))),
         child: Text(
           "$title",
           style: style ?? TextStyleCommon.textStyleWhiteSmallTitle,

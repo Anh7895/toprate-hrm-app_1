@@ -15,6 +15,8 @@ import 'package:toprate_hrm/common/resource/theme_color.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:toprate_hrm/ui/daily_check_in/daily_checkin_screen.dart';
+import 'package:toprate_hrm/ui/day_off/day_off_screen.dart';
 
 import '../home/home_screen.dart';
 
@@ -127,7 +129,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               physics: NeverScrollableScrollPhysics(),
               children: [
                 HomeScreens(),
-                Container(),
+                DailyCheckInScreen(),
                 Container(),
                 Container(),
               ],
@@ -143,31 +145,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
       onTap: (int index) {
         _bloc.add(ChangePageEvent(currentIndex: index));
       },
-      selectedIconTheme: IconThemeData(color: ThemeColor.clr_136849),
-      selectedItemColor: ThemeColor.clr_136849,
+      selectedIconTheme: IconThemeData(color: ThemeColor.clr_CE6161),
+      selectedItemColor: ThemeColor.clr_CE6161,
       type: BottomNavigationBarType.fixed,
-      selectedLabelStyle: TextStyle(color: ThemeColor.clr_136849),
+      selectedLabelStyle: TextStyle(color: ThemeColor.clr_CE6161),
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          activeIcon: Icon(Icons.access_alarm, color: ThemeColor.clr_136849,),
-          icon: Icon(Icons.access_alarm),
-          label: "Lương",
+          activeIcon:SvgPicture.asset(ic_home, color: ThemeColor.clr_CE6161),
+          icon: SvgPicture.asset(ic_home),
+          label: "Home",
         ),
         BottomNavigationBarItem(
-          activeIcon: Icon(Icons.access_alarm, color: ThemeColor.clr_136849,),
-          icon: Icon(Icons.access_alarm),
-          label: "Chấm công",
+          activeIcon:SvgPicture.asset(ic_checkin, color: ThemeColor.clr_CE6161),
+          icon: SvgPicture.asset(ic_checkin),
+          label: "CheckIn",
         ),
         BottomNavigationBarItem(
-          activeIcon: Icon(Icons.access_alarm, color: ThemeColor.clr_136849,),
-          icon: Icon(Icons.access_alarm),
-          label: "Thông báo",
+          activeIcon: SvgPicture.asset(ic_personal, color: ThemeColor.clr_CE6161),
+          icon: SvgPicture.asset(ic_personal),
+          label: "Personal",
         ),
-        BottomNavigationBarItem(
-          activeIcon: Icon(Icons.access_alarm, color: ThemeColor.clr_136849,),
-          icon: Icon(Icons.access_alarm),
-          label: "Cá nhân",
-        )
       ],
     );
   }

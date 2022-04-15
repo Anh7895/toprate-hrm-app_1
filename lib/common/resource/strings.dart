@@ -81,4 +81,9 @@ class TextConstants {
   static const text100Err= "Hệ thống đang bận, vui lòng thử lại sau";
   static const text106Err= "Phiên đăng nhập của bạn đã hết hạn, vui lòng đăng nhập lại để truy cập hệ thống";
   static const text109Err= "Kết nối gián đoạn, vui lòng kiểm tra kết nối và thử lại!";
+
+
+  //Daily CheckIn
+  static const textSubmit = "Submit";
+  static const textOk = "Ok";
 }
