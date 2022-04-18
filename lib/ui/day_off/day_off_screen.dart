@@ -78,6 +78,12 @@ class _DayOffScreenState extends State<DayOffScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -98,7 +104,16 @@ class _DayOffScreenState extends State<DayOffScreen> {
             builder: (context, state) {
               return Stack(
                 children: [
-                  _buildDetailBody(context),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _buildDetailBody(context),
+                        SizedBox(
+                          height: height_92,
+                        )
+                      ],
+                    ),
+                  ),
                   _buildButtonBottomWidget(context),
                   // _buildButtonBottomWidget(),
                 ],
@@ -117,9 +132,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
       right: 8,
       child: GestureDetector(
         onTap: () {
-          showAlertBottomSheetDialog(context, onConfirm: () {
-            Navigator.pop(context);
-          },
+          showAlertBottomSheetDialog(context,
               icon: ic_like,
               title: TextConstants.textSuccess,
               message: "Get a good working day, thank you for your effort!");
@@ -272,27 +285,24 @@ class _DayOffScreenState extends State<DayOffScreen> {
                 onTap: () {
                   _selectFromDate(context);
                 },
-                child: Flexible(
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 105,
-                        height: 30,
-                        child: TextFormField(
-                          readOnly: true,
-                          controller: _bloc.fromController,
-                          onTap: () {},
-                          decoration: InputDecoration(hintText: "from"),
-                          style: TextStyle(color: ThemeColor.clr_979797),
-                        ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 105,
+                      height: 30,
+                      child: TextFormField(
+                        readOnly: true,
+                        controller: _bloc.fromController,
+                        decoration: InputDecoration(hintText: "from"),
+                        style: TextStyle(color: ThemeColor.clr_979797),
                       ),
-                      SVGImageWidget(
-                        url: ic_png_ic_calendar_without_color,
-                        width: width_24,
-                        height: width_24,
-                      ),
-                    ],
-                  ),
+                    ),
+                    SVGImageWidget(
+                      url: ic_png_ic_calendar_without_color,
+                      width: width_24,
+                      height: width_24,
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -300,32 +310,29 @@ class _DayOffScreenState extends State<DayOffScreen> {
               ),
               !_bloc.isDayOffOneDay
                   ? GestureDetector(
-                onTap: () {
-                  _selectToDate(context);
-                },
-                    child: Flexible(
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 105,
-                              height: 30,
-                              child: TextFormField(
-                                readOnly: true,
-                                controller: _bloc.toController,
-                                onTap: () {},
-                                decoration: InputDecoration(hintText: "from"),
-                                style: TextStyle(color: ThemeColor.clr_979797),
-                              ),
+                      onTap: () {
+                        _selectToDate(context);
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 105,
+                            height: 30,
+                            child: TextFormField(
+                              readOnly: true,
+                              controller: _bloc.toController,
+                              decoration: InputDecoration(hintText: "from"),
+                              style: TextStyle(color: ThemeColor.clr_979797),
                             ),
-                            SVGImageWidget(
-                              url: ic_png_ic_calendar_without_color,
-                              width: width_24,
-                              height: width_24,
-                            ),
-                          ],
-                        ),
+                          ),
+                          SVGImageWidget(
+                            url: ic_png_ic_calendar_without_color,
+                            width: width_24,
+                            height: width_24,
+                          ),
+                        ],
                       ),
-                  )
+                    )
                   : SizedBox(
                       width: height_20,
                     ),
@@ -346,7 +353,8 @@ class _DayOffScreenState extends State<DayOffScreen> {
                                 value: TimeOff.Allday,
                                 groupValue: _bloc.timeOff,
                                 onChanged: (TimeOff? value) {
-                                  _bloc.setTimeOff(value!);
+                                  _bloc.add(
+                                      ClickCheckboxTimeOffEvent(value: value));
                                 },
                               ),
                             ),
@@ -364,7 +372,8 @@ class _DayOffScreenState extends State<DayOffScreen> {
                                 value: TimeOff.Morning,
                                 groupValue: _bloc.timeOff,
                                 onChanged: (TimeOff? value) {
-                                  _bloc.setTimeOff(value!);
+                                  _bloc.add(
+                                      ClickCheckboxTimeOffEvent(value: value));
                                 },
                               ),
                             ),
@@ -382,7 +391,8 @@ class _DayOffScreenState extends State<DayOffScreen> {
                                 value: TimeOff.Afternoon,
                                 groupValue: _bloc.timeOff,
                                 onChanged: (TimeOff? value) {
-                                  _bloc.setTimeOff(value!);
+                                  _bloc.add(
+                                      ClickCheckboxTimeOffEvent(value: value));
                                 },
                               ),
                             ),
@@ -469,9 +479,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                   itemCount: _bloc.managerMail.length,
                   // required
                   itemBuilder: (int index) {
-                    final item = _bloc.managerMail[index];
-
-                    return item.isChecked
+                    return _bloc.managerMail[index].isChecked
                         ? ItemTags(
                             color: ThemeColor.clr_FEC0C1,
                             active: false,
@@ -482,7 +490,9 @@ class _DayOffScreenState extends State<DayOffScreen> {
                             key: Key(index.toString()),
                             index: index,
                             // required
-                            title: item.name != "" ? item.name : item.mail,
+                            title: _bloc.managerMail[index].name != ""
+                                ? _bloc.managerMail[index].name
+                                : _bloc.managerMail[index].mail!,
                             textStyle: TextStyle(
                               fontSize: fontSize_18,
                             ),
@@ -495,8 +505,8 @@ class _DayOffScreenState extends State<DayOffScreen> {
                                     backgroundColor: ThemeColor.clr_FEC0C1,
                                     size: height_16,
                                     onRemoved: () {
-                                      print('remove $index');
-                                      _bloc.setMailChecked(index, false);
+                                      _bloc.add(RemovedMailEvent(
+                                          index: index, isChecked: false));
                                       //required
                                       return true;
                                     },
@@ -515,6 +525,8 @@ class _DayOffScreenState extends State<DayOffScreen> {
                 child: Container(
                   child: IconButton(
                     onPressed: () {
+                      _bloc.listResult.clear();
+                      _bloc.listResult.addAll(_bloc.managerMail);
                       _showDialog(context);
                     },
                     icon: Icon(Icons.add_circle_outline_outlined),
@@ -530,108 +542,96 @@ class _DayOffScreenState extends State<DayOffScreen> {
   }
 
   _showDialog(BuildContext context) async {
-    _bloc.listResult.clear();
-    _bloc.listResult.addAll(_bloc.managerMail);
-    return await showDialog<void>(
+    return showDialog<void>(
       context: context,
       barrierDismissible: true, // user must tap button!
       builder: (context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter state) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius_16),
-            ),
-            child: Container(
-              height: height_400,
-              width: width_336,
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: height_20),
-                    child: Text(
-                      "Select more people",
-                      style: TextStyle(
-                          fontSize: fontSize_20,
-                          color: ThemeColor.clr_4C5980,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: width_15),
-                    child: TextField(
-                      cursorColor: ThemeColor.clr_D8D8D8,
-                      controller: _bloc.searchController,
-                      onChanged: ((value) {
-                        state(() {
-                          _bloc.listResult.clear();
-                          _bloc.listResult = _bloc.managerMail
-                              .where((element) => element.mail!.contains(value))
-                              .toList();
-                          print(_bloc.listResult.length);
-                        });
-                      }),
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.search,
-                            size: height_20,
-                            color: ThemeColor.clr_D8D8D8,
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radius_10),
+          ),
+          content: HttpStreamHandler<DayOffBloc, BaseState>(
+              bloc: _bloc,
+              listener: (context, state) {},
+              builder: (context, state) {
+                return SingleChildScrollView(
+                  child: Container(
+                    height: height_450,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: height_20),
+                          child: Text(
+                            "Select more people",
+                            style: TextStyle(
+                                fontSize: fontSize_20,
+                                color: ThemeColor.clr_4C5980,
+                                fontWeight: FontWeight.bold),
                           ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: ThemeColor.clr_D8D8D8),
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: _bloc.listResult.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 40,
+                          child: TextField(
+                            cursorColor: ThemeColor.clr_D8D8D8,
+                            controller: _bloc.searchController,
+                            onChanged: ((value) {
+                              _bloc.add(SearchMailEvent(value: value));
+                            }),
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  size: height_20,
+                                  color: ThemeColor.clr_D8D8D8,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: ThemeColor.clr_D8D8D8),
+                                )),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: _bloc.listResult.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return _buildItem(index, state);
+                              }),
+                        ),
+                        Container(
+                          child: GestureDetector(
                             onTap: () {
-                              state(() {});
+                              _bloc.searchController.text = "";
+
+                              Navigator.pop(context);
                             },
-                            child: _buildItem(index, state),
-                          );
-                        }),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: height_8),
-                    child: GestureDetector(
-                      onTap: () {
-                        _bloc.searchController.text = "";
-                        Navigator.pop(context);
-                      },
-                      child: BaseButton(
-                        height: height_56,
-                        title: TextConstants.textSubmit,
-                        style: TextStyleCommon.textStyleWhiteNormalTitle,
-                        backgroundColor: ThemeColor.clr_CE6161,
-                      ),
+                            child: BaseButton(
+                              height: height_56,
+                              title: TextConstants.textSubmit,
+                              style: TextStyleCommon.textStyleWhiteNormalTitle,
+                              backgroundColor: ThemeColor.clr_CE6161,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
+                );
+              }),
+        );
       },
     );
   }
 
-  Widget _buildItem(int index, StateSetter state) {
+  Widget _buildItem(int index, BaseState state) {
     return (_bloc.listResult[index].mail
                 .toString()
                 .toLowerCase()
@@ -639,16 +639,10 @@ class _DayOffScreenState extends State<DayOffScreen> {
             _bloc.listResult[index].canRemove)
         ? GestureDetector(
             onTap: () {
-              state(() {
-                _bloc.listResult[index].isChecked =
-                    !_bloc.listResult[index].isChecked;
-              });
-              _bloc.managerMail[index].isChecked =
-                  _bloc.managerMail[index].isChecked;
+              _bloc.add(AddMailApproverEvent(index: index));
             },
             child: Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: width_15, vertical: height_4),
+              margin: EdgeInsets.symmetric(vertical: height_4),
               padding: EdgeInsets.all(height_8),
               decoration: BoxDecoration(
                   color: _bloc.listResult[index].isChecked
@@ -657,7 +651,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                   borderRadius: BorderRadius.circular(8)),
               child: Row(
                 children: [
-                  Text(_bloc.listResult[index].mail),
+                  Text(_bloc.listResult[index].mail!),
                   Spacer(),
                   _bloc.listResult[index].isChecked
                       ? Icon(
@@ -665,7 +659,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                           size: height_20,
                           color: ThemeColor.clr_FF9B90,
                         )
-                      : SizedBox()
+                      : SizedBox(),
                 ],
               ),
             ),
