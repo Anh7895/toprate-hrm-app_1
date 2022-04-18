@@ -39,3 +39,7 @@ class SearchMailEvent extends DayOffEvent {
   String? value;
   SearchMailEvent({this.value});
 }
+
+class InitDataListMailEvent extends DayOffEvent {
+  InitDataListMailEvent();
+}

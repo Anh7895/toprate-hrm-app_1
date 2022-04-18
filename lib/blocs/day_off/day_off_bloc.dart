@@ -25,6 +25,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     on<AddMailApproverEvent>((event, emit) => addMailApprover(event, emit));
     on<RemovedMailEvent>((event, emit) => removedMail(event, emit));
     on<SearchMailEvent>((event, emit) => searchMail(event, emit));
+    on<InitDataListMailEvent>((event, emit) => initDataListMail(event, emit));
     on<ClickCheckboxTimeOffEvent>(
         (event, emit) => clickCheckboxTimeOff(event, emit));
   }
@@ -113,6 +114,13 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
       SetSelectedToDateEvent event, Emitter<BaseState> emit) async {
     toController.text = event.setSelectedToDate!;
     emit(SetSelectedToDateState());
+  }
+
+  initDataListMail(
+      InitDataListMailEvent event, Emitter<BaseState> emit) async {
+    listResult.clear();
+    listResult.addAll(managerMail);
+    emit(InitDataListMailState());
   }
 
   addMailApprover(AddMailApproverEvent event, Emitter<BaseState> emit) async {

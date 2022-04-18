@@ -166,6 +166,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
             SizedBox(height: height_15),
             _builDuration(),
             _buildTimer(),
+            _buildRowTimer(),
             _buildReason(),
             _approve(),
           ],
@@ -264,151 +265,160 @@ class _DayOffScreenState extends State<DayOffScreen> {
   }
 
   Widget _buildTimer() {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: height_15),
-          Text(
-            'Time',
-            style: TextStyle(
-                color: ThemeColor.clr_2D3142,
-                fontSize: fontSize_18,
-                fontWeight: FontWeight.w500),
-          ),
-          SizedBox(
-            height: height_8,
-          ),
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: height_15),
+        Text(
+          'Time',
+          style: TextStyle(
+              color: ThemeColor.clr_2D3142,
+              fontSize: fontSize_18,
+              fontWeight: FontWeight.w500),
+        ),
+        SizedBox(
+          height: height_8,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: (){
                   _selectFromDate(context);
                 },
                 child: Row(
                   children: [
-                    Container(
-                      width: 105,
-                      height: 30,
-                      child: TextFormField(
-                        readOnly: true,
-                        controller: _bloc.fromController,
-                        decoration: InputDecoration(hintText: "from"),
-                        style: TextStyle(color: ThemeColor.clr_979797),
+                    Flexible(
+                      flex: 4,
+                      child: Container(
+                        height: 30,
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: _bloc.fromController,
+                          decoration: InputDecoration(hintText: "from"),
+                          style: TextStyle(color: ThemeColor.clr_979797),
+                        ),
                       ),
                     ),
-                    SVGImageWidget(
-                      url: ic_png_ic_calendar_without_color,
-                      width: width_24,
-                      height: width_24,
+                    Flexible(
+                      flex: 1,
+                      child: SVGImageWidget(
+                        url: ic_png_ic_calendar_without_color,
+                        width: width_24,
+                        height: width_24,
+                      ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                width: height_30,
-              ),
-              !_bloc.isDayOffOneDay
-                  ? GestureDetector(
-                      onTap: () {
-                        _selectToDate(context);
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 105,
-                            height: 30,
-                            child: TextFormField(
-                              readOnly: true,
-                              controller: _bloc.toController,
-                              decoration: InputDecoration(hintText: "from"),
-                              style: TextStyle(color: ThemeColor.clr_979797),
-                            ),
-                          ),
-                          SVGImageWidget(
-                            url: ic_png_ic_calendar_without_color,
-                            width: width_24,
-                            height: width_24,
-                          ),
-                        ],
+            ),
+            SizedBox(
+              width: height_35,
+            ),
+            !_bloc.isDayOffOneDay
+                ? Expanded(
+              child: GestureDetector(
+                onTap: (){
+                  _selectToDate(context);
+                },
+                child: Row(
+                  children: [
+                    Flexible(
+                      flex: 4,
+                      child: Container(
+                        height: 30,
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: _bloc.toController,
+                          decoration: InputDecoration(hintText: "from"),
+                          style: TextStyle(color: ThemeColor.clr_979797),
+                        ),
                       ),
-                    )
-                  : SizedBox(
-                      width: height_20,
                     ),
-            ],
-          ),
-          _bloc.isDayOffOneDay
-              ? Container(
-                  margin: EdgeInsets.symmetric(vertical: height_20),
+                    Flexible(
+                      flex: 1,
+                      child: SVGImageWidget(
+                        url: ic_png_ic_calendar_without_color,
+                        width: width_24,
+                        height: width_24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ) : Expanded(child: SizedBox()),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRowTimer() {
+    return _bloc.isDayOffOneDay
+        ? Container(
+            margin: EdgeInsets.symmetric(vertical: height_20),
+            child: Row(
+              children: [
+                Expanded(
                   child: Row(
                     children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: width_35,
-                              child: Radio<TimeOff>(
-                                activeColor: ThemeColor.clr_979797,
-                                value: TimeOff.Allday,
-                                groupValue: _bloc.timeOff,
-                                onChanged: (TimeOff? value) {
-                                  _bloc.add(
-                                      ClickCheckboxTimeOffEvent(value: value));
-                                },
-                              ),
-                            ),
-                            Text('All day')
-                          ],
+                      SizedBox(
+                        width: width_35,
+                        child: Radio<TimeOff>(
+                          activeColor: ThemeColor.clr_979797,
+                          value: TimeOff.Allday,
+                          groupValue: _bloc.timeOff,
+                          onChanged: (TimeOff? value) {
+                            _bloc.add(ClickCheckboxTimeOffEvent(value: value));
+                          },
                         ),
                       ),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: width_35,
-                              child: Radio<TimeOff>(
-                                activeColor: ThemeColor.clr_979797,
-                                value: TimeOff.Morning,
-                                groupValue: _bloc.timeOff,
-                                onChanged: (TimeOff? value) {
-                                  _bloc.add(
-                                      ClickCheckboxTimeOffEvent(value: value));
-                                },
-                              ),
-                            ),
-                            Text('Morning')
-                          ],
+                      Text('All day')
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width_35,
+                        child: Radio<TimeOff>(
+                          activeColor: ThemeColor.clr_979797,
+                          value: TimeOff.Morning,
+                          groupValue: _bloc.timeOff,
+                          onChanged: (TimeOff? value) {
+                            _bloc.add(ClickCheckboxTimeOffEvent(value: value));
+                          },
                         ),
                       ),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: width_35,
-                              child: Radio<TimeOff>(
-                                activeColor: ThemeColor.clr_979797,
-                                value: TimeOff.Afternoon,
-                                groupValue: _bloc.timeOff,
-                                onChanged: (TimeOff? value) {
-                                  _bloc.add(
-                                      ClickCheckboxTimeOffEvent(value: value));
-                                },
-                              ),
-                            ),
-                            Text('Afternoon')
-                          ],
+                      Text('Morning')
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width_35,
+                        child: Radio<TimeOff>(
+                          activeColor: ThemeColor.clr_979797,
+                          value: TimeOff.Afternoon,
+                          groupValue: _bloc.timeOff,
+                          onChanged: (TimeOff? value) {
+                            _bloc.add(ClickCheckboxTimeOffEvent(value: value));
+                          },
                         ),
-                      )
+                      ),
+                      Text('Afternoon')
                     ],
                   ),
                 )
-              : SizedBox(
-                  height: height_20,
-                ),
-        ],
-      ),
-    );
+              ],
+            ),
+          )
+        : SizedBox(
+            height: height_20,
+          );
   }
 
   Widget _buildReason() {
@@ -525,8 +535,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                 child: Container(
                   child: IconButton(
                     onPressed: () {
-                      _bloc.listResult.clear();
-                      _bloc.listResult.addAll(_bloc.managerMail);
+                      _bloc.add(InitDataListMailEvent());
                       _showDialog(context);
                     },
                     icon: Icon(Icons.add_circle_outline_outlined),

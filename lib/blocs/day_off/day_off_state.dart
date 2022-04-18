@@ -33,3 +33,7 @@ class SearchMailState extends DayOffState {
   SearchMailState();
 }
 
+class InitDataListMailState extends DayOffState {
+  InitDataListMailState();
+}
+
