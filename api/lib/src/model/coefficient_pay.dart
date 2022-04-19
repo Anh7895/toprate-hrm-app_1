@@ -7,33 +7,29 @@ import 'package:built_value/serializer.dart';
 
 part 'coefficient_pay.g.dart';
 
-/// Domains\\Timekeeping\\Models\\CoefficientPay
+/// CoefficientPay
 ///
 /// Properties:
 /// * [id] 
 /// * [code] 
-/// * [unit] 
-/// * [ratio] 
-/// * [unitPrice] 
 /// * [name] 
+/// * [desc] 
+/// * [status] 
 abstract class CoefficientPay implements Built<CoefficientPay, CoefficientPayBuilder> {
     @BuiltValueField(wireName: r'id')
-    int? get id;
+    String? get id;
 
     @BuiltValueField(wireName: r'code')
     String? get code;
 
-    @BuiltValueField(wireName: r'unit')
-    String? get unit;
-
-    @BuiltValueField(wireName: r'ratio')
-    String? get ratio;
-
-    @BuiltValueField(wireName: r'unit_price')
-    double? get unitPrice;
-
     @BuiltValueField(wireName: r'name')
     String? get name;
+
+    @BuiltValueField(wireName: r'desc')
+    String? get desc;
+
+    @BuiltValueField(wireName: r'status')
+    String? get status;
 
     CoefficientPay._();
 
@@ -61,7 +57,7 @@ class _$CoefficientPaySerializer implements StructuredSerializer<CoefficientPay>
             result
                 ..add(r'id')
                 ..add(serializers.serialize(object.id,
-                    specifiedType: const FullType(int)));
+                    specifiedType: const FullType(String)));
         }
         if (object.code != null) {
             result
@@ -69,28 +65,22 @@ class _$CoefficientPaySerializer implements StructuredSerializer<CoefficientPay>
                 ..add(serializers.serialize(object.code,
                     specifiedType: const FullType(String)));
         }
-        if (object.unit != null) {
-            result
-                ..add(r'unit')
-                ..add(serializers.serialize(object.unit,
-                    specifiedType: const FullType(String)));
-        }
-        if (object.ratio != null) {
-            result
-                ..add(r'ratio')
-                ..add(serializers.serialize(object.ratio,
-                    specifiedType: const FullType(String)));
-        }
-        if (object.unitPrice != null) {
-            result
-                ..add(r'unit_price')
-                ..add(serializers.serialize(object.unitPrice,
-                    specifiedType: const FullType(double)));
-        }
         if (object.name != null) {
             result
                 ..add(r'name')
                 ..add(serializers.serialize(object.name,
+                    specifiedType: const FullType(String)));
+        }
+        if (object.desc != null) {
+            result
+                ..add(r'desc')
+                ..add(serializers.serialize(object.desc,
+                    specifiedType: const FullType(String)));
+        }
+        if (object.status != null) {
+            result
+                ..add(r'status')
+                ..add(serializers.serialize(object.status,
                     specifiedType: const FullType(String)));
         }
         return result;
@@ -110,7 +100,7 @@ class _$CoefficientPaySerializer implements StructuredSerializer<CoefficientPay>
             switch (key) {
                 case r'id':
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
+                        specifiedType: const FullType(String)) as String;
                     result.id = valueDes;
                     break;
                 case r'code':
@@ -118,25 +108,20 @@ class _$CoefficientPaySerializer implements StructuredSerializer<CoefficientPay>
                         specifiedType: const FullType(String)) as String;
                     result.code = valueDes;
                     break;
-                case r'unit':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.unit = valueDes;
-                    break;
-                case r'ratio':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.ratio = valueDes;
-                    break;
-                case r'unit_price':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(double)) as double;
-                    result.unitPrice = valueDes;
-                    break;
                 case r'name':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.name = valueDes;
+                    break;
+                case r'desc':
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(String)) as String;
+                    result.desc = valueDes;
+                    break;
+                case r'status':
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(String)) as String;
+                    result.status = valueDes;
                     break;
             }
         }

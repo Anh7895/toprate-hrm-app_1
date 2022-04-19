@@ -31,6 +31,7 @@ const ic_select_true = "assets/icons/svg/ic_select_true.svg";
 const ic_select_false = "assets/icons/svg/ic_select_false.svg";
 const ic_like = "assets/icons/svg/ic_like.svg";
 const ic_png_ic_calendar_without_color = "assets/icons/svg/png_ic_calendar_without_color.svg";
+const ic_ic_remove_mail = "assets/icons/svg/ic_remove_mail.svg";
 
 const ic_daily = "assets/icons/svg/ic_daily.svg";
 

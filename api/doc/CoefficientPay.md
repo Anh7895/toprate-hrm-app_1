@@ -8,12 +8,11 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **int** |  | [optional] 
+**id** | **String** |  | [optional] 
 **code** | **String** |  | [optional] 
-**unit** | **String** |  | [optional] 
-**ratio** | **String** |  | [optional] 
-**unitPrice** | **double** |  | [optional] 
 **name** | **String** |  | [optional] 
+**desc** | **String** |  | [optional] 
+**status** | **String** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

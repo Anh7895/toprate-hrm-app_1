@@ -8,23 +8,20 @@ part of 'coefficient_pay.dart';
 
 class _$CoefficientPay extends CoefficientPay {
   @override
-  final int? id;
+  final String? id;
   @override
   final String? code;
   @override
-  final String? unit;
-  @override
-  final String? ratio;
-  @override
-  final double? unitPrice;
-  @override
   final String? name;
+  @override
+  final String? desc;
+  @override
+  final String? status;
 
   factory _$CoefficientPay([void Function(CoefficientPayBuilder)? updates]) =>
       (new CoefficientPayBuilder()..update(updates)).build();
 
-  _$CoefficientPay._(
-      {this.id, this.code, this.unit, this.ratio, this.unitPrice, this.name})
+  _$CoefficientPay._({this.id, this.code, this.name, this.desc, this.status})
       : super._();
 
   @override
@@ -41,20 +38,17 @@ class _$CoefficientPay extends CoefficientPay {
     return other is CoefficientPay &&
         id == other.id &&
         code == other.code &&
-        unit == other.unit &&
-        ratio == other.ratio &&
-        unitPrice == other.unitPrice &&
-        name == other.name;
+        name == other.name &&
+        desc == other.desc &&
+        status == other.status;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc(
-            $jc($jc($jc($jc(0, id.hashCode), code.hashCode), unit.hashCode),
-                ratio.hashCode),
-            unitPrice.hashCode),
-        name.hashCode));
+        $jc($jc($jc($jc(0, id.hashCode), code.hashCode), name.hashCode),
+            desc.hashCode),
+        status.hashCode));
   }
 
   @override
@@ -62,10 +56,9 @@ class _$CoefficientPay extends CoefficientPay {
     return (newBuiltValueToStringHelper('CoefficientPay')
           ..add('id', id)
           ..add('code', code)
-          ..add('unit', unit)
-          ..add('ratio', ratio)
-          ..add('unitPrice', unitPrice)
-          ..add('name', name))
+          ..add('name', name)
+          ..add('desc', desc)
+          ..add('status', status))
         .toString();
   }
 }
@@ -74,29 +67,25 @@ class CoefficientPayBuilder
     implements Builder<CoefficientPay, CoefficientPayBuilder> {
   _$CoefficientPay? _$v;
 
-  int? _id;
-  int? get id => _$this._id;
-  set id(int? id) => _$this._id = id;
+  String? _id;
+  String? get id => _$this._id;
+  set id(String? id) => _$this._id = id;
 
   String? _code;
   String? get code => _$this._code;
   set code(String? code) => _$this._code = code;
 
-  String? _unit;
-  String? get unit => _$this._unit;
-  set unit(String? unit) => _$this._unit = unit;
-
-  String? _ratio;
-  String? get ratio => _$this._ratio;
-  set ratio(String? ratio) => _$this._ratio = ratio;
-
-  double? _unitPrice;
-  double? get unitPrice => _$this._unitPrice;
-  set unitPrice(double? unitPrice) => _$this._unitPrice = unitPrice;
-
   String? _name;
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
+
+  String? _desc;
+  String? get desc => _$this._desc;
+  set desc(String? desc) => _$this._desc = desc;
+
+  String? _status;
+  String? get status => _$this._status;
+  set status(String? status) => _$this._status = status;
 
   CoefficientPayBuilder() {
     CoefficientPay._defaults(this);
@@ -107,10 +96,9 @@ class CoefficientPayBuilder
     if ($v != null) {
       _id = $v.id;
       _code = $v.code;
-      _unit = $v.unit;
-      _ratio = $v.ratio;
-      _unitPrice = $v.unitPrice;
       _name = $v.name;
+      _desc = $v.desc;
+      _status = $v.status;
       _$v = null;
     }
     return this;
@@ -131,12 +119,7 @@ class CoefficientPayBuilder
   _$CoefficientPay build() {
     final _$result = _$v ??
         new _$CoefficientPay._(
-            id: id,
-            code: code,
-            unit: unit,
-            ratio: ratio,
-            unitPrice: unitPrice,
-            name: name);
+            id: id, code: code, name: name, desc: desc, status: status);
     replace(_$result);
     return _$result;
   }

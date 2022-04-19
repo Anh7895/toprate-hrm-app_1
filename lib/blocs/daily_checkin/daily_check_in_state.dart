@@ -13,6 +13,10 @@ class BackDayState extends DailyCheckInState {
   BackDayState();
 }
 
+class RemoveProjectState extends DailyCheckInState {
+  RemoveProjectState();
+}
+
 class NextDayState extends DailyCheckInState {
   NextDayState();
 }

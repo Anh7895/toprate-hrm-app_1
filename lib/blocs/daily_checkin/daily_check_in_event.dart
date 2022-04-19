@@ -20,6 +20,11 @@ class SelectProjectEvent extends DailyCheckInEvent {
   SelectProjectEvent({this.indexSelect});
 }
 
+class RemoveProjectEvent extends DailyCheckInEvent {
+  int? indexSelect;
+  RemoveProjectEvent({this.indexSelect});
+}
+
 class FillNameProjectEvent extends DailyCheckInEvent {
   final String ? nameProject;
   final ProjectData? projectData;

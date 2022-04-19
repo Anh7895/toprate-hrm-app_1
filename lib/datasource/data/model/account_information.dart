@@ -68,172 +68,172 @@ import 'package:openapi/openapi.dart';
 Serializers standardSerializers =
     (serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();
 
-class AccountInformation {
-  AccountInformation({
-    this.id,
-    this.uuid,
-    this.username,
-    this.fullName,
-    this.phone,
-    this.nationalId,
-    this.birthday,
-    this.sex,
-    this.email,
-    this.accountBalance,
-    this.isLock,
-    this.createdBy,
-    this.deletedAt,
-    this.createdAt,
-    this.updatedAt,
-    this.bankId,
-    this.address,
-    this.date_of_issue,
-    this.place_of_issue,
-    this.furlough,
-    this.laborContract,
-    this.bank,
-    this.company,
-    this.role
-  });
-
-  AccountInformation.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    uuid = json['uuid'];
-    username = json['username'];
-    fullName = json['full_name'];
-    phone = json['phone'];
-    nationalId = json['national_id'];
-    birthday = json['birthday'];
-    sex = json['sex'];
-    email = json['email'];
-    accountBalance = json['account_balance'];
-    isLock = json['is_lock'];
-    createdBy = json['created_by'];
-    deletedAt = json['deleted_at'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    bankId = json['bank_id'];
-    address = json['address'];
-    date_of_issue = json['date_of_issue'];
-    place_of_issue = json['place_of_issue'];
-
-    if (json['furlough'] != null) {
-      furlough = [];
-      json['furlough'].forEach((v) {
-        furlough?.add(Furlough.fromJson(v));
-      });
-    }
-    if (json['bank'] != null) {
-      bank = BankModelUser.fromJson(json['bank']);
-    }
-    if (json['company'] != null) {
-      company = CompanyModel.fromJson(json['company']);
-    }
-    if (json['role'] != null) {
-      role = RoleModel.fromJson(json['role']);
-    }
-    if (json['labor_contract'] != null) {
-      laborContract = [];
-      json['labor_contract'].forEach((v) {
-        laborContract?.add(LaborContractModel.fromJson(v));
-      });
-    }
-  }
-
-  int? id;
-  String? uuid;
-  String? username;
-  String? fullName;
-  String? phone;
-  String? nationalId;
-  String? birthday;
-  String? sex;
-  String? email;
-  String? accountBalance;
-  int? isLock;
-  dynamic createdBy;
-  dynamic deletedAt;
-  dynamic createdAt;
-  dynamic updatedAt;
-  dynamic bankId;
-  String? address;
-  String? date_of_issue;
-  String? place_of_issue;
-  List<Furlough>? furlough;
-  List<LaborContractModel>? laborContract;
-  BankModelUser? bank;
-  CompanyModel? company;
-  RoleModel? role;
-
-  AccountInformation.init(OWhoAmI user) {
-    this.id = user.id;
-    this.uuid = user.uuid;
-    this.username = user.username;
-    this.fullName = user.fullName;
-    this.phone = user.phone;
-    this.nationalId = user.nationalId;
-    this.birthday = "${user.birthday}";
-    this.sex = user.sex;
-    this.email = user.email;
-    this.accountBalance = user.accountBalance;
-    this.isLock = user.isLock;
-    this.bank = BankModelUser(
-        bankName: user.bank?.bankName,
-        bankAccount: user.bank?.bankAccount,
-        cardNumber: user.bank?.cardNumber);
-    this.company =
-        CompanyModel(name: user.company?.name, address: user.company?.address);
-    this.laborContract = [
-      LaborContractModel(
-          status: user.laborContract?.first.status,
-          link: user.laborContract?.first.link)
-    ];
-    this.role = RoleModel(
-      id: user.role?.id,
-      name:  user.role?.name
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['uuid'] = uuid;
-    map['username'] = username;
-    map['full_name'] = fullName;
-    map['phone'] = phone;
-    map['national_id'] = nationalId;
-    map['birthday'] = birthday;
-    map['sex'] = sex;
-    map['email'] = email;
-    map['account_balance'] = accountBalance;
-    map['is_lock'] = isLock;
-    map['created_by'] = createdBy;
-    map['deleted_at'] = deletedAt;
-    map['created_at'] = createdAt;
-    map['updated_at'] = updatedAt;
-    map['bank_id'] = bankId;
-    map['address'] = address;
-    map['date_of_issue'] = date_of_issue;
-    map['place_of_issue'] = place_of_issue;
-
-    if (furlough != null) {
-      map['furlough'] = furlough?.map((v) => v.toJson()).toList();
-    }
-    if (laborContract != null) {
-      map['labor_contract'] = laborContract?.map((v) => v.toJson()).toList();
-    }
-    if (company != null) {
-      map['company'] = company?.toJson();
-    }
-    if (bank != null) {
-      map['bank'] = bank?.toJson();
-    }
-    if(role != null){
-      map['role'] = role?.toJson();
-    }
-    return map;
-  }
-}
+// class AccountInformation {
+//   AccountInformation({
+//     this.id,
+//     this.uuid,
+//     this.username,
+//     this.fullName,
+//     this.phone,
+//     this.nationalId,
+//     this.birthday,
+//     this.sex,
+//     this.email,
+//     this.accountBalance,
+//     this.isLock,
+//     this.createdBy,
+//     this.deletedAt,
+//     this.createdAt,
+//     this.updatedAt,
+//     this.bankId,
+//     this.address,
+//     this.date_of_issue,
+//     this.place_of_issue,
+//     this.furlough,
+//     this.laborContract,
+//     this.bank,
+//     this.company,
+//     this.role
+//   });
+//
+//   AccountInformation.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     uuid = json['uuid'];
+//     username = json['username'];
+//     fullName = json['full_name'];
+//     phone = json['phone'];
+//     nationalId = json['national_id'];
+//     birthday = json['birthday'];
+//     sex = json['sex'];
+//     email = json['email'];
+//     accountBalance = json['account_balance'];
+//     isLock = json['is_lock'];
+//     createdBy = json['created_by'];
+//     deletedAt = json['deleted_at'];
+//     createdAt = json['created_at'];
+//     updatedAt = json['updated_at'];
+//     bankId = json['bank_id'];
+//     address = json['address'];
+//     date_of_issue = json['date_of_issue'];
+//     place_of_issue = json['place_of_issue'];
+//
+//     if (json['furlough'] != null) {
+//       furlough = [];
+//       json['furlough'].forEach((v) {
+//         furlough?.add(Furlough.fromJson(v));
+//       });
+//     }
+//     if (json['bank'] != null) {
+//       bank = BankModelUser.fromJson(json['bank']);
+//     }
+//     if (json['company'] != null) {
+//       company = CompanyModel.fromJson(json['company']);
+//     }
+//     if (json['role'] != null) {
+//       role = RoleModel.fromJson(json['role']);
+//     }
+//     if (json['labor_contract'] != null) {
+//       laborContract = [];
+//       json['labor_contract'].forEach((v) {
+//         laborContract?.add(LaborContractModel.fromJson(v));
+//       });
+//     }
+//   }
+//
+//   int? id;
+//   String? uuid;
+//   String? username;
+//   String? fullName;
+//   String? phone;
+//   String? nationalId;
+//   String? birthday;
+//   String? sex;
+//   String? email;
+//   String? accountBalance;
+//   int? isLock;
+//   dynamic createdBy;
+//   dynamic deletedAt;
+//   dynamic createdAt;
+//   dynamic updatedAt;
+//   dynamic bankId;
+//   String? address;
+//   String? date_of_issue;
+//   String? place_of_issue;
+//   List<Furlough>? furlough;
+//   List<LaborContractModel>? laborContract;
+//   BankModelUser? bank;
+//   CompanyModel? company;
+//   RoleModel? role;
+//
+//   AccountInformation.init(OWhoAmI user) {
+//     this.id = user.id;
+//     this.uuid = user.uuid;
+//     this.username = user.username;
+//     this.fullName = user.fullName;
+//     this.phone = user.phone;
+//     this.nationalId = user.nationalId;
+//     this.birthday = "${user.birthday}";
+//     this.sex = user.sex;
+//     this.email = user.email;
+//     this.accountBalance = user.accountBalance;
+//     this.isLock = user.isLock;
+//     this.bank = BankModelUser(
+//         bankName: user.bank?.bankName,
+//         bankAccount: user.bank?.bankAccount,
+//         cardNumber: user.bank?.cardNumber);
+//     this.company =
+//         CompanyModel(name: user.company?.name, address: user.company?.address);
+//     this.laborContract = [
+//       LaborContractModel(
+//           status: user.laborContract?.first.status,
+//           link: user.laborContract?.first.link)
+//     ];
+//     this.role = RoleModel(
+//       id: user.role?.id,
+//       name:  user.role?.name
+//     );
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final map = <String, dynamic>{};
+//     map['id'] = id;
+//     map['uuid'] = uuid;
+//     map['username'] = username;
+//     map['full_name'] = fullName;
+//     map['phone'] = phone;
+//     map['national_id'] = nationalId;
+//     map['birthday'] = birthday;
+//     map['sex'] = sex;
+//     map['email'] = email;
+//     map['account_balance'] = accountBalance;
+//     map['is_lock'] = isLock;
+//     map['created_by'] = createdBy;
+//     map['deleted_at'] = deletedAt;
+//     map['created_at'] = createdAt;
+//     map['updated_at'] = updatedAt;
+//     map['bank_id'] = bankId;
+//     map['address'] = address;
+//     map['date_of_issue'] = date_of_issue;
+//     map['place_of_issue'] = place_of_issue;
+//
+//     if (furlough != null) {
+//       map['furlough'] = furlough?.map((v) => v.toJson()).toList();
+//     }
+//     if (laborContract != null) {
+//       map['labor_contract'] = laborContract?.map((v) => v.toJson()).toList();
+//     }
+//     if (company != null) {
+//       map['company'] = company?.toJson();
+//     }
+//     if (bank != null) {
+//       map['bank'] = bank?.toJson();
+//     }
+//     if(role != null){
+//       map['role'] = role?.toJson();
+//     }
+//     return map;
+//   }
+// }
 
 /// id : 1
 /// type : "furlough"

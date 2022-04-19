@@ -195,16 +195,14 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
             ),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  _bloc.listTimeSubject[index].isSelected!
-                      ? _bloc.listTimeSubject[index].isSelected = false
-                      : _showMyDialog(context, index);
-                });
+                   _bloc.listTimeSubject[index].isSelected == true
+                       ? _bloc.add(RemoveProjectEvent(indexSelect: index))
+                       : _showMyDialog(context, index);
               },
               child: SVGImageWidget(
-                url: _bloc.listTimeSubject[index].isSelected!
+                url: _bloc.listTimeSubject[index].isSelected == true
                     ? ic_persic_remove_daily_checkInonal
-                    : ic_persic_remove_daily_checkInonal,
+                    : ic_add_daily_checkIn,
                 width: width_24,
                 height: width_24,
               ),

@@ -19,29 +19,29 @@ class LocalUserData {
   String? refreshToken = '';
   String? deviceID = '';
   String? defaultLanguage = /*"En"*/ "VI";
-  OWhoAmI? user = OWhoAmI();
+  var user ;
 
   LoginModel getInfoResponse = LoginModel();
 
-  Future<OWhoAmI> getAccountInformation() async {
-    return await PreferenceUtils.getAccountInformation();
-  }
+  // Future<OWhoAmI> getAccountInformation() async {
+  //   return await PreferenceUtils.getAccountInformation();
+  // }
 
-   getUserData() async {
-     deviceID = await  PreferenceUtils.getString('device_id');
-     print("DEvice ID ${deviceID}");
-    user =  await PreferenceUtils.getAccountInformation();
-  }
-
-  Future<OWhoAmI> getAccountInformationFromAcount(
-      AccountInformation acount) async {
-    return await PreferenceUtils.getAccountInformationFromUser(acount);
-  }
-
-  Future<void> saveInformationAcount(OWhoAmI userSave) async {
-    user = userSave;
-    PreferenceUtils.saveAccountInformation(userSave);
-  }
+  //  getUserData() async {
+  //    deviceID = await  PreferenceUtils.getString('device_id');
+  //    print("DEvice ID ${deviceID}");
+  //   user =  await PreferenceUtils.getAccountInformation();
+  // }
+  //
+  // Future<OWhoAmI> getAccountInformationFromAcount(
+  //     AccountInformation acount) async {
+  //   return await PreferenceUtils.getAccountInformationFromUser(acount);
+  // }
+  //
+  // Future<void> saveInformationAcount(OWhoAmI userSave) async {
+  //   user = userSave;
+  //   PreferenceUtils.saveAccountInformation(userSave);
+  // }
 
   Future saveDeviceId({String? deviceID}) async {
     return PreferenceUtils.setString('device_id', deviceID ?? '');

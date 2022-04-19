@@ -8,21 +8,21 @@ class LoginDataSource {
 
   LoginDataSource(this.apiClient);
 
-
-  Future<RAuth> login({String? username, String? password}) async{
-    final res = await apiClient.getAccountApi().login(username: username??'', password: password??'');
-    return res.data as RAuth;
-  }
-
-  Future<JsonObject> revokeToken({String? username}) async{
-    ApiClient apiClientRefresh = ApiClient();
-    final res = await apiClientRefresh.getAccountApi().revokeToken(username: username??'');
-    return res.data as JsonObject;
-  }
-
-  Future<JsonObject> logout({String? username, String? uuid, String? deviceId}) async{
-    final res = await apiClient.getAccountApi().logout(username: username??'', uuid: uuid??'', deviceId: deviceId??'');
-    return res.data as JsonObject;
-  }
+  //
+  // Future<RAuth> login({String? username, String? password}) async{
+  //   final res = await apiClient.getAccountApi().login(username: username??'', password: password??'');
+  //   return res.data as RAuth;
+  // }
+  //
+  // Future<JsonObject> revokeToken({String? username}) async{
+  //   ApiClient apiClientRefresh = ApiClient();
+  //   final res = await apiClientRefresh.getAccountApi().revokeToken(username: username??'');
+  //   return res.data as JsonObject;
+  // }
+  //
+  // Future<JsonObject> logout({String? username, String? uuid, String? deviceId}) async{
+  //   final res = await apiClient.getAccountApi().logout(username: username??'', uuid: uuid??'', deviceId: deviceId??'');
+  //   return res.data as JsonObject;
+  // }
 
 }
