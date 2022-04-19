@@ -84,6 +84,7 @@ double height_344 = 344.h;
 double height_336 = 336.h;
 double height_400 = 400.h;
 double height_420 = 420.h;
+double height_450 = 450.h;
 double height_496 = 496.h;
 double height_512 = 512.h;
 double height_550 = 550.h;

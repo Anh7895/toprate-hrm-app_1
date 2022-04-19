@@ -1,12 +1,14 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/enumMode.dart';
+import 'package:toprate_hrm/datasource/data/model/entity/list_mail_model.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/manager_mail_model.dart';
 
 part 'day_off_event.dart';
-
 part 'day_off_state.dart';
 
 class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
@@ -14,10 +16,18 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     on<DayOffEvent>((event, emit) {
       // TODO: implement event handler
     });
+
     on<ClickCheckboxDurationEvent>(
         (event, emit) => clickCheckboxDuration(event, emit));
-    on<SetSelectedFromDateEvent>((event, emit) => onSelectedFromDate(event, emit));
+    on<SetSelectedFromDateEvent>(
+        (event, emit) => onSelectedFromDate(event, emit));
     on<SetSelectedToDateEvent>((event, emit) => onSelectedToDate(event, emit));
+    on<AddMailApproverEvent>((event, emit) => addMailApprover(event, emit));
+    on<RemovedMailEvent>((event, emit) => removedMail(event, emit));
+    on<SearchMailEvent>((event, emit) => searchMail(event, emit));
+    on<InitDataListMailEvent>((event, emit) => initDataListMail(event, emit));
+    on<ClickCheckboxTimeOffEvent>(
+        (event, emit) => clickCheckboxTimeOff(event, emit));
   }
 
   var fromController = TextEditingController();
@@ -32,6 +42,8 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
   var reasons = ["One", "Two", "Three", "Four"];
   var listResult = [];
   String selectedDOB = "";
+  bool? isChecked = false;
+  int? selectIndex;
   DateTime selectedDate = DateTime.now();
 
   List<ManagerMailModel> managerMail = [
@@ -48,7 +60,10 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     ManagerMailModel(mail: "vietvk@toprate.io"),
     ManagerMailModel(mail: "hanhnv@toprate.io"),
     ManagerMailModel(mail: "long@toprate.io"),
+    ManagerMailModel(mail: "long@toprate.io"),
+    ManagerMailModel(mail: "long@toprate.io"),
   ];
+
 
   setTimeOff(TimeOff timeOff) {
     timeOff = timeOff;
@@ -58,9 +73,18 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     this.defaultReason = reason;
   }
 
-  setMailChecked(int index, isChecked) {
-    managerMail[index].isChecked = isChecked;
-    print(managerMail[index].mail);
+  removedMail(RemovedMailEvent event, Emitter<BaseState> emit) async {
+    managerMail[event.index!].isChecked = event.isChecked!;
+    managerMail;
+    emit(RemovedMailState());
+  }
+
+  searchMail(SearchMailEvent event, Emitter<BaseState> emit) async {
+    listResult.clear();
+    listResult = managerMail
+        .where((element) => element.mail!.contains(event.value!))
+        .toList();
+    emit(SearchMailState());
   }
 
   clickCheckboxDuration(
@@ -74,13 +98,34 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     emit(ClickCheckboxDurationState());
   }
 
-  onSelectedFromDate(SetSelectedFromDateEvent event, Emitter<BaseState> emit) async {
+  clickCheckboxTimeOff(
+      ClickCheckboxTimeOffEvent event, Emitter<BaseState> emit) async {
+    timeOff = event.value!;
+    emit(ClickCheckboxTimeOffState());
+  }
+
+  onSelectedFromDate(
+      SetSelectedFromDateEvent event, Emitter<BaseState> emit) async {
     fromController.text = event.setSelectedFromDate!;
     emit(SetSelectedFromDateState());
   }
 
-  onSelectedToDate(SetSelectedToDateEvent event, Emitter<BaseState> emit) async {
+  onSelectedToDate(
+      SetSelectedToDateEvent event, Emitter<BaseState> emit) async {
     toController.text = event.setSelectedToDate!;
     emit(SetSelectedToDateState());
+  }
+
+  initDataListMail(
+      InitDataListMailEvent event, Emitter<BaseState> emit) async {
+    listResult.clear();
+    listResult.addAll(managerMail);
+    emit(InitDataListMailState());
+  }
+
+  addMailApprover(AddMailApproverEvent event, Emitter<BaseState> emit) async {
+    listResult[event.index!].isChecked = !listResult[event.index!].isChecked;
+    managerMail[event.index!].isChecked = managerMail[event.index!].isChecked;
+    emit(AddMailApproverState());
   }
 }

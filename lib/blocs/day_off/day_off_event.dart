@@ -7,6 +7,11 @@ class ClickCheckboxDurationEvent extends DayOffEvent{
   bool? isSelect;
   ClickCheckboxDurationEvent({this.value,this.isSelect});
 }
+
+class ClickCheckboxTimeOffEvent extends DayOffEvent{
+  TimeOff? value;
+  ClickCheckboxTimeOffEvent({this.value,});
+}
 class SetSelectedFromDateEvent extends DayOffEvent {
   final String? setSelectedFromDate;
 
@@ -17,4 +22,24 @@ class SetSelectedToDateEvent extends DayOffEvent {
   final String? setSelectedToDate;
 
   SetSelectedToDateEvent({this.setSelectedToDate});
+}
+
+class AddMailApproverEvent extends DayOffEvent {
+  int? index;
+  AddMailApproverEvent({this.index});
+}
+
+class RemovedMailEvent extends DayOffEvent {
+  int? index;
+  bool? isChecked;
+  RemovedMailEvent({this.index,this.isChecked});
+}
+
+class SearchMailEvent extends DayOffEvent {
+  String? value;
+  SearchMailEvent({this.value});
+}
+
+class InitDataListMailEvent extends DayOffEvent {
+  InitDataListMailEvent();
 }

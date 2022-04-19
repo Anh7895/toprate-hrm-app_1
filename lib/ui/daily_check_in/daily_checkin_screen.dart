@@ -271,8 +271,6 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                                 .listData[_bloc.intSelectData!].stringProject));
                         _bloc.selectedIndex = -2;
                         Navigator.pop(context);
-                      } else{
-
                       }
                       },
                       child: BaseButton(
