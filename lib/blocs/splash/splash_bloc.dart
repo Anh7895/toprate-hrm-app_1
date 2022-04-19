@@ -14,7 +14,7 @@ class SplashBloc extends Bloc<SplashEvent, BaseState> {
   SplashBloc() : super(SplashInitial()) {
   }
 
-  saveAccountInformation(OWhoAmI? user) async {
-    return PreferenceUtils.saveAccountInformation(user);
-  }
+  // saveAccountInformation(OWhoAmI? user) async {
+  //   return PreferenceUtils.saveAccountInformation(user);
+  // }
 }

@@ -10,34 +10,22 @@ part 'r_auth.g.dart';
 /// RAuth
 ///
 /// Properties:
+/// * [tokenType] 
 /// * [accessToken] 
 /// * [expiresIn] 
-/// * [refreshExpiresIn] 
 /// * [refreshToken] 
-/// * [tokenType] 
-/// * [sessionState] 
-/// * [scope] 
 abstract class RAuth implements Built<RAuth, RAuthBuilder> {
+    @BuiltValueField(wireName: r'token_type')
+    String? get tokenType;
+
     @BuiltValueField(wireName: r'access_token')
     String? get accessToken;
 
     @BuiltValueField(wireName: r'expires_in')
     int? get expiresIn;
 
-    @BuiltValueField(wireName: r'refresh_expires_in')
-    int? get refreshExpiresIn;
-
     @BuiltValueField(wireName: r'refresh_token')
     String? get refreshToken;
-
-    @BuiltValueField(wireName: r'token_type')
-    String? get tokenType;
-
-    @BuiltValueField(wireName: r'session_state')
-    String? get sessionState;
-
-    @BuiltValueField(wireName: r'scope')
-    String? get scope;
 
     RAuth._();
 
@@ -61,6 +49,12 @@ class _$RAuthSerializer implements StructuredSerializer<RAuth> {
     Iterable<Object?> serialize(Serializers serializers, RAuth object,
         {FullType specifiedType = FullType.unspecified}) {
         final result = <Object?>[];
+        if (object.tokenType != null) {
+            result
+                ..add(r'token_type')
+                ..add(serializers.serialize(object.tokenType,
+                    specifiedType: const FullType(String)));
+        }
         if (object.accessToken != null) {
             result
                 ..add(r'access_token')
@@ -73,34 +67,10 @@ class _$RAuthSerializer implements StructuredSerializer<RAuth> {
                 ..add(serializers.serialize(object.expiresIn,
                     specifiedType: const FullType(int)));
         }
-        if (object.refreshExpiresIn != null) {
-            result
-                ..add(r'refresh_expires_in')
-                ..add(serializers.serialize(object.refreshExpiresIn,
-                    specifiedType: const FullType(int)));
-        }
         if (object.refreshToken != null) {
             result
                 ..add(r'refresh_token')
                 ..add(serializers.serialize(object.refreshToken,
-                    specifiedType: const FullType(String)));
-        }
-        if (object.tokenType != null) {
-            result
-                ..add(r'token_type')
-                ..add(serializers.serialize(object.tokenType,
-                    specifiedType: const FullType(String)));
-        }
-        if (object.sessionState != null) {
-            result
-                ..add(r'session_state')
-                ..add(serializers.serialize(object.sessionState,
-                    specifiedType: const FullType(String)));
-        }
-        if (object.scope != null) {
-            result
-                ..add(r'scope')
-                ..add(serializers.serialize(object.scope,
                     specifiedType: const FullType(String)));
         }
         return result;
@@ -118,6 +88,11 @@ class _$RAuthSerializer implements StructuredSerializer<RAuth> {
             final Object? value = iterator.current;
             
             switch (key) {
+                case r'token_type':
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(String)) as String;
+                    result.tokenType = valueDes;
+                    break;
                 case r'access_token':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
@@ -128,30 +103,10 @@ class _$RAuthSerializer implements StructuredSerializer<RAuth> {
                         specifiedType: const FullType(int)) as int;
                     result.expiresIn = valueDes;
                     break;
-                case r'refresh_expires_in':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.refreshExpiresIn = valueDes;
-                    break;
                 case r'refresh_token':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     result.refreshToken = valueDes;
-                    break;
-                case r'token_type':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.tokenType = valueDes;
-                    break;
-                case r'session_state':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.sessionState = valueDes;
-                    break;
-                case r'scope':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.scope = valueDes;
                     break;
             }
         }

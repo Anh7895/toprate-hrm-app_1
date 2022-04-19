@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
   SharedPreferences? localStorage;
   final LoginRepository loginRepository;
   LoginModel? getInfoResponse;
-  OWhoAmI? user;
+ // OWhoAmI? user;
   RAuth? rAuth;
   String? email;
   bool isObscure = true;
@@ -90,7 +90,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     });
 
     ///Handle Login
-    on<DoLoginEvent>((event, emit) => doLogin(event, emit));
+    // on<DoLoginEvent>((event, emit) => doLogin(event, emit));
 
     on<ChangeStatusSaveAccEvent>((event, emit) {
       saveAcc = !saveAcc;
@@ -99,46 +99,46 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
   }
 
 
-  Future<void> doLogin(DoLoginEvent event, Emitter<BaseState> emit) async {
-    emit(StartCallApiState());
-    try {
-      rAuth = await loginRepository.login(username: emailController.text.trim(), password: passwordController.text.trim());
-      if (rAuth != null) {
-        LocalUserData.getInstance.accessToken = rAuth?.accessToken??'';
-        await saveToken(rAuth?.accessToken);
-        LocalUserData.getInstance.refreshToken = rAuth?.refreshToken??'';
-        await saveRefreshToken(rAuth?.refreshToken);
-        emit(LoginSuccessState());
-        // await Future.wait([future1, future2]);
-        add(GetUserInformationEvent());
-      }
-    } on DioError catch (e) {
-      List<String> err = [];
-      print(e.response?.statusCode);
-      if (e.response?.statusCode == HttpStatus.unauthorized ||
-          e.response?.statusCode == HttpStatus.badRequest) {
-        print(e.response);
-
-        if (e.response?.data['messages'] != null) {
-          if (e.response?.data['messages']['username'] != null) {
-            err =
-            List<String>.from(e.response?.data['messages']['username']);
-          }
-          if (e.response?.data['messages']['password'] != null) {
-            err = List<String>.from(
-                e.response?.data['messages']['password']);
-          }
-        }
-      }
-      emit(
-          ApiErrorState(error: e,
-              errorMessage: e.response?.data['message'] ?? err.toString()));
-    } catch (e) {
-      emit(
-          ApiErrorState(
-              errorMessage: TextConstants.text101Err));
-    }
-  }
+  // Future<void> doLogin(DoLoginEvent event, Emitter<BaseState> emit) async {
+  //   emit(StartCallApiState());
+  //   try {
+  //     rAuth = await loginRepository.login(username: emailController.text.trim(), password: passwordController.text.trim());
+  //     if (rAuth != null) {
+  //       LocalUserData.getInstance.accessToken = rAuth?.accessToken??'';
+  //       await saveToken(rAuth?.accessToken);
+  //       LocalUserData.getInstance.refreshToken = rAuth?.refreshToken??'';
+  //       await saveRefreshToken(rAuth?.refreshToken);
+  //       emit(LoginSuccessState());
+  //       // await Future.wait([future1, future2]);
+  //       add(GetUserInformationEvent());
+  //     }
+  //   } on DioError catch (e) {
+  //     List<String> err = [];
+  //     print(e.response?.statusCode);
+  //     if (e.response?.statusCode == HttpStatus.unauthorized ||
+  //         e.response?.statusCode == HttpStatus.badRequest) {
+  //       print(e.response);
+  //
+  //       if (e.response?.data['messages'] != null) {
+  //         if (e.response?.data['messages']['username'] != null) {
+  //           err =
+  //           List<String>.from(e.response?.data['messages']['username']);
+  //         }
+  //         if (e.response?.data['messages']['password'] != null) {
+  //           err = List<String>.from(
+  //               e.response?.data['messages']['password']);
+  //         }
+  //       }
+  //     }
+  //     emit(
+  //         ApiErrorState(error: e,
+  //             errorMessage: e.response?.data['message'] ?? err.toString()));
+  //   } catch (e) {
+  //     emit(
+  //         ApiErrorState(
+  //             errorMessage: TextConstants.text101Err));
+  //   }
+  // }
 
   //Save Token Login
   saveToken(String? accessToken) async {
@@ -155,9 +155,9 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     return await PreferenceUtils.saveUserLogin(userModel);
   }
 
-  saveAccountInformation(OWhoAmI? user) async {
-    return await PreferenceUtils.saveAccountInformation(user);
-  }
+  // saveAccountInformation(OWhoAmI? user) async {
+  //   return await PreferenceUtils.saveAccountInformation(user);
+  // }
 
 
   Future<String?> _getId() async {

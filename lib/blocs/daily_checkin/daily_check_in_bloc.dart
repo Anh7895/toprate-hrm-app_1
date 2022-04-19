@@ -20,6 +20,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<InitDataEvent>((event, emit) => initData(event, emit));
     on<BackDayEvent>((event, emit) => backDay(event, emit));
     on<NextDayEvent>((event, emit) => nextDay(event, emit));
+    on<RemoveProjectEvent>((event, emit) => removeProject(event, emit));
     on<SelectProjectEvent>((event, emit) => selectProject(event, emit));
     on<FillNameProjectEvent>((event, emit) => fillNameProject(event, emit));
   }
@@ -136,6 +137,11 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     listTimeSubject[event.index!].nameTaskSelect = event.nameProject;
     listTimeSubject[event.index!].isSelected =true;
     emit(FillNameProjectState());
+  }
+
+  removeProject(RemoveProjectEvent event, Emitter<BaseState> emit) async {
+    listTimeSubject[event.indexSelect!].isSelected = false;
+    emit(RemoveProjectState());
   }
 
 }

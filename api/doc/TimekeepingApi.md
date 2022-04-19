@@ -5,23 +5,23 @@
 import 'package:openapi/api.dart';
 ```
 
-All URIs are relative to *https://api-hr.toprate.io/domain-services*
+All URIs are relative to *https://api-thrm.toprate.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addTimekeeping**](TimekeepingApi.md#addtimekeeping) | **POST** /timekeeping | Add Timekeeping
-[**getAllTimekeeping**](TimekeepingApi.md#getalltimekeeping) | **GET** /timekeeping | Get all Timekeeping
-[**getByIdTimekeeping**](TimekeepingApi.md#getbyidtimekeeping) | **GET** /timekeeping/{id} | Get by id Timekeeping
-[**getCalendarTimekeeping**](TimekeepingApi.md#getcalendartimekeeping) | **GET** /calendar-timekeeping | Get Calendar Timekeeping
-[**getDetailTimekeeping**](TimekeepingApi.md#getdetailtimekeeping) | **GET** /timekeeping/detail | Get detail timekeeping
-[**getDetailTimekeepingByUserId**](TimekeepingApi.md#getdetailtimekeepingbyuserid) | **GET** /timekeeping/{userId}/detail | Get detail timekeeping by user id
-[**getTimekeepingTemplateImport**](TimekeepingApi.md#gettimekeepingtemplateimport) | **GET** /timekeeping/template | Download template import timekeeping
-[**importTimekeeping**](TimekeepingApi.md#importtimekeeping) | **POST** /timekeeping/import | Import timekeeping
-[**patchUpdateTimekeeping**](TimekeepingApi.md#patchupdatetimekeeping) | **PATCH** /timekeeping/{id} | Update patch Timekeeping
+[**addTimekeeping**](TimekeepingApi.md#addtimekeeping) | **POST** /timekeepings | Add Timekeeping
+[**deleteByIdTimekeeping**](TimekeepingApi.md#deletebyidtimekeeping) | **DELETE** /timekeepings/{id} | Delete by id Timekeeping
+[**deleteByIdsTimekeeping**](TimekeepingApi.md#deletebyidstimekeeping) | **DELETE** /timekeepings/delete/ids | Delete by ids Timekeeping
+[**deleteByUuidTimekeeping**](TimekeepingApi.md#deletebyuuidtimekeeping) | **DELETE** /timekeepings/uuid/{uuid} | Delete by uuid Timekeeping
+[**deleteByUuidsTimekeeping**](TimekeepingApi.md#deletebyuuidstimekeeping) | **DELETE** /timekeepings/delete/uuids | Delete by uuids Timekeeping
+[**getAllTimekeeping**](TimekeepingApi.md#getalltimekeeping) | **GET** /timekeepings | Get all Timekeeping
+[**getByIdTimekeeping**](TimekeepingApi.md#getbyidtimekeeping) | **GET** /timekeepings/{id} | Get by id Timekeeping
+[**patchUpdateTimekeeping**](TimekeepingApi.md#patchupdatetimekeeping) | **PATCH** /timekeepings/{id} | Update patch Timekeeping
+[**putUpdateTimekeeping**](TimekeepingApi.md#putupdatetimekeeping) | **PUT** /timekeepings/{id} | Update put Timekeeping
 
 
 # **addTimekeeping**
-> Timekeeping addTimekeeping(timekeeping)
+> JsonObject addTimekeeping(body)
 
 Add Timekeeping
 
@@ -35,10 +35,10 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
 
 final api = Openapi().getTimekeepingApi();
-final Timekeeping timekeeping = ; // Timekeeping | 
+final JsonObject body = ; // JsonObject | 
 
 try {
-    final response = api.addTimekeeping(timekeeping);
+    final response = api.addTimekeeping(body);
     print(response);
 } catch on DioError (e) {
     print('Exception when calling TimekeepingApi->addTimekeeping: $e\n');
@@ -49,11 +49,195 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **timekeeping** | [**Timekeeping**](Timekeeping.md)|  | 
+ **body** | **JsonObject**|  | 
 
 ### Return type
 
-[**Timekeeping**](Timekeeping.md)
+[**JsonObject**](JsonObject.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteByIdTimekeeping**
+> JsonObject deleteByIdTimekeeping(id)
+
+Delete by id Timekeeping
+
+Delete by id Timekeeping
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+// TODO Configure HTTP basic authorization: Bearer
+//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').username = 'YOUR_USERNAME'
+//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
+
+final api = Openapi().getTimekeepingApi();
+final int id = 56; // int | Id
+
+try {
+    final response = api.deleteByIdTimekeeping(id);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling TimekeepingApi->deleteByIdTimekeeping: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **int**| Id | 
+
+### Return type
+
+[**JsonObject**](JsonObject.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteByIdsTimekeeping**
+> JsonObject deleteByIdsTimekeeping(propertyID)
+
+Delete by ids Timekeeping
+
+Delete by ids Timekeeping
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+// TODO Configure HTTP basic authorization: Bearer
+//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').username = 'YOUR_USERNAME'
+//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
+
+final api = Openapi().getTimekeepingApi();
+final PropertyID propertyID = ; // PropertyID | 
+
+try {
+    final response = api.deleteByIdsTimekeeping(propertyID);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling TimekeepingApi->deleteByIdsTimekeeping: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **propertyID** | [**PropertyID**](PropertyID.md)|  | 
+
+### Return type
+
+[**JsonObject**](JsonObject.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteByUuidTimekeeping**
+> JsonObject deleteByUuidTimekeeping(uuid)
+
+Delete by uuid Timekeeping
+
+Delete by uuid Timekeeping
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+// TODO Configure HTTP basic authorization: Bearer
+//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').username = 'YOUR_USERNAME'
+//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
+
+final api = Openapi().getTimekeepingApi();
+final String uuid = uuid_example; // String | Uuid
+
+try {
+    final response = api.deleteByUuidTimekeeping(uuid);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling TimekeepingApi->deleteByUuidTimekeeping: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **uuid** | **String**| Uuid | 
+
+### Return type
+
+[**JsonObject**](JsonObject.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteByUuidsTimekeeping**
+> JsonObject deleteByUuidsTimekeeping(propertyUuid)
+
+Delete by uuids Timekeeping
+
+Delete by ids Timekeeping
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+// TODO Configure HTTP basic authorization: Bearer
+//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').username = 'YOUR_USERNAME'
+//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
+
+final api = Openapi().getTimekeepingApi();
+final PropertyUuid propertyUuid = ; // PropertyUuid | 
+
+try {
+    final response = api.deleteByUuidsTimekeeping(propertyUuid);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling TimekeepingApi->deleteByUuidsTimekeeping: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **propertyUuid** | [**PropertyUuid**](PropertyUuid.md)|  | 
+
+### Return type
+
+[**JsonObject**](JsonObject.md)
 
 ### Authorization
 
@@ -67,7 +251,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getAllTimekeeping**
-> JsonObject getAllTimekeeping(limit, page, orderBy, companyId, month, userCodeTilde, fullName)
+> JsonObject getAllTimekeeping(limit, page, orderBy)
 
 Get all Timekeeping
 
@@ -84,13 +268,9 @@ final api = Openapi().getTimekeepingApi();
 final String limit = limit_example; // String | Limit
 final String page = page_example; // String | Page
 final String orderBy = orderBy_example; // String | Order by
-final int companyId = 56; // int | company_id
-final String month = month_example; // String | month
-final String userCodeTilde = userCodeTilde_example; // String | user_code__~
-final String fullName = fullName_example; // String | full_name
 
 try {
-    final response = api.getAllTimekeeping(limit, page, orderBy, companyId, month, userCodeTilde, fullName);
+    final response = api.getAllTimekeeping(limit, page, orderBy);
     print(response);
 } catch on DioError (e) {
     print('Exception when calling TimekeepingApi->getAllTimekeeping: $e\n');
@@ -104,10 +284,6 @@ Name | Type | Description  | Notes
  **limit** | **String**| Limit | [optional] [default to '10']
  **page** | **String**| Page | [optional] [default to '1']
  **orderBy** | **String**| Order by | [optional] [default to 'id ASC']
- **companyId** | **int**| company_id | [optional] 
- **month** | **String**| month | [optional] [default to '03-2022']
- **userCodeTilde** | **String**| user_code__~ | [optional] [default to 'string']
- **fullName** | **String**| full_name | [optional] [default to 'string']
 
 ### Return type
 
@@ -125,7 +301,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getByIdTimekeeping**
-> Timekeeping getByIdTimekeeping(id)
+> JsonObject getByIdTimekeeping(id)
 
 Get by id Timekeeping
 
@@ -157,7 +333,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Timekeeping**](Timekeeping.md)
+[**JsonObject**](JsonObject.md)
 
 ### Authorization
 
@@ -170,12 +346,12 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getCalendarTimekeeping**
-> CalendarTimekeeping getCalendarTimekeeping(month)
+# **patchUpdateTimekeeping**
+> JsonObject patchUpdateTimekeeping(id, body)
 
-Get Calendar Timekeeping
+Update patch Timekeeping
 
-Get Calendar Timekeeping
+Update patch Timekeeping
 
 ### Example
 ```dart
@@ -185,13 +361,14 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
 
 final api = Openapi().getTimekeepingApi();
-final String month = month_example; // String | month
+final int id = 56; // int | Id
+final JsonObject body = ; // JsonObject | 
 
 try {
-    final response = api.getCalendarTimekeeping(month);
+    final response = api.patchUpdateTimekeeping(id, body);
     print(response);
 } catch on DioError (e) {
-    print('Exception when calling TimekeepingApi->getCalendarTimekeeping: $e\n');
+    print('Exception when calling TimekeepingApi->patchUpdateTimekeeping: $e\n');
 }
 ```
 
@@ -199,197 +376,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **month** | **String**| month | [optional] [default to '03-2022']
-
-### Return type
-
-[**CalendarTimekeeping**](CalendarTimekeeping.md)
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getDetailTimekeeping**
-> BuiltList<OTimekeepingDetail> getDetailTimekeeping(orderBy, companyId, month, codeTilde, fullName)
-
-Get detail timekeeping
-
-Get detail timekeeping
-
-### Example
-```dart
-import 'package:openapi/api.dart';
-// TODO Configure HTTP basic authorization: Bearer
-//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').username = 'YOUR_USERNAME'
-//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
-
-final api = Openapi().getTimekeepingApi();
-final String orderBy = orderBy_example; // String | Order by
-final int companyId = 56; // int | company_id
-final String month = month_example; // String | month
-final String codeTilde = codeTilde_example; // String | code__~
-final String fullName = fullName_example; // String | full_name
-
-try {
-    final response = api.getDetailTimekeeping(orderBy, companyId, month, codeTilde, fullName);
-    print(response);
-} catch on DioError (e) {
-    print('Exception when calling TimekeepingApi->getDetailTimekeeping: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderBy** | **String**| Order by | [optional] [default to 'id ASC']
- **companyId** | **int**| company_id | [optional] 
- **month** | **String**| month | [optional] [default to '03-2022']
- **codeTilde** | **String**| code__~ | [optional] [default to 'string']
- **fullName** | **String**| full_name | [optional] [default to 'string']
-
-### Return type
-
-[**BuiltList&lt;OTimekeepingDetail&gt;**](OTimekeepingDetail.md)
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getDetailTimekeepingByUserId**
-> OTimekeepingDetailUserId getDetailTimekeepingByUserId(userId, month)
-
-Get detail timekeeping by user id
-
-Get detail timekeeping by user id
-
-### Example
-```dart
-import 'package:openapi/api.dart';
-// TODO Configure HTTP basic authorization: Bearer
-//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').username = 'YOUR_USERNAME'
-//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
-
-final api = Openapi().getTimekeepingApi();
-final int userId = 56; // int | userId
-final String month = month_example; // String | month
-
-try {
-    final response = api.getDetailTimekeepingByUserId(userId, month);
-    print(response);
-} catch on DioError (e) {
-    print('Exception when calling TimekeepingApi->getDetailTimekeepingByUserId: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **userId** | **int**| userId | 
- **month** | **String**| month | [optional] [default to '03-2022']
-
-### Return type
-
-[**OTimekeepingDetailUserId**](OTimekeepingDetailUserId.md)
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getTimekeepingTemplateImport**
-> InlineResponse2002 getTimekeepingTemplateImport()
-
-Download template import timekeeping
-
-Download template import timekeeping
-
-### Example
-```dart
-import 'package:openapi/api.dart';
-// TODO Configure HTTP basic authorization: Bearer
-//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').username = 'YOUR_USERNAME'
-//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
-
-final api = Openapi().getTimekeepingApi();
-
-try {
-    final response = api.getTimekeepingTemplateImport();
-    print(response);
-} catch on DioError (e) {
-    print('Exception when calling TimekeepingApi->getTimekeepingTemplateImport: $e\n');
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**InlineResponse2002**](InlineResponse2002.md)
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **importTimekeeping**
-> JsonObject importTimekeeping(iTimekeepingImport)
-
-Import timekeeping
-
-Import timekeeping
-
-### Example
-```dart
-import 'package:openapi/api.dart';
-// TODO Configure HTTP basic authorization: Bearer
-//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').username = 'YOUR_USERNAME'
-//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
-
-final api = Openapi().getTimekeepingApi();
-final ITimekeepingImport iTimekeepingImport = ; // ITimekeepingImport | 
-
-try {
-    final response = api.importTimekeeping(iTimekeepingImport);
-    print(response);
-} catch on DioError (e) {
-    print('Exception when calling TimekeepingApi->importTimekeeping: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **iTimekeepingImport** | [**ITimekeepingImport**](ITimekeepingImport.md)|  | 
+ **id** | **int**| Id | 
+ **body** | **JsonObject**|  | 
 
 ### Return type
 
@@ -406,12 +394,12 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **patchUpdateTimekeeping**
-> Timekeeping patchUpdateTimekeeping(id, timekeeping)
+# **putUpdateTimekeeping**
+> JsonObject putUpdateTimekeeping(id, body)
 
-Update patch Timekeeping
+Update put Timekeeping
 
-Update patch Timekeeping
+Update put Timekeeping
 
 ### Example
 ```dart
@@ -422,13 +410,13 @@ import 'package:openapi/api.dart';
 
 final api = Openapi().getTimekeepingApi();
 final int id = 56; // int | Id
-final Timekeeping timekeeping = ; // Timekeeping | 
+final JsonObject body = ; // JsonObject | 
 
 try {
-    final response = api.patchUpdateTimekeeping(id, timekeeping);
+    final response = api.putUpdateTimekeeping(id, body);
     print(response);
 } catch on DioError (e) {
-    print('Exception when calling TimekeepingApi->patchUpdateTimekeeping: $e\n');
+    print('Exception when calling TimekeepingApi->putUpdateTimekeeping: $e\n');
 }
 ```
 
@@ -437,11 +425,11 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **int**| Id | 
- **timekeeping** | [**Timekeeping**](Timekeeping.md)|  | 
+ **body** | **JsonObject**|  | 
 
 ### Return type
 
-[**Timekeeping**](Timekeeping.md)
+[**JsonObject**](JsonObject.md)
 
 ### Authorization
 

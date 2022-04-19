@@ -40,143 +40,143 @@ class PreferenceUtils {
   }
 
 
-
-  static Future<bool> saveAccountInformation(OWhoAmI? user) async {
-    var prefs = await _instance;
-    bool hasLaborContract = user?.laborContract?.isNotEmpty ?? false;
-    AccountInformation accountInformation = AccountInformation(
-      id: user?.id,
-      uuid:  user?.uuid,
-      username: user?.username,
-      fullName: user?.fullName,
-      phone: user?.phone,
-      nationalId: user?.nationalId,
-      birthday: user?.birthday,
-      sex: user?.sex,
-      email: user?.email,
-      accountBalance: user?.accountBalance,
-      isLock: user?.isLock,
-      bankId: user?.bankId,
-      address: user?.address,
-      role: RoleModel(
-        id:  user?.role?.id,
-        name:  user?.role?.name,
-      ),
-      bank: BankModelUser(
-          bankName: user?.bank?.bankName,
-          bankAccount: user?.bank?.bankAccount,
-          cardNumber: user?.bank?.cardNumber),
-      company: CompanyModel(
-          name: user?.company?.name, address: user?.company?.address,id: user?.company?.id),
-      laborContract: [LaborContractModel(
-         number: hasLaborContract ? user?.laborContract?.first.number : null,
-          status: hasLaborContract ? user?.laborContract?.first.status : null,
-          link: hasLaborContract ? user?.laborContract?.first.link : null)],
-      date_of_issue: user?.dateOfIssue,
-      place_of_issue: user?.placeOfIssue,
-    );
-    try {
-      print("Acc save ${accountInformation.bank?.bankName}");
-      await prefs.setString(
-        "account_information",
-        jsonEncode(accountInformation.toJson()),
-      );
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
-  static Future<OWhoAmI> getAccountInformation() async {
-    var prefs = await _instance;
-    try {
-      String? userPrefs = prefs.getString("account_information");
-      if (userPrefs == null || userPrefs.isEmpty) return OWhoAmI();
-      AccountInformation accountInformation =
-          AccountInformation.fromJson(jsonDecode(userPrefs));
-
-      BankBuilder bankBuilder = BankBuilder();
-      bankBuilder.bankName = accountInformation.bank?.bankName;
-      bankBuilder.bankAccount = accountInformation.bank?.bankAccount;
-      bankBuilder.cardNumber = accountInformation.bank?.cardNumber;
-
-      RoleBuilder roleBuilder = RoleBuilder();
-      roleBuilder.id = accountInformation.role?.id;
-      roleBuilder.name = accountInformation.role?.name;
-
-      CompanyBuilder companyBuilder = CompanyBuilder();
-      companyBuilder.name = accountInformation.company?.name;
-      companyBuilder.address = accountInformation.company?.address;
-      companyBuilder.id   = accountInformation.company?.id;
-      LaborContractBuilder laborContractBuilder = LaborContractBuilder();
-      laborContractBuilder.status = accountInformation.laborContract?[0].status;
-      laborContractBuilder.link = accountInformation.laborContract?[0].link;
-      laborContractBuilder.number = accountInformation.laborContract?[0].number;
-
-      ListBuilder<LaborContract> listBuilder = ListBuilder();
-      listBuilder.add(laborContractBuilder.build());
-
-    OWhoAmIBuilder builder = OWhoAmIBuilder();
-      builder.id = accountInformation.id;
-      builder.uuid = accountInformation.uuid;
-      builder.username = accountInformation.username;
-      builder.fullName = accountInformation.fullName;
-      builder.phone = accountInformation.phone;
-      builder.nationalId = accountInformation.nationalId;
-      builder.birthday = accountInformation.birthday;
-      builder.sex = accountInformation.sex;
-      builder.email = accountInformation.email;
-      builder.accountBalance = accountInformation.accountBalance;
-      builder.isLock = accountInformation.isLock;
-      builder.bankId = accountInformation.bankId;
-      builder.address = accountInformation.address;
-      builder.bank = bankBuilder;
-      builder.company = companyBuilder;
-      builder.laborContract = listBuilder;
-      builder.role = roleBuilder;
-      builder.dateOfIssue = accountInformation.date_of_issue;
-      builder.placeOfIssue = accountInformation.place_of_issue;
-      print("User ${builder.username}");
-      return builder.build();
-    } catch (e) {
-      print(e);
-      return OWhoAmI();
-    }
-  }
-  static List<Widget> modelBuilder<M>(
-      List<M> models, Widget Function(int index, M model) builder) =>
-      models
-          .asMap()
-          .map<int, Widget>(
-              (index, model) => MapEntry(index, builder(index, model)))
-          .values
-          .toList();
-  static Future<OWhoAmI> getAccountInformationFromUser(
-      AccountInformation acount) async {
-    var prefs = await _instance;
-    try {
-      AccountInformation accountInformation = acount;
-      OWhoAmIBuilder builder = OWhoAmIBuilder();
-      builder.id = accountInformation.id;
-      builder.uuid = accountInformation.uuid;
-      builder.username = accountInformation.username;
-      builder.fullName = accountInformation.fullName;
-      builder.phone = accountInformation.phone;
-      builder.nationalId = accountInformation.nationalId;
-      builder.birthday =  accountInformation.birthday;
-      builder.sex = accountInformation.sex;
-      builder.email = accountInformation.email;
-      builder.accountBalance = accountInformation.accountBalance;
-      builder.isLock = accountInformation.isLock;
-
-      // builder.bankId = accountInformation.bankId;
-      return builder.build();
-    } catch (e) {
-      print(e);
-      return OWhoAmI();
-    }
-  }
+  //
+  // static Future<bool> saveAccountInformation(OWhoAmI? user) async {
+  //   var prefs = await _instance;
+  //   bool hasLaborContract = user?.laborContract?.isNotEmpty ?? false;
+  //   AccountInformation accountInformation = AccountInformation(
+  //     id: user?.id,
+  //     uuid:  user?.uuid,
+  //     username: user?.username,
+  //     fullName: user?.fullName,
+  //     phone: user?.phone,
+  //     nationalId: user?.nationalId,
+  //     birthday: user?.birthday,
+  //     sex: user?.sex,
+  //     email: user?.email,
+  //     accountBalance: user?.accountBalance,
+  //     isLock: user?.isLock,
+  //     bankId: user?.bankId,
+  //     address: user?.address,
+  //     role: RoleModel(
+  //       id:  user?.role?.id,
+  //       name:  user?.role?.name,
+  //     ),
+  //     bank: BankModelUser(
+  //         bankName: user?.bank?.bankName,
+  //         bankAccount: user?.bank?.bankAccount,
+  //         cardNumber: user?.bank?.cardNumber),
+  //     company: CompanyModel(
+  //         name: user?.company?.name, address: user?.company?.address,id: user?.company?.id),
+  //     laborContract: [LaborContractModel(
+  //        number: hasLaborContract ? user?.laborContract?.first.number : null,
+  //         status: hasLaborContract ? user?.laborContract?.first.status : null,
+  //         link: hasLaborContract ? user?.laborContract?.first.link : null)],
+  //     date_of_issue: user?.dateOfIssue,
+  //     place_of_issue: user?.placeOfIssue,
+  //   );
+  //   try {
+  //     print("Acc save ${accountInformation.bank?.bankName}");
+  //     await prefs.setString(
+  //       "account_information",
+  //       jsonEncode(accountInformation.toJson()),
+  //     );
+  //     return true;
+  //   } catch (e) {
+  //     print(e);
+  //     return false;
+  //   }
+  // }
+  //
+  // static Future<OWhoAmI> getAccountInformation() async {
+  //   var prefs = await _instance;
+  //   try {
+  //     String? userPrefs = prefs.getString("account_information");
+  //     if (userPrefs == null || userPrefs.isEmpty) return OWhoAmI();
+  //     AccountInformation accountInformation =
+  //         AccountInformation.fromJson(jsonDecode(userPrefs));
+  //
+  //     BankBuilder bankBuilder = BankBuilder();
+  //     bankBuilder.bankName = accountInformation.bank?.bankName;
+  //     bankBuilder.bankAccount = accountInformation.bank?.bankAccount;
+  //     bankBuilder.cardNumber = accountInformation.bank?.cardNumber;
+  //
+  //     RoleBuilder roleBuilder = RoleBuilder();
+  //     roleBuilder.id = accountInformation.role?.id;
+  //     roleBuilder.name = accountInformation.role?.name;
+  //
+  //     CompanyBuilder companyBuilder = CompanyBuilder();
+  //     companyBuilder.name = accountInformation.company?.name;
+  //     companyBuilder.address = accountInformation.company?.address;
+  //     companyBuilder.id   = accountInformation.company?.id;
+  //     LaborContractBuilder laborContractBuilder = LaborContractBuilder();
+  //     laborContractBuilder.status = accountInformation.laborContract?[0].status;
+  //     laborContractBuilder.link = accountInformation.laborContract?[0].link;
+  //     laborContractBuilder.number = accountInformation.laborContract?[0].number;
+  //
+  //     ListBuilder<LaborContract> listBuilder = ListBuilder();
+  //     listBuilder.add(laborContractBuilder.build());
+  //
+  //   OWhoAmIBuilder builder = OWhoAmIBuilder();
+  //     builder.id = accountInformation.id;
+  //     builder.uuid = accountInformation.uuid;
+  //     builder.username = accountInformation.username;
+  //     builder.fullName = accountInformation.fullName;
+  //     builder.phone = accountInformation.phone;
+  //     builder.nationalId = accountInformation.nationalId;
+  //     builder.birthday = accountInformation.birthday;
+  //     builder.sex = accountInformation.sex;
+  //     builder.email = accountInformation.email;
+  //     builder.accountBalance = accountInformation.accountBalance;
+  //     builder.isLock = accountInformation.isLock;
+  //     builder.bankId = accountInformation.bankId;
+  //     builder.address = accountInformation.address;
+  //     builder.bank = bankBuilder;
+  //     builder.company = companyBuilder;
+  //     builder.laborContract = listBuilder;
+  //     builder.role = roleBuilder;
+  //     builder.dateOfIssue = accountInformation.date_of_issue;
+  //     builder.placeOfIssue = accountInformation.place_of_issue;
+  //     print("User ${builder.username}");
+  //     return builder.build();
+  //   } catch (e) {
+  //     print(e);
+  //     return OWhoAmI();
+  //   }
+  // }
+  // static List<Widget> modelBuilder<M>(
+  //     List<M> models, Widget Function(int index, M model) builder) =>
+  //     models
+  //         .asMap()
+  //         .map<int, Widget>(
+  //             (index, model) => MapEntry(index, builder(index, model)))
+  //         .values
+  //         .toList();
+  // static Future<OWhoAmI> getAccountInformationFromUser(
+  //     AccountInformation acount) async {
+  //   var prefs = await _instance;
+  //   try {
+  //     AccountInformation accountInformation = acount;
+  //     OWhoAmIBuilder builder = OWhoAmIBuilder();
+  //     builder.id = accountInformation.id;
+  //     builder.uuid = accountInformation.uuid;
+  //     builder.username = accountInformation.username;
+  //     builder.fullName = accountInformation.fullName;
+  //     builder.phone = accountInformation.phone;
+  //     builder.nationalId = accountInformation.nationalId;
+  //     builder.birthday =  accountInformation.birthday;
+  //     builder.sex = accountInformation.sex;
+  //     builder.email = accountInformation.email;
+  //     builder.accountBalance = accountInformation.accountBalance;
+  //     builder.isLock = accountInformation.isLock;
+  //
+  //     // builder.bankId = accountInformation.bankId;
+  //     return builder.build();
+  //   } catch (e) {
+  //     print(e);
+  //     return OWhoAmI();
+  //   }
+  // }
 
   static Future<bool> saveUserLogin(LoginModel? userModel) async {
     var prefs = await _instance;
