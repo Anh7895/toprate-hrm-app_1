@@ -89,6 +89,9 @@ class ThemeColor {
   static const clr_FFEBEB = Color(0xFFFFEBEB);
   static const clr_F4F6FA = Color(0xFFF4F6FA);
   static const clr_FF9B90 = Color(0xFFFF9B90);
+  static const clr_F30000 = Color(0xFFF30000);
+  static const clr_8F8F8F = Color(0xFF8F8F8F);
+  static const clr_6200E8 = Color(0xFF6200E8);
 
   ///New
   static const clr_EEF0F4 = Color(0xFFEEF0F4);

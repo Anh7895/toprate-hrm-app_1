@@ -1,3 +1,4 @@
+import 'package:toprate_hrm/blocs/checkin/checkin_bloc.dart';
 import 'package:toprate_hrm/blocs/daily_checkin/daily_check_in_bloc.dart';
 import 'package:toprate_hrm/blocs/dashboard/dashboard_bloc.dart';
 import 'package:toprate_hrm/blocs/day_off/day_off_bloc.dart';
@@ -43,6 +44,7 @@ abstract class InjectorConfig {
   }
 
   @Register.factory(SplashBloc)
+  @Register.factory(CheckinBloc)
   @Register.factory(DashboardBloc)
   @Register.factory(LoginBloc)
   @Register.factory(DailyCheckInBloc)
