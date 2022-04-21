@@ -47,7 +47,7 @@ class TextConstants {
   static const textRemindTop = "You need to do";
   static const textRemindBottom = "daily checkin now!";
   static const textTitle = "  Utilities";
-  static const textCheckin = " Checkin now";
+  static const textCheckinnow = " Checkin now";
   static const textMyCheckin = "My Checkin";
   static const textDayOff = "Day off";
   static const textNews  = "News";
@@ -71,6 +71,7 @@ class TextConstants {
 
   // Font
   static const textNotoSans = "Noto Sans";
+  static const textRubik = "Rubik";
 
 
 
@@ -81,6 +82,11 @@ class TextConstants {
   static const text100Err= "Hệ thống đang bận, vui lòng thử lại sau";
   static const text106Err= "Phiên đăng nhập của bạn đã hết hạn, vui lòng đăng nhập lại để truy cập hệ thống";
   static const text109Err= "Kết nối gián đoạn, vui lòng kiểm tra kết nối và thử lại!";
+
+  //MyCheckin
+  static const textSelectTimeKeepingMonth = "Chọn tháng chấm công";
+  static const textBack = "Quay lại";
+  static const textCheckin = "Check in";
 
 
   //Daily CheckIn
