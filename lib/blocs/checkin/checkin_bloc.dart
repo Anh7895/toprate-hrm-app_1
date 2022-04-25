@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:bloc/bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:openapi/openapi.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/select_an_industrial_recruiment_model.dart';

@@ -11,7 +11,7 @@ void main() {
     //
     // Add Notification
     //
-    //Future<Notification> addNotification(CNotification cNotification) async
+    //Future<Notification> addNotification(Notification notification) async
     test('test addNotification', () async {
       // TODO
     });
@@ -20,17 +20,26 @@ void main() {
     //
     // Get all Notification
     //
-    //Future<JsonObject> getAllNotification({ String limit, String page, String orderBy, int companyId, String fromDateSendGe, String toDateSendLe }) async
+    //Future<JsonObject> getAllNotification({ String limit, String page, String orderBy }) async
     test('test getAllNotification', () async {
       // TODO
     });
 
-    // Get by id Notification
+    // Get by id Notifications
     //
-    // Get by id Notification
+    // Get by id Notifications
     //
-    //Future<Notification> getByIdNotification(int id) async
+    //Future<Project> getByIdNotification(int id) async
     test('test getByIdNotification', () async {
+      // TODO
+    });
+
+    // Update patch Notification
+    //
+    // Update patch Notification
+    //
+    //Future<Notification> patchUpdateNotification(int id, Notification notification) async
+    test('test patchUpdateNotification', () async {
       // TODO
     });
 

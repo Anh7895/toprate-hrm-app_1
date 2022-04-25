@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:464585541979:android:4190e882356c3e1e02f27e",
+        "mobilesdk_app_id": "1:464585541979:android:2e0854bb9bb04aed02f27e",
         "android_client_info": {
-          "package_name": "com.android.application"
+          "package_name": "io.toprate.toprate_hrm"
         }
       },
       "oauth_client": [
         {
-          "client_id": "464585541979-o4q1gvtkdrb3pbiim1pi70qjqje0v2fp.apps.googleusercontent.com",
+          "client_id": "464585541979-2ca32iopvbkh54kihduoc5kca99vjieq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.android.application",
-            "certificate_hash": "c6f8d31872ee7e17ad6b894a8bf732d8fd9db2b5"
+            "package_name": "io.toprate.toprate_hrm",
+            "certificate_hash": "2ae1d14e1a51070334ecbb8f679cbb41742943e0"
           }
         },
         {
@@ -35,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "464585541979-kqtm7q362ovcbrkleceuod6ejfi2uclf.apps.googleusercontent.com",
+              "client_id": "464585541979-3gtm4fncqr9lponk7acrmt8q3d6k4apg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

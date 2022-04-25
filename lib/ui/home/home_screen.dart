@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/home/home_bloc.dart';
+import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
 import 'package:toprate_hrm/common/resource/text_style.dart';
@@ -39,7 +40,7 @@ class _HomeScreensState extends State<HomeScreens> {
         },
         builder: (context, state){
           return Padding(
-              padding: EdgeInsets.symmetric(horizontal: width_16, vertical: height_60),
+              padding: EdgeInsets.symmetric(horizontal: width_16,vertical: height_60),
               child: Container(
                 width: width,
                 height: height,
@@ -129,45 +130,47 @@ class _HomeScreensState extends State<HomeScreens> {
                             children: [
                               Container(
                                 height: height_420,
-                                child: Expanded(
-                                  child: GridView.count(
-                                    crossAxisCount: 3,
-                                    children: [
-                                        GestureDetector(
-                                            onTap: (){
+                                child: GridView.count(
+                                  crossAxisCount: 3,
+                                  children: [
+                                      GestureDetector(
+                                          onTap: (){
+                                            Navigator.pushNamed(context, RouteName.dailyCheckInScreen);
+                                          },
+                                          child: HomeCardItem(text: TextConstants.textCheckin, url: svg_ic_checkin_now, textStyle:  TextStyleCommon.textTopCardItem)),
+                                      GestureDetector(
+                                          onTap: (){
+                                            Navigator.pushNamed(context,RouteName.checkinScreen);
+                                          },
+                                          child: HomeCardItem(text: TextConstants.textMyCheckin, url: svg_ic_my_checkin, textStyle: TextStyleCommon.textTopCardItem)),
+                                      GestureDetector(
+                                          onTap: (){
+                                            Navigator.pushNamed(context,RouteName.dayOffScreen);
+                                          },
+                                          child: HomeCardItem(text: TextConstants.textDayOff, url:  svg_ic_day_off, textStyle: TextStyleCommon.textTopCardItem,)),
+                                      GestureDetector(
+                                          onTap:(){
 
-                                            },
-                                            child: HomeCardItem(text: TextConstants.textCheckin, url: svg_ic_checkin_now, textStyle:  TextStyleCommon.textTopCardItem)),
-                                        GestureDetector(
-                                            onTap: (){
+                                          },
+                                          child: HomeCardItem(text: TextConstants.textNews, url: svg_ic_news, textStyle: TextStyleCommon.textBottomCardItem)),
+                                      GestureDetector(
+                                          onTap: (){
 
-                                            },
-                                            child: HomeCardItem(text: TextConstants.textMyCheckin, url: svg_ic_my_checkin, textStyle: TextStyleCommon.textTopCardItem)),
-                                        GestureDetector(
-                                            onTap: (){
-
-                                            },
-                                            child: HomeCardItem(text: TextConstants.textDayOff, url:  svg_ic_day_off, textStyle: TextStyleCommon.textTopCardItem,)),
-                                        GestureDetector(
-                                            onTap:(){
-
-                                            },
-                                            child: HomeCardItem(text: TextConstants.textNews, url: svg_ic_news, textStyle: TextStyleCommon.textBottomCardItem)),
-                                        GestureDetector(
-                                            onTap: (){
-
-                                            },
-                                            child: HomeCardItem(text: TextConstants.textSurvey, url: svg_ic_survey, textStyle: TextStyleCommon.textBottomCardItem)),
-                                      ],),
-
-                                ),
+                                          },
+                                          child: HomeCardItem(text: TextConstants.textSurvey, url: svg_ic_survey, textStyle: TextStyleCommon.textBottomCardItem)),
+                                    ],),
                               ),
-                              Container(
-                                width: width_250,
-                                height: height_140,
-                                decoration: BoxDecoration(image:
-                                DecorationImage(image: AssetImage(png_home_image),fit: BoxFit.cover)
-                                ),
+                              Column(
+                                children: [
+                                  Container(
+                                    width: width_250,
+                                    height: height_140,
+                                    decoration: BoxDecoration(image:
+                                    DecorationImage(image: AssetImage(png_home_image),fit: BoxFit.cover)
+                                    ),
+                                  ),
+                                  SizedBox(height: height_20,)
+                                ],
                               )
                             ],
                           ),

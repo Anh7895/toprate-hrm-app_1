@@ -7,39 +7,12 @@ void main() {
   final instance = Openapi().getAccountApi();
 
   group(AccountApi, () {
-    // Sign in
+    // Login With Google
     //
-    // Login user the system
+    // Login With Google
     //
-    //Future<RAuth> login(String username, String password) async
-    test('test login', () async {
-      // TODO
-    });
-
-    // Sign out
-    //
-    // Logout user the system
-    //
-    //Future<JsonObject> logout(String username, String uuid) async
-    test('test logout', () async {
-      // TODO
-    });
-
-    // Refresh Token
-    //
-    // Refresh Token
-    //
-    //Future<RAuth> refreshToken(String username) async
-    test('test refreshToken', () async {
-      // TODO
-    });
-
-    // Revoke Token
-    //
-    // Revoke Token
-    //
-    //Future<JsonObject> revokeToken(String username) async
-    test('test revokeToken', () async {
+    //Future<RAuth> loginWithGoogle(Auth auth) async
+    test('test loginWithGoogle', () async {
       // TODO
     });
 

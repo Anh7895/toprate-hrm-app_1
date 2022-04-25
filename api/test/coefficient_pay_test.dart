@@ -7,7 +7,7 @@ void main() {
   // TODO add properties to the builder and call build()
 
   group(CoefficientPay, () {
-    // int id
+    // String id
     test('to test the property `id`', () async {
       // TODO
     });
@@ -17,18 +17,18 @@ void main() {
       // TODO
     });
 
-    // String unit
-    test('to test the property `unit`', () async {
+    // String name
+    test('to test the property `name`', () async {
       // TODO
     });
 
-    // String ratio
-    test('to test the property `ratio`', () async {
+    // String desc
+    test('to test the property `desc`', () async {
       // TODO
     });
 
-    // double unitPrice
-    test('to test the property `unitPrice`', () async {
+    // String status
+    test('to test the property `status`', () async {
       // TODO
     });
 

@@ -21,7 +21,9 @@ import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../common/utils/preference_utils.dart';
 import '../../common/widgets/social_login_bottom_widget.dart';
+import '../../datasource/data/local_user_data.dart';
 import 'component/text_field_login.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -35,8 +37,23 @@ class _LoginScreenState extends State<LoginScreen> {
   double width = 0;
   double height = 0;
 
+  Future getToken() async {
+    return LocalUserData.getInstance.accessToken =
+    await PreferenceUtils.getString("access_token");
+  }
   @override
   void initState() {
+    getToken().then((value) {
+      if(value != null && value != ''){
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => DashboardScreen()),
+                  (Route<dynamic> route) => false);
+        });
+      }else{
+        return ;
+      }
+    });
     _bloc.add(InitLoginEvent());
     super.initState();
   }

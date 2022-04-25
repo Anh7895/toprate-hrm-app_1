@@ -16,6 +16,10 @@ class GoogleLoginEvent extends LoginEvent{
   String? email;
   GoogleLoginEvent(this.assetToken, this.email);
 }
+
+class UserLoginEvent extends LoginEvent{
+  UserLoginEvent();
+}
 class GoogleLoginVerdifyEvent extends LoginEvent{
   String email;
   GoogleLoginVerdifyEvent(this.email);

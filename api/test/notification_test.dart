@@ -12,8 +12,8 @@ void main() {
       // TODO
     });
 
-    // String dateSend
-    test('to test the property `dateSend`', () async {
+    // int templateId
+    test('to test the property `templateId`', () async {
       // TODO
     });
 
@@ -27,28 +27,28 @@ void main() {
       // TODO
     });
 
-    // int companyId
-    test('to test the property `companyId`', () async {
+    // String dateSend
+    test('to test the property `dateSend`', () async {
       // TODO
     });
 
-    // bool sendSms
-    test('to test the property `sendSms`', () async {
+    // String type
+    test('to test the property `type`', () async {
       // TODO
     });
 
-    // bool sendMobile
-    test('to test the property `sendMobile`', () async {
+    // String isAllDay
+    test('to test the property `isAllDay`', () async {
+      // TODO
+    });
+
+    // String status
+    test('to test the property `status`', () async {
       // TODO
     });
 
     // int createdBy
     test('to test the property `createdBy`', () async {
-      // TODO
-    });
-
-    // CCompany company
-    test('to test the property `company`', () async {
       // TODO
     });
 
