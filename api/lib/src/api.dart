@@ -10,6 +10,7 @@ import 'package:openapi/src/auth/basic_auth.dart';
 import 'package:openapi/src/auth/bearer_auth.dart';
 import 'package:openapi/src/auth/oauth.dart';
 import 'package:openapi/src/api/account_api.dart';
+import 'package:openapi/src/api/notification_api.dart';
 import 'package:openapi/src/api/project_api.dart';
 import 'package:openapi/src/api/setting_block_api.dart';
 import 'package:openapi/src/api/timekeeping_api.dart';
@@ -73,6 +74,12 @@ class Openapi {
   /// by doing that all interceptors will not be executed
   AccountApi getAccountApi() {
     return AccountApi(dio, serializers);
+  }
+
+  /// Get NotificationApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  NotificationApi getNotificationApi() {
+    return NotificationApi(dio, serializers);
   }
 
   /// Get ProjectApi instance, base route and serializer can be overridden by a given but be careful,

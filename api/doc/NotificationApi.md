@@ -5,17 +5,18 @@
 import 'package:openapi/api.dart';
 ```
 
-All URIs are relative to *https://api-hr.toprate.io/domain-services*
+All URIs are relative to *https://api-thrm.toprate.io/domain-services*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addNotification**](NotificationApi.md#addnotification) | **POST** /notifications | Add Notification
 [**getAllNotification**](NotificationApi.md#getallnotification) | **GET** /notifications | Get all Notification
-[**getByIdNotification**](NotificationApi.md#getbyidnotification) | **GET** /notifications/{id} | Get by id Notification
+[**getByIdNotification**](NotificationApi.md#getbyidnotification) | **GET** /notifications/{id} | Get by id Notifications
+[**patchUpdateNotification**](NotificationApi.md#patchupdatenotification) | **PATCH** /notifications/{id} | Update patch Notification
 
 
 # **addNotification**
-> Notification addNotification(cNotification)
+> Notification addNotification(notification)
 
 Add Notification
 
@@ -29,10 +30,10 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
 
 final api = Openapi().getNotificationApi();
-final CNotification cNotification = ; // CNotification | 
+final Notification notification = ; // Notification | 
 
 try {
-    final response = api.addNotification(cNotification);
+    final response = api.addNotification(notification);
     print(response);
 } catch on DioError (e) {
     print('Exception when calling NotificationApi->addNotification: $e\n');
@@ -43,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **cNotification** | [**CNotification**](CNotification.md)|  | 
+ **notification** | [**Notification**](Notification.md)|  | 
 
 ### Return type
 
@@ -61,7 +62,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getAllNotification**
-> JsonObject getAllNotification(limit, page, orderBy, companyId, fromDateSendGe, toDateSendLe)
+> JsonObject getAllNotification(limit, page, orderBy)
 
 Get all Notification
 
@@ -78,12 +79,9 @@ final api = Openapi().getNotificationApi();
 final String limit = limit_example; // String | Limit
 final String page = page_example; // String | Page
 final String orderBy = orderBy_example; // String | Order by
-final int companyId = 56; // int | company_id
-final String fromDateSendGe = fromDateSendGe_example; // String | from_date_send__ge
-final String toDateSendLe = toDateSendLe_example; // String | to_date_send__le
 
 try {
-    final response = api.getAllNotification(limit, page, orderBy, companyId, fromDateSendGe, toDateSendLe);
+    final response = api.getAllNotification(limit, page, orderBy);
     print(response);
 } catch on DioError (e) {
     print('Exception when calling NotificationApi->getAllNotification: $e\n');
@@ -97,9 +95,6 @@ Name | Type | Description  | Notes
  **limit** | **String**| Limit | [optional] [default to '10']
  **page** | **String**| Page | [optional] [default to '1']
  **orderBy** | **String**| Order by | [optional] [default to 'id ASC']
- **companyId** | **int**| company_id | [optional] 
- **fromDateSendGe** | **String**| from_date_send__ge | [optional] [default to '10-03-2022']
- **toDateSendLe** | **String**| to_date_send__le | [optional] [default to '10-10-2022']
 
 ### Return type
 
@@ -117,11 +112,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getByIdNotification**
-> Notification getByIdNotification(id)
+> Project getByIdNotification(id)
 
-Get by id Notification
+Get by id Notifications
 
-Get by id Notification
+Get by id Notifications
 
 ### Example
 ```dart
@@ -149,7 +144,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Notification**](Notification.md)
+[**Project**](Project.md)
 
 ### Authorization
 
@@ -158,6 +153,54 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **patchUpdateNotification**
+> Notification patchUpdateNotification(id, notification)
+
+Update patch Notification
+
+Update patch Notification
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+// TODO Configure HTTP basic authorization: Bearer
+//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').username = 'YOUR_USERNAME'
+//defaultApiClient.getAuthentication<HttpBasicAuth>('Bearer').password = 'YOUR_PASSWORD';
+
+final api = Openapi().getNotificationApi();
+final int id = 56; // int | Id
+final Notification notification = ; // Notification | 
+
+try {
+    final response = api.patchUpdateNotification(id, notification);
+    print(response);
+} catch on DioError (e) {
+    print('Exception when calling NotificationApi->patchUpdateNotification: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **int**| Id | 
+ **notification** | [**Notification**](Notification.md)|  | 
+
+### Return type
+
+[**Notification**](Notification.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

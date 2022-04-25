@@ -2,30 +2,29 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'package:openapi/src/model/c_company.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 part 'notification.g.dart';
 
-/// Domains\\Notification\\Models\\Notification
+/// Notification
 ///
 /// Properties:
 /// * [id] 
-/// * [dateSend] 
+/// * [templateId] 
 /// * [title] 
 /// * [content] 
-/// * [companyId] 
-/// * [sendSms] 
-/// * [sendMobile] 
+/// * [dateSend] 
+/// * [type] 
+/// * [isAllDay] 
+/// * [status] 
 /// * [createdBy] 
-/// * [company] 
 abstract class Notification implements Built<Notification, NotificationBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;
 
-    @BuiltValueField(wireName: r'date_send')
-    String? get dateSend;
+    @BuiltValueField(wireName: r'template_id')
+    int? get templateId;
 
     @BuiltValueField(wireName: r'title')
     String? get title;
@@ -33,20 +32,20 @@ abstract class Notification implements Built<Notification, NotificationBuilder> 
     @BuiltValueField(wireName: r'content')
     String? get content;
 
-    @BuiltValueField(wireName: r'company_id')
-    int? get companyId;
+    @BuiltValueField(wireName: r'date_send')
+    String? get dateSend;
 
-    @BuiltValueField(wireName: r'send_sms')
-    bool? get sendSms;
+    @BuiltValueField(wireName: r'type')
+    String? get type;
 
-    @BuiltValueField(wireName: r'send_mobile')
-    bool? get sendMobile;
+    @BuiltValueField(wireName: r'is_all_day')
+    String? get isAllDay;
+
+    @BuiltValueField(wireName: r'status')
+    String? get status;
 
     @BuiltValueField(wireName: r'created_by')
     int? get createdBy;
-
-    @BuiltValueField(wireName: r'company')
-    CCompany? get company;
 
     Notification._();
 
@@ -76,11 +75,11 @@ class _$NotificationSerializer implements StructuredSerializer<Notification> {
                 ..add(serializers.serialize(object.id,
                     specifiedType: const FullType(int)));
         }
-        if (object.dateSend != null) {
+        if (object.templateId != null) {
             result
-                ..add(r'date_send')
-                ..add(serializers.serialize(object.dateSend,
-                    specifiedType: const FullType(String)));
+                ..add(r'template_id')
+                ..add(serializers.serialize(object.templateId,
+                    specifiedType: const FullType(int)));
         }
         if (object.title != null) {
             result
@@ -94,35 +93,35 @@ class _$NotificationSerializer implements StructuredSerializer<Notification> {
                 ..add(serializers.serialize(object.content,
                     specifiedType: const FullType(String)));
         }
-        if (object.companyId != null) {
+        if (object.dateSend != null) {
             result
-                ..add(r'company_id')
-                ..add(serializers.serialize(object.companyId,
-                    specifiedType: const FullType(int)));
+                ..add(r'date_send')
+                ..add(serializers.serialize(object.dateSend,
+                    specifiedType: const FullType(String)));
         }
-        if (object.sendSms != null) {
+        if (object.type != null) {
             result
-                ..add(r'send_sms')
-                ..add(serializers.serialize(object.sendSms,
-                    specifiedType: const FullType(bool)));
+                ..add(r'type')
+                ..add(serializers.serialize(object.type,
+                    specifiedType: const FullType(String)));
         }
-        if (object.sendMobile != null) {
+        if (object.isAllDay != null) {
             result
-                ..add(r'send_mobile')
-                ..add(serializers.serialize(object.sendMobile,
-                    specifiedType: const FullType(bool)));
+                ..add(r'is_all_day')
+                ..add(serializers.serialize(object.isAllDay,
+                    specifiedType: const FullType(String)));
+        }
+        if (object.status != null) {
+            result
+                ..add(r'status')
+                ..add(serializers.serialize(object.status,
+                    specifiedType: const FullType(String)));
         }
         if (object.createdBy != null) {
             result
                 ..add(r'created_by')
                 ..add(serializers.serialize(object.createdBy,
                     specifiedType: const FullType(int)));
-        }
-        if (object.company != null) {
-            result
-                ..add(r'company')
-                ..add(serializers.serialize(object.company,
-                    specifiedType: const FullType(CCompany)));
         }
         return result;
     }
@@ -144,10 +143,10 @@ class _$NotificationSerializer implements StructuredSerializer<Notification> {
                         specifiedType: const FullType(int)) as int;
                     result.id = valueDes;
                     break;
-                case r'date_send':
+                case r'template_id':
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
-                    result.dateSend = valueDes;
+                        specifiedType: const FullType(int)) as int;
+                    result.templateId = valueDes;
                     break;
                 case r'title':
                     final valueDes = serializers.deserialize(value,
@@ -159,30 +158,30 @@ class _$NotificationSerializer implements StructuredSerializer<Notification> {
                         specifiedType: const FullType(String)) as String;
                     result.content = valueDes;
                     break;
-                case r'company_id':
+                case r'date_send':
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(int)) as int;
-                    result.companyId = valueDes;
+                        specifiedType: const FullType(String)) as String;
+                    result.dateSend = valueDes;
                     break;
-                case r'send_sms':
+                case r'type':
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(bool)) as bool;
-                    result.sendSms = valueDes;
+                        specifiedType: const FullType(String)) as String;
+                    result.type = valueDes;
                     break;
-                case r'send_mobile':
+                case r'is_all_day':
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(bool)) as bool;
-                    result.sendMobile = valueDes;
+                        specifiedType: const FullType(String)) as String;
+                    result.isAllDay = valueDes;
+                    break;
+                case r'status':
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(String)) as String;
+                    result.status = valueDes;
                     break;
                 case r'created_by':
                     final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
                     result.createdBy = valueDes;
-                    break;
-                case r'company':
-                    final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(CCompany)) as CCompany;
-                    result.company.replace(valueDes);
                     break;
             }
         }

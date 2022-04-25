@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
@@ -90,47 +91,56 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
 
   getAllSettingBlock(
       GetAllSettingBlockEvent event, Emitter<BaseState> emit) async {
-    emit(StartCallApiState());
-    final response = await dailyCheckInRepository.getAllSettingBlock();
-    if (response == null) {
-      print("Error: data is null");
-    } else {
-      final listModel = response?['data']
-          .map<SettingBlock>((e) =>
-              standardSerializers.deserializeWith<SettingBlock>(
-                  SettingBlock.serializer, e) ??
-              SettingBlock())
-          .toList();
-      listSettingBloc.addAll(listModel);
+    try {
+      emit(StartCallApiState());
+      final response = await dailyCheckInRepository.getAllSettingBlock();
+      if (response == null) {
+        print("Error: data is null");
+      } else {
+        final listModel = response?['data']
+            .map<SettingBlock>((e) =>
+        standardSerializers.deserializeWith<SettingBlock>(
+            SettingBlock.serializer, e) ??
+            SettingBlock())
+            .toList();
+        listSettingBloc.addAll(listModel);
 
-      for (int i = 0; i < listSettingBloc.length; i++) {
-        numberBloc = int.parse(listSettingBloc[i].number ?? "");
-        for (int t = 0; t < numberBloc; t++) {
-          listData.add(ProjectData(
-              stringNameDefault: listSettingBloc[i].placeholder!,
-              stringNameSelectProject: null,
-              coefficientPayId: listSettingBloc[i].coefficientPayId));
+        for (int i = 0; i < listSettingBloc.length; i++) {
+          numberBloc = int.parse(listSettingBloc[i].number ?? "");
+          for (int t = 0; t < numberBloc; t++) {
+            listData.add(ProjectData(
+                stringNameDefault: listSettingBloc[i].placeholder!,
+                stringNameSelectProject: null,
+                coefficientPayId: listSettingBloc[i].coefficientPayId));
+          }
         }
+        emit(GetAllSettingBlockState());
       }
-      emit(GetAllSettingBlockState());
+    } on DioError catch(e) {
+      emit(ApiErrorState(error: e));
     }
+
   }
 
   getAllProject(GetAllProjectEvent event, Emitter<BaseState> emit) async {
-    emit(StartCallApiState());
-    final response = await dailyCheckInRepository.getAllProject();
-    if (response == null) {
-      print("Error: data is null");
-    } else {
-      final listModel = response?['data']
-          .map<Project>((e) =>
-              standardSerializers.deserializeWith<Project>(
-                  Project.serializer, e) ??
-              Project())
-          .toList();
-      listProject.addAll(listModel);
-      print("getListProject $response");
-      emit(GetAllProjectState());
+    try{
+      emit(StartCallApiState());
+      final response = await dailyCheckInRepository.getAllProject();
+      if (response == null) {
+        print("Error: data is null");
+      } else {
+        final listModel = response?['data']
+            .map<Project>((e) =>
+        standardSerializers.deserializeWith<Project>(
+            Project.serializer, e) ??
+            Project())
+            .toList();
+        listProject.addAll(listModel);
+        print("getListProject $response");
+        emit(GetAllProjectState());
+      }
+    }on DioError catch(e) {
+      emit(ApiErrorState(error: e));
     }
   }
 

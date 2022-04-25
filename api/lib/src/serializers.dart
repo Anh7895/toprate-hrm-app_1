@@ -13,8 +13,11 @@ import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
 import 'package:openapi/src/model/auth.dart';
+import 'package:openapi/src/model/check_in.dart';
+import 'package:openapi/src/model/check_in_data.dart';
 import 'package:openapi/src/model/coefficient_pay.dart';
 import 'package:openapi/src/model/exceptions.dart';
+import 'package:openapi/src/model/notification.dart';
 import 'package:openapi/src/model/pagination.dart';
 import 'package:openapi/src/model/project.dart';
 import 'package:openapi/src/model/property_id.dart';
@@ -26,8 +29,11 @@ part 'serializers.g.dart';
 
 @SerializersFor([
   Auth,
+  CheckIn,
+  CheckInData,
   CoefficientPay,
   Exceptions,
+  Notification,
   Pagination,
   Project,
   PropertyID,

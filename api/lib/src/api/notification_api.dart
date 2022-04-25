@@ -9,9 +9,9 @@ import 'package:dio/dio.dart';
 
 import 'package:built_value/json_object.dart';
 import 'package:openapi/src/api_util.dart';
-import 'package:openapi/src/model/c_notification.dart';
 import 'package:openapi/src/model/notification.dart';
 import 'package:openapi/src/model/pagination.dart';
+import 'package:openapi/src/model/project.dart';
 
 class NotificationApi {
 
@@ -25,7 +25,7 @@ class NotificationApi {
   /// Add Notification
   ///
   /// Parameters:
-  /// * [cNotification] 
+  /// * [notification] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -36,7 +36,7 @@ class NotificationApi {
   /// Returns a [Future] containing a [Response] with a [Notification] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<Notification>> addNotification({ 
-    required CNotification cNotification,
+    required Notification notification,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -67,8 +67,8 @@ class NotificationApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(CNotification);
-      _bodyData = _serializers.serialize(cNotification, specifiedType: _type);
+      const _type = FullType(Notification);
+      _bodyData = _serializers.serialize(notification, specifiedType: _type);
 
     } catch(error, stackTrace) {
       throw DioError(
@@ -127,9 +127,6 @@ class NotificationApi {
   /// * [limit] - Limit
   /// * [page] - Page
   /// * [orderBy] - Order by
-  /// * [companyId] - company_id
-  /// * [fromDateSendGe] - from_date_send__ge
-  /// * [toDateSendLe] - to_date_send__le
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -143,9 +140,6 @@ class NotificationApi {
     String? limit = '10',
     String? page = '1',
     String? orderBy = 'id ASC',
-    int? companyId,
-    String? fromDateSendGe = '10-03-2022',
-    String? toDateSendLe = '10-10-2022',
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -176,9 +170,6 @@ class NotificationApi {
       if (limit != null) r'limit': encodeQueryParameter(_serializers, limit, const FullType(String)),
       if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(String)),
       if (orderBy != null) r'order_by': encodeQueryParameter(_serializers, orderBy, const FullType(String)),
-      if (companyId != null) r'company_id': encodeQueryParameter(_serializers, companyId, const FullType(int)),
-      if (fromDateSendGe != null) r'from_date_send__ge': encodeQueryParameter(_serializers, fromDateSendGe, const FullType(String)),
-      if (toDateSendLe != null) r'to_date_send__le': encodeQueryParameter(_serializers, toDateSendLe, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -220,8 +211,8 @@ class NotificationApi {
     );
   }
 
-  /// Get by id Notification
-  /// Get by id Notification
+  /// Get by id Notifications
+  /// Get by id Notifications
   ///
   /// Parameters:
   /// * [id] - Id
@@ -232,9 +223,9 @@ class NotificationApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Notification] as data
+  /// Returns a [Future] containing a [Response] with a [Project] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Notification>> getByIdNotification({ 
+  Future<Response<Project>> getByIdNotification({ 
     required int id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -264,6 +255,107 @@ class NotificationApi {
 
     final _response = await _dio.request<Object>(
       _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    Project _responseData;
+
+    try {
+      const _responseType = FullType(Project);
+      _responseData = _serializers.deserialize(
+        _response.data!,
+        specifiedType: _responseType,
+      ) as Project;
+
+    } catch (error, stackTrace) {
+      throw DioError(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioErrorType.other,
+        error: error,
+      )..stackTrace = stackTrace;
+    }
+
+    return Response<Project>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// Update patch Notification
+  /// Update patch Notification
+  ///
+  /// Parameters:
+  /// * [id] - Id
+  /// * [notification] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [Notification] as data
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<Notification>> patchUpdateNotification({ 
+    required int id,
+    required Notification notification,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/notifications/{id}'.replaceAll('{' r'id' '}', id.toString());
+    final _options = Options(
+      method: r'PATCH',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'http',
+            'scheme': 'Bearer',
+            'name': 'Bearer',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    dynamic _bodyData;
+
+    try {
+      const _type = FullType(Notification);
+      _bodyData = _serializers.serialize(notification, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioError(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioErrorType.other,
+        error: error,
+      )..stackTrace = stackTrace;
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
       options: _options,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,

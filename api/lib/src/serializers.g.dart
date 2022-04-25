@@ -8,14 +8,20 @@ part of 'serializers.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Auth.serializer)
+      ..add(CheckIn.serializer)
+      ..add(CheckInData.serializer)
       ..add(CoefficientPay.serializer)
       ..add(Exceptions.serializer)
+      ..add(Notification.serializer)
       ..add(Pagination.serializer)
       ..add(Project.serializer)
       ..add(PropertyID.serializer)
       ..add(PropertyUuid.serializer)
       ..add(RAuth.serializer)
       ..add(SettingBlock.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CheckInData)]),
+          () => new ListBuilder<CheckInData>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType.nullable(JsonObject)]),
