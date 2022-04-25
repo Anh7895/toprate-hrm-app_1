@@ -1,12 +1,29 @@
+import 'package:flutter/material.dart';
+import 'package:toprate_hrm/datasource/data/local_user_data.dart';
 import 'package:toprate_hrm/datasource/network/dio/api_client.dart';
 import 'package:built_value/json_object.dart';
 import 'package:dio/dio.dart';
 import 'package:openapi/openapi.dart';
 
-class LoginDataSource {
-  final ApiClient apiClient;
+import '../../../common/config/default_env.dart';
+import '../model/request/login_request.dart';
+import '../model/request/social_login_request.dart';
+import '../model/response/login_response.dart';
 
-  LoginDataSource(this.apiClient);
+class LoginDataSource {
+   ApiClient apiClient;
+   LoginDataSource(this.apiClient);
+
+
+   Future<RAuth> socialLogin(String accessToken) async {
+    // String url ='';
+     AuthBuilder auth = AuthBuilder();
+     auth.accessToken = accessToken;
+     final response = await apiClient.getAccountApi().loginWithGoogle(auth: auth.build());
+     return response.data as RAuth;
+   }
+
+
 
   //
   // Future<RAuth> login({String? username, String? password}) async{

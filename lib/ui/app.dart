@@ -195,7 +195,7 @@ class _BaseAppState extends State<BaseApp> {
             child: MaterialApp(
               title: 'An Phu',
               debugShowCheckedModeBanner: false,
-              initialRoute:  RouteName.dashboard,
+              initialRoute:  RouteName.loginScreen,
               navigatorKey: NavKey.navKey,
               onGenerateRoute: Routes.generateRoute,
               theme: ThemeData(

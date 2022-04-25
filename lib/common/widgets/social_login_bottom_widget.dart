@@ -52,8 +52,8 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
   doLoginGoogle() {
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
 
-      account!.authentication.then((au) {
-        widget.callBackGoogle!([au.accessToken!, account.email]);
+      account?.authentication.then((au) {
+        widget.callBackGoogle!([au.accessToken!, account.email,au]);
 
       }).catchError((error, stackTrace) {});
     });
