@@ -164,7 +164,23 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         emit(showAlertBottomSheetDialogState());
       }
     } on DioError catch (e) {
-      emit(ApiErrorState(error: e));
+      List<String> err = [];
+      print("Res ${e.response?.statusCode}");
+      if (e.response?.statusCode == 400) {
+        if (e.response?.data['data.0.project_id'] != null) {
+          if (e.response?.data['messages']['data.0.project_id'] != null) {
+            err = List<String>.from(e.response?.data['messages']['data.0.project_id']);
+          }
+        }
+        if (e.response?.data['data.0.coefficient_pay_id'] != null) {
+          if (e.response?.data['messages']['data.0.coefficient_pay_id'] != null) {
+            err = List<String>.from(e.response?.data['messages']['data.0.coefficient_pay_id']);
+          }
+        }
+      }
+      emit(ApiErrorState(
+          error: e,
+          errorMessage: e.response?.data['message'] ?? err.toString()));
     } catch (e) {
       print(e);
       emit(ApiErrorState(error: e));
