@@ -47,24 +47,29 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import 'package:openapi/openapi.dart';
 
 
-final api = Openapi().getProjectApi();
-final Project project = ; // Project | 
+final api = Openapi().getAccountApi();
+final Auth auth = ; // Auth | 
 
 try {
-    final response = await api.addProject(project);
+    final response = await api.loginWithGoogle(auth);
     print(response);
 } catch on DioError (e) {
-    print("Exception when calling ProjectApi->addProject: $e\n");
+    print("Exception when calling AccountApi->loginWithGoogle: $e\n");
 }
 
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api-thrm.toprate.io*
+All URIs are relative to *https://api-thrm.toprate.io/domain-services*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+[*AccountApi*](doc\AccountApi.md) | [**loginWithGoogle**](doc\AccountApi.md#loginwithgoogle) | **POST** /auth/google | Login With Google
+[*NotificationApi*](doc\NotificationApi.md) | [**addNotification**](doc\NotificationApi.md#addnotification) | **POST** /notifications | Add Notification
+[*NotificationApi*](doc\NotificationApi.md) | [**getAllNotification**](doc\NotificationApi.md#getallnotification) | **GET** /notifications | Get all Notification
+[*NotificationApi*](doc\NotificationApi.md) | [**getByIdNotification**](doc\NotificationApi.md#getbyidnotification) | **GET** /notifications/{id} | Get by id Notifications
+[*NotificationApi*](doc\NotificationApi.md) | [**patchUpdateNotification**](doc\NotificationApi.md#patchupdatenotification) | **PATCH** /notifications/{id} | Update patch Notification
 [*ProjectApi*](doc\ProjectApi.md) | [**addProject**](doc\ProjectApi.md#addproject) | **POST** /projects | Add Project
 [*ProjectApi*](doc\ProjectApi.md) | [**getAllProject**](doc\ProjectApi.md#getallproject) | **GET** /projects | Get all Project
 [*ProjectApi*](doc\ProjectApi.md) | [**getByIdProject**](doc\ProjectApi.md#getbyidproject) | **GET** /projects/{id} | Get by id Project
@@ -78,15 +83,7 @@ Class | Method | HTTP request | Description
 [*SettingBlockApi*](doc\SettingBlockApi.md) | [**getByIdSettingBlock**](doc\SettingBlockApi.md#getbyidsettingblock) | **GET** /setting-blocks/{id} | Get by id SettingBlock
 [*SettingBlockApi*](doc\SettingBlockApi.md) | [**patchUpdateSettingBlock**](doc\SettingBlockApi.md#patchupdatesettingblock) | **PATCH** /setting-blocks/{id} | Update patch SettingBlock
 [*SettingBlockApi*](doc\SettingBlockApi.md) | [**putUpdateSettingBlock**](doc\SettingBlockApi.md#putupdatesettingblock) | **PUT** /setting-blocks/{id} | Update put SettingBlock
-[*TimekeepingApi*](doc\TimekeepingApi.md) | [**addTimekeeping**](doc\TimekeepingApi.md#addtimekeeping) | **POST** /timekeepings | Add Timekeeping
-[*TimekeepingApi*](doc\TimekeepingApi.md) | [**deleteByIdTimekeeping**](doc\TimekeepingApi.md#deletebyidtimekeeping) | **DELETE** /timekeepings/{id} | Delete by id Timekeeping
-[*TimekeepingApi*](doc\TimekeepingApi.md) | [**deleteByIdsTimekeeping**](doc\TimekeepingApi.md#deletebyidstimekeeping) | **DELETE** /timekeepings/delete/ids | Delete by ids Timekeeping
-[*TimekeepingApi*](doc\TimekeepingApi.md) | [**deleteByUuidTimekeeping**](doc\TimekeepingApi.md#deletebyuuidtimekeeping) | **DELETE** /timekeepings/uuid/{uuid} | Delete by uuid Timekeeping
-[*TimekeepingApi*](doc\TimekeepingApi.md) | [**deleteByUuidsTimekeeping**](doc\TimekeepingApi.md#deletebyuuidstimekeeping) | **DELETE** /timekeepings/delete/uuids | Delete by uuids Timekeeping
-[*TimekeepingApi*](doc\TimekeepingApi.md) | [**getAllTimekeeping**](doc\TimekeepingApi.md#getalltimekeeping) | **GET** /timekeepings | Get all Timekeeping
-[*TimekeepingApi*](doc\TimekeepingApi.md) | [**getByIdTimekeeping**](doc\TimekeepingApi.md#getbyidtimekeeping) | **GET** /timekeepings/{id} | Get by id Timekeeping
-[*TimekeepingApi*](doc\TimekeepingApi.md) | [**patchUpdateTimekeeping**](doc\TimekeepingApi.md#patchupdatetimekeeping) | **PATCH** /timekeepings/{id} | Update patch Timekeeping
-[*TimekeepingApi*](doc\TimekeepingApi.md) | [**putUpdateTimekeeping**](doc\TimekeepingApi.md#putupdatetimekeeping) | **PUT** /timekeepings/{id} | Update put Timekeeping
+[*TimekeepingApi*](doc\TimekeepingApi.md) | [**checkIn**](doc\TimekeepingApi.md#checkin) | **POST** /timekeepings/check-in | Check in
 [*UserApi*](doc\UserApi.md) | [**addUser**](doc\UserApi.md#adduser) | **POST** /users | Add User
 [*UserApi*](doc\UserApi.md) | [**deleteByIdUser**](doc\UserApi.md#deletebyiduser) | **DELETE** /users/{id} | Delete by id User
 [*UserApi*](doc\UserApi.md) | [**deleteByIdsUser**](doc\UserApi.md#deletebyidsuser) | **DELETE** /users/delete/ids | Delete by ids User
@@ -101,8 +98,11 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [Auth](doc\Auth.md)
+ - [CheckIn](doc\CheckIn.md)
+ - [CheckInData](doc\CheckInData.md)
  - [CoefficientPay](doc\CoefficientPay.md)
  - [Exceptions](doc\Exceptions.md)
+ - [Notification](doc\Notification.md)
  - [Pagination](doc\Pagination.md)
  - [Project](doc\Project.md)
  - [PropertyID](doc\PropertyID.md)

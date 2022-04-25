@@ -6,6 +6,8 @@ const png_ic_success = "assets/images/png/ic_success.png";
 const png_notification = "assets/icons/png/bg_notification.png";
 const png_background_login = "assets/icons/png/png_background_login.png";
 const png_home_image = "assets/icons/png/png_home_image.png";
+const ic_add_project_png = "assets/icons/png/ic_add_project_png.png";
+const ic_remove_project_png = "assets/icons/png/ic_remove_project.png";
 
 ///TODO: image svg
 const svg_ic_splash = "assets/icons/svg/splash.svg";
@@ -25,8 +27,6 @@ const ic_error = "assets/icons/svg/ic_error.svg";
 const ic_home = "assets/icons/svg/ic_home.svg";
 const ic_checkin = "assets/icons/svg/ic_checkin.svg";
 const ic_personal = "assets/icons/svg/ic_personal.svg";
-const ic_add_daily_checkIn = "assets/icons/svg/.svg";
-const ic_persic_remove_daily_checkInonal = "assets/icons/svg/ic_remove_daily_checkIn.svg";
 const ic_select_true = "assets/icons/svg/ic_select_true.svg";
 const ic_select_false = "assets/icons/svg/ic_select_false.svg";
 const ic_like = "assets/icons/svg/ic_like.svg";

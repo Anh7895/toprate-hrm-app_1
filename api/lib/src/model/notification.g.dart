@@ -10,35 +10,35 @@ class _$Notification extends Notification {
   @override
   final int? id;
   @override
-  final String? dateSend;
+  final int? templateId;
   @override
   final String? title;
   @override
   final String? content;
   @override
-  final int? companyId;
+  final String? dateSend;
   @override
-  final bool? sendSms;
+  final String? type;
   @override
-  final bool? sendMobile;
+  final String? isAllDay;
+  @override
+  final String? status;
   @override
   final int? createdBy;
-  @override
-  final CCompany? company;
 
   factory _$Notification([void Function(NotificationBuilder)? updates]) =>
       (new NotificationBuilder()..update(updates)).build();
 
   _$Notification._(
       {this.id,
-      this.dateSend,
+      this.templateId,
       this.title,
       this.content,
-      this.companyId,
-      this.sendSms,
-      this.sendMobile,
-      this.createdBy,
-      this.company})
+      this.dateSend,
+      this.type,
+      this.isAllDay,
+      this.status,
+      this.createdBy})
       : super._();
 
   @override
@@ -53,14 +53,14 @@ class _$Notification extends Notification {
     if (identical(other, this)) return true;
     return other is Notification &&
         id == other.id &&
-        dateSend == other.dateSend &&
+        templateId == other.templateId &&
         title == other.title &&
         content == other.content &&
-        companyId == other.companyId &&
-        sendSms == other.sendSms &&
-        sendMobile == other.sendMobile &&
-        createdBy == other.createdBy &&
-        company == other.company;
+        dateSend == other.dateSend &&
+        type == other.type &&
+        isAllDay == other.isAllDay &&
+        status == other.status &&
+        createdBy == other.createdBy;
   }
 
   @override
@@ -71,28 +71,28 @@ class _$Notification extends Notification {
                 $jc(
                     $jc(
                         $jc(
-                            $jc($jc($jc(0, id.hashCode), dateSend.hashCode),
+                            $jc($jc($jc(0, id.hashCode), templateId.hashCode),
                                 title.hashCode),
                             content.hashCode),
-                        companyId.hashCode),
-                    sendSms.hashCode),
-                sendMobile.hashCode),
-            createdBy.hashCode),
-        company.hashCode));
+                        dateSend.hashCode),
+                    type.hashCode),
+                isAllDay.hashCode),
+            status.hashCode),
+        createdBy.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Notification')
           ..add('id', id)
-          ..add('dateSend', dateSend)
+          ..add('templateId', templateId)
           ..add('title', title)
           ..add('content', content)
-          ..add('companyId', companyId)
-          ..add('sendSms', sendSms)
-          ..add('sendMobile', sendMobile)
-          ..add('createdBy', createdBy)
-          ..add('company', company))
+          ..add('dateSend', dateSend)
+          ..add('type', type)
+          ..add('isAllDay', isAllDay)
+          ..add('status', status)
+          ..add('createdBy', createdBy))
         .toString();
   }
 }
@@ -105,9 +105,9 @@ class NotificationBuilder
   int? get id => _$this._id;
   set id(int? id) => _$this._id = id;
 
-  String? _dateSend;
-  String? get dateSend => _$this._dateSend;
-  set dateSend(String? dateSend) => _$this._dateSend = dateSend;
+  int? _templateId;
+  int? get templateId => _$this._templateId;
+  set templateId(int? templateId) => _$this._templateId = templateId;
 
   String? _title;
   String? get title => _$this._title;
@@ -117,25 +117,25 @@ class NotificationBuilder
   String? get content => _$this._content;
   set content(String? content) => _$this._content = content;
 
-  int? _companyId;
-  int? get companyId => _$this._companyId;
-  set companyId(int? companyId) => _$this._companyId = companyId;
+  String? _dateSend;
+  String? get dateSend => _$this._dateSend;
+  set dateSend(String? dateSend) => _$this._dateSend = dateSend;
 
-  bool? _sendSms;
-  bool? get sendSms => _$this._sendSms;
-  set sendSms(bool? sendSms) => _$this._sendSms = sendSms;
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
 
-  bool? _sendMobile;
-  bool? get sendMobile => _$this._sendMobile;
-  set sendMobile(bool? sendMobile) => _$this._sendMobile = sendMobile;
+  String? _isAllDay;
+  String? get isAllDay => _$this._isAllDay;
+  set isAllDay(String? isAllDay) => _$this._isAllDay = isAllDay;
+
+  String? _status;
+  String? get status => _$this._status;
+  set status(String? status) => _$this._status = status;
 
   int? _createdBy;
   int? get createdBy => _$this._createdBy;
   set createdBy(int? createdBy) => _$this._createdBy = createdBy;
-
-  CCompanyBuilder? _company;
-  CCompanyBuilder get company => _$this._company ??= new CCompanyBuilder();
-  set company(CCompanyBuilder? company) => _$this._company = company;
 
   NotificationBuilder() {
     Notification._defaults(this);
@@ -145,14 +145,14 @@ class NotificationBuilder
     final $v = _$v;
     if ($v != null) {
       _id = $v.id;
-      _dateSend = $v.dateSend;
+      _templateId = $v.templateId;
       _title = $v.title;
       _content = $v.content;
-      _companyId = $v.companyId;
-      _sendSms = $v.sendSms;
-      _sendMobile = $v.sendMobile;
+      _dateSend = $v.dateSend;
+      _type = $v.type;
+      _isAllDay = $v.isAllDay;
+      _status = $v.status;
       _createdBy = $v.createdBy;
-      _company = $v.company?.toBuilder();
       _$v = null;
     }
     return this;
@@ -171,30 +171,17 @@ class NotificationBuilder
 
   @override
   _$Notification build() {
-    _$Notification _$result;
-    try {
-      _$result = _$v ??
-          new _$Notification._(
-              id: id,
-              dateSend: dateSend,
-              title: title,
-              content: content,
-              companyId: companyId,
-              sendSms: sendSms,
-              sendMobile: sendMobile,
-              createdBy: createdBy,
-              company: _company?.build());
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'company';
-        _company?.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            'Notification', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+    final _$result = _$v ??
+        new _$Notification._(
+            id: id,
+            templateId: templateId,
+            title: title,
+            content: content,
+            dateSend: dateSend,
+            type: type,
+            isAllDay: isAllDay,
+            status: status,
+            createdBy: createdBy);
     replace(_$result);
     return _$result;
   }

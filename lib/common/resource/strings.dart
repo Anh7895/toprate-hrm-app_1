@@ -7,6 +7,7 @@ class TextConstants {
   ///font
   // static const fontInter = 'Roboto';
   static const fontInter = 'Inter';
+  static const fontRubik = 'Rubik';
 
   // static const fontLato = 'Lato';
 
@@ -92,4 +93,6 @@ class TextConstants {
   //Daily CheckIn
   static const textSubmit = "Submit";
   static const textOk = "Ok";
+  static const textCancel = "Cancel";
+  static const textContinue = "Continue";
 }

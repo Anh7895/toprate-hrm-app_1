@@ -125,3 +125,13 @@ flutter:
         - asset: assets/fonts/inter/Inter-Bold.ttf
         - asset: assets/fonts/inter/Inter-Regular.ttf
         - asset: assets/fonts/inter/Inter-Medium.ttf
+
+    - family: Rubik
+      fonts:
+        - asset: assets/fonts/rubik/Rubik-Bold.ttf
+        - asset: assets/fonts/rubik/Rubik-Italic.ttf
+        - asset: assets/fonts/rubik/Rubik-Medium.ttf
+        - asset: assets/fonts/rubik/Rubik-Regular.ttf
+
+
+

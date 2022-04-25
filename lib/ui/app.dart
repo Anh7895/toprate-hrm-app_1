@@ -188,14 +188,14 @@ class _BaseAppState extends State<BaseApp> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: Size(360, 800),
-        builder: () => Container(
+        builder: (context) => Container(
           color: Colors.grey,
           child: MultiBlocProvider(
             providers: _getProviders(),
             child: MaterialApp(
               title: 'An Phu',
               debugShowCheckedModeBanner: false,
-              initialRoute:  RouteName.loginScreen,
+              initialRoute:  RouteName.dashboard,
               navigatorKey: NavKey.navKey,
               onGenerateRoute: Routes.generateRoute,
               theme: ThemeData(

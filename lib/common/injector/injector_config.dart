@@ -5,10 +5,12 @@ import 'package:toprate_hrm/blocs/day_off/day_off_bloc.dart';
 import 'package:toprate_hrm/blocs/login/login_bloc.dart';
 import 'package:toprate_hrm/blocs/notification/notification_bloc.dart';
 import 'package:toprate_hrm/blocs/splash/splash_bloc.dart';
+import 'package:toprate_hrm/datasource/data/remote/daily_check_in_datasource.dart';
 import 'package:toprate_hrm/datasource/data/remote/login_datasource.dart';
 import 'package:toprate_hrm/datasource/network/dio/api_client.dart';
 import 'package:toprate_hrm/datasource/network/dio/dio_client.dart';
 import 'package:toprate_hrm/datasource/network/network_info.dart';
+import 'package:toprate_hrm/datasource/repository/daily_checkin_repository.dart';
 import 'package:toprate_hrm/datasource/repository/login_repository.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
@@ -53,9 +55,11 @@ abstract class InjectorConfig {
   void _configureBlocs();
 
   @Register.factory(LoginRepository)
+  @Register.factory(DailyCheckInRepository)
   void _configureRepositories();
 
   @Register.factory(LoginDataSource)
+  @Register.factory(DailyCheckInDataSource)
   void _configureDataSources();
 
   @Register.factory(ApiClient)

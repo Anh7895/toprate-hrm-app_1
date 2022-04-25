@@ -10,7 +10,9 @@ import 'package:toprate_hrm/common/resource/text_style.dart';
 import 'package:toprate_hrm/common/resource/theme_color.dart';
 import 'package:toprate_hrm/common/widgets/base_button.dart';
 import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
+import 'package:toprate_hrm/common/widgets/images/local_image_widget.dart';
 import 'package:toprate_hrm/common/widgets/images/svg_image_widget.dart';
+import 'package:toprate_hrm/common/widgets/loading_widget.dart';
 
 class DailyCheckInScreen extends StatefulWidget {
   const DailyCheckInScreen({Key? key}) : super(key: key);
@@ -19,13 +21,20 @@ class DailyCheckInScreen extends StatefulWidget {
   State<DailyCheckInScreen> createState() => _DailyCheckInScreenState();
 }
 
-class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
+class _DailyCheckInScreenState extends State<DailyCheckInScreen>
+    with AutomaticKeepAliveClientMixin {
   DailyCheckInBloc _bloc = Injector.resolve<DailyCheckInBloc>();
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     // TODO: implement initState
     _bloc.add(InitDataEvent());
+    _bloc.add(GetAllSettingBlockEvent());
+    _bloc.add(GetAllProjectEvent());
     super.initState();
   }
 
@@ -46,12 +55,24 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
         body: SafeArea(
           child: HttpStreamHandler<DailyCheckInBloc, BaseState>(
             bloc: _bloc,
-            listener: (context, state) {},
+            listener: (context, state) {
+              if (state is showAlertBottomSheetDialogState) {
+                showAlertBottomSheetDialog(context,
+                    isDismissible: true,
+                    icon: ic_like,
+                    message:
+                    "Get a good working day, \nthank you for your effort!");
+              }
+            },
             builder: (context, state) {
               return Stack(
                 children: [
                   _buildDetailBody(context),
                   _buildButtonBottomWidget(context),
+                  Visibility(
+                    visible: state is StartCallApiState,
+                    child: LoadingWidget(),
+                  )
                   // _buildButtonBottomWidget(),
                 ],
               );
@@ -69,11 +90,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
       right: 8,
       child: GestureDetector(
         onTap: () {
-          showAlertBottomSheetDialog(context,
-              isDismissible: true,
-              icon: ic_like,
-              title: TextConstants.textSuccess,
-              message: "Get a good working day, thank you for your effort!");
+          _showDialogConfirm(context);
         },
         child: Column(
           children: [
@@ -127,7 +144,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
             _bloc.time,
             style: TextStyle(
                 color: ThemeColor.clr_CE6161,
-                fontSize: fontSize_30,
+                fontFamily: TextConstants.fontRubik,
+                fontSize: fontSize_32,
                 fontWeight: FontWeight.w500),
           ),
           IconButton(
@@ -147,20 +165,23 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
   Widget _buildListDaily() {
     return Container(
       margin: EdgeInsets.only(top: height_48, bottom: height_64),
-      child: ListView.builder(
+      child: _bloc.listData.length > 0
+          ? ListView.builder(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           physics: BouncingScrollPhysics(),
-          itemCount: _bloc.listTimeSubject.length,
+          itemCount: _bloc.listData.length,
           itemBuilder: (BuildContext context, int index) {
             return _buildListSelected(index);
-          }),
+          })
+          : SizedBox(),
     );
   }
 
   Widget _buildListSelected(int index) {
     return GestureDetector(
-      onTap: () async {
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
         _showMyDialog(context, index);
       },
       child: Container(
@@ -169,8 +190,10 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
         margin: EdgeInsets.only(top: height_12),
         padding: EdgeInsets.symmetric(horizontal: width_20),
         decoration: BoxDecoration(
-            color: _bloc.listTimeSubject[index].isSelected!
-                ? Color(int.parse("0XFF" + _bloc.listTimeSubject[index].color!))
+            color: _bloc.listData[index].stringNameSelectProject != null &&
+                _bloc.listData[index].stringNameSelectProject !=
+                    _bloc.listData[index].stringNameDefault
+                ? ThemeColor.clr_FF9B90
                 : ThemeColor.clr_FFFFFF,
             borderRadius: BorderRadius.all(Radius.circular(radius_16)),
             border: Border.all(color: ThemeColor.clr_D6D9E0, width: 1)),
@@ -180,29 +203,31 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
             Padding(
               padding: EdgeInsets.only(left: width_40),
               child: Text(
-                _bloc.listTimeSubject[index].isSelected!
-                    ? _bloc.listTimeSubject[index].nameTaskSelect!
-                    : _bloc.listTimeSubject[index].name!,
+                _bloc.listData[index].stringNameSelectProject == null
+                    ? _bloc.listData[index].stringNameDefault!
+                    : _bloc.listData[index].stringNameSelectProject!,
                 style: TextStyle(
-                    color: _bloc.listTimeSubject[index].isSelected!
-                        ? ThemeColor.clr_FFFFFF
-                        : ThemeColor.clr_D6D9E0,
+                    color: _bloc.listData[index].stringNameSelectProject == null
+                        ?ThemeColor.clr_D6D9E0 : ThemeColor.clr_FFFFFF,
                     fontSize: fontSize_16,
-                    fontWeight: _bloc.listTimeSubject[index].isSelected!
-                        ? FontWeight.w500
-                        : FontWeight.w300),
+                    fontFamily: TextConstants.fontRubik,
+                    fontWeight: FontWeight.normal),
               ),
             ),
             GestureDetector(
               onTap: () {
-                   _bloc.listTimeSubject[index].isSelected == true
-                       ? _bloc.add(RemoveProjectEvent(indexSelect: index))
-                       : _showMyDialog(context, index);
+                if (_bloc.listData[index].stringNameSelectProject != null) {
+                  _bloc.add(RemoveProjectEvent(indexSelect: index));
+                } else {
+                  _showMyDialog(context, index);
+                }
               },
-              child: SVGImageWidget(
-                url: _bloc.listTimeSubject[index].isSelected == true
-                    ? ic_persic_remove_daily_checkInonal
-                    : ic_add_daily_checkIn,
+              child: LocalImageWidget(
+                url: _bloc.listData[index].stringNameSelectProject != null &&
+                    _bloc.listData[index].stringNameSelectProject !=
+                        _bloc.listData[index].stringNameDefault
+                    ? ic_remove_project_png
+                    : ic_add_project_png,
                 width: width_24,
                 height: width_24,
               ),
@@ -213,78 +238,150 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
     );
   }
 
-  _showMyDialog(BuildContext context, int indexDaily) async {
+  _showMyDialog(BuildContext context, int indexSettingBloc) async {
     return await showDialog<void>(
       context: context,
       barrierDismissible: true, // user must tap button!
       builder: (context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius_16),
-            ),
-            child: Container(
-              height: height_344,
-              width: width_336,
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: height_20),
-                    child: Text(
-                      "Select 01 subject",
-                      style: TextStyle(
-                          fontSize: fontSize_20,
-                          color: ThemeColor.clr_4C5980,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        itemCount: _bloc.listData.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                              onTap: () {
-                                _bloc.add(
-                                    SelectProjectEvent(indexSelect: index));
-                                setState(() {});
-                              },
-                              child: _buildItemListTask(index));
-                        }),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: height_8),
-                    child: GestureDetector(
-                      onTap: () {if(_bloc.selectedIndex == _bloc.intSelectData){
-                        _bloc.add(FillNameProjectEvent(
-                            projectData: _bloc.listData[_bloc.intSelectData!],
-                            index: indexDaily,
-                            nameProject: _bloc
-                                .listData[_bloc.intSelectData!].stringProject));
-                        _bloc.selectedIndex = -2;
-                        Navigator.pop(context);
-                      }
-                      },
-                      child: BaseButton(
-                        height: height_45,
-                        width: width_200,
-                        title: TextConstants.textOk,
-                        style: TextStyleCommon.textStyleWhiteNormalTitle,
-                        backgroundColor: ThemeColor.clr_CE6161,
+        return HttpStreamHandler<DailyCheckInBloc, BaseState>(
+            bloc: _bloc,
+            listener: (context, state) {},
+            builder: (context, setState) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radius_16),
+                ),
+                child: Container(
+                  height: height_344,
+                  width: width_336,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: height_20),
+                        child: Text(
+                          "Select 01 subject",
+                          style: TextStyle(
+                              fontSize: fontSize_20,
+                              color: ThemeColor.clr_4C5980,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            itemCount: _bloc.listProject.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                  onTap: () {
+                                    _bloc.add(
+                                        SelectProjectEvent(indexSelect: index));
+                                  },
+                                  child: _buildItemListTask(index));
+                            }),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: height_8),
+                        child: GestureDetector(
+                          onTap: () {
+                            if (_bloc.selectedIndex == _bloc.intSelectData) {
+                              _bloc.add(FillNameProjectEvent(
+                                  index: indexSettingBloc,
+                                  nameProject: _bloc
+                                      .listProject[_bloc.intSelectData!].name));
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: BaseButton(
+                            height: height_45,
+                            width: width_200,
+                            title: TextConstants.textOk,
+                            style: TextStyleCommon.textStyleWhiteNormalTitle,
+                            backgroundColor: ThemeColor.clr_CE6161,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          );
-        });
+                ),
+              );
+            });
+      },
+    );
+  }
+
+  _showDialogConfirm(BuildContext context) async {
+    return await showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (context) {
+        return HttpStreamHandler<DailyCheckInBloc, BaseState>(
+            bloc: _bloc,
+            listener: (context, state) {},
+            builder: (context, setState) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radius_16),
+                ),
+                child: Container(
+                  height: height_344,
+                  width: width_336,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: height_20),
+                        child: Text(
+                          "Select 01 subject",
+                          style: TextStyle(
+                              fontSize: fontSize_20,
+                              color: ThemeColor.clr_4C5980,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 8,
+                        right: 8,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: BaseButton(
+                                  height: height_56,
+                                  title: TextConstants.textCancel,
+                                  style:
+                                  TextStyleCommon.textStyleWhiteNormalTitle,
+                                  backgroundColor: ThemeColor.clr_4C5980,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: BaseButton(
+                                  height: height_56,
+                                  title: TextConstants.textContinue,
+                                  style:
+                                  TextStyleCommon.textStyleWhiteNormalTitle,
+                                  backgroundColor: ThemeColor.clr_CE6161,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            });
       },
     );
   }
@@ -310,7 +407,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
             Container(
               margin: EdgeInsets.only(left: width_8),
               child: Text(
-                _bloc.listData[index].stringProject!,
+                _bloc.listProject[index].name!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

@@ -28,3 +28,21 @@ class SelectProjectState extends DailyCheckInState {
 class FillNameProjectState extends DailyCheckInState {
   FillNameProjectState();
 }
+
+class GetAllSettingBlockState extends ApiSuccessState {
+  GetAllSettingBlockState();
+}
+
+class GetAllProjectState extends ApiSuccessState {
+  GetAllProjectState();
+}
+
+class showAlertBottomSheetDialogState extends ApiSuccessState {
+  showAlertBottomSheetDialogState();
+}
+
+class ClickSubmitState extends DailyCheckInState {
+  ClickSubmitState();
+}
+
+

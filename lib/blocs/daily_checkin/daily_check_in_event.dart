@@ -6,6 +6,13 @@ abstract class DailyCheckInEvent {}
 class InitDataEvent extends DailyCheckInEvent {
   InitDataEvent();
 }
+class GetAllSettingBlockEvent extends DailyCheckInEvent {
+  GetAllSettingBlockEvent();
+}
+
+class GetAllProjectEvent extends DailyCheckInEvent {
+  GetAllProjectEvent();
+}
 
 class BackDayEvent extends DailyCheckInEvent {
   BackDayEvent();
@@ -16,18 +23,23 @@ class NextDayEvent extends DailyCheckInEvent {
 }
 
 class SelectProjectEvent extends DailyCheckInEvent {
-  int? indexSelect;
+  final int? indexSelect;
   SelectProjectEvent({this.indexSelect});
 }
 
 class RemoveProjectEvent extends DailyCheckInEvent {
-  int? indexSelect;
+  final int? indexSelect;
   RemoveProjectEvent({this.indexSelect});
 }
 
 class FillNameProjectEvent extends DailyCheckInEvent {
   final String ? nameProject;
-  final ProjectData? projectData;
-  int? index;
-  FillNameProjectEvent({this.projectData,this.index,this.nameProject});
+  final int? index;
+  FillNameProjectEvent({this.index,this.nameProject});
 }
+
+class ClickSubmitEvent extends DailyCheckInEvent {
+  ClickSubmitEvent();
+}
+
+
