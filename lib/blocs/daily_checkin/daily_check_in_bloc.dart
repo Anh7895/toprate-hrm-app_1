@@ -171,8 +171,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     }
   }
 
-  //cái này là model gửi lên à
-
   CheckIn buildCheckIn() {
     var builder = CheckInBuilder();
     List<CheckInData> data = [];
