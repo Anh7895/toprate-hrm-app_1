@@ -79,10 +79,9 @@ class ApiClient extends Openapi {
                         e.response?.statusCode == HttpStatus.unauthorized ||
                         e.response?.statusCode == HttpStatus.forbidden) {
                       if (NavKey.navKey.currentContext != null) {
-                        // Tạm thời sẽ không làm gì
-                        // Navigator.of(NavKey.navKey.currentContext!).pushAndRemoveUntil(
-                        //     MaterialPageRoute(builder: (context) => LoginScreen()),
-                        //         (Route<dynamic> route) => false);
+                        Navigator.of(NavKey.navKey.currentContext!).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => LoginScreen()),
+                                (Route<dynamic> route) => false);
                       }
                     }
                   } catch (e) {}

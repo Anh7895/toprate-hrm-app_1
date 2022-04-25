@@ -165,15 +165,15 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
   Widget _buildListDaily() {
     return Container(
       margin: EdgeInsets.only(top: height_48, bottom: height_64),
-      child: _bloc.listData.length > 0
+      child: _bloc.listProjectData.length > 0
           ? ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          itemCount: _bloc.listData.length,
-          itemBuilder: (BuildContext context, int index) {
-            return _buildListSelected(index);
-          })
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              itemCount: _bloc.listProjectData.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _buildListSelected(index);
+              })
           : SizedBox(),
     );
   }
@@ -190,11 +190,12 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
         margin: EdgeInsets.only(top: height_12),
         padding: EdgeInsets.symmetric(horizontal: width_20),
         decoration: BoxDecoration(
-            color: _bloc.listData[index].stringNameSelectProject != null &&
-                _bloc.listData[index].stringNameSelectProject !=
-                    _bloc.listData[index].stringNameDefault
-                ? ThemeColor.clr_FF9B90
-                : ThemeColor.clr_FFFFFF,
+            color:
+                _bloc.listProjectData[index].stringNameSelectProject != null &&
+                        _bloc.listProjectData[index].stringNameSelectProject !=
+                            _bloc.listProjectData[index].stringNameDefault
+                    ? ThemeColor.clr_FF9B90
+                    : ThemeColor.clr_FFFFFF,
             borderRadius: BorderRadius.all(Radius.circular(radius_16)),
             border: Border.all(color: ThemeColor.clr_D6D9E0, width: 1)),
         child: Row(
@@ -203,29 +204,38 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             Padding(
               padding: EdgeInsets.only(left: width_40),
               child: Text(
-                _bloc.listData[index].stringNameSelectProject == null
-                    ? _bloc.listData[index].stringNameDefault!
-                    : _bloc.listData[index].stringNameSelectProject!,
+                _bloc.listProjectData[index].stringNameSelectProject == null
+                    ? _bloc.listProjectData[index].stringNameDefault!
+                    : _bloc.listProjectData[index].stringNameSelectProject!,
                 style: TextStyle(
-                    color: _bloc.listData[index].stringNameSelectProject == null
-                        ?ThemeColor.clr_D6D9E0 : ThemeColor.clr_FFFFFF,
+                    color: _bloc.listProjectData[index]
+                                    .stringNameSelectProject !=
+                                null ||
+                            _bloc.listProjectData[index]
+                                    .stringNameSelectProject !=
+                                _bloc.listProjectData[index].stringNameDefault
+                        ? ThemeColor.clr_D6D9E0
+                        : ThemeColor.clr_FFFFFF,
                     fontSize: fontSize_16,
                     fontFamily: TextConstants.fontRubik,
                     fontWeight: FontWeight.normal),
               ),
             ),
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
-                if (_bloc.listData[index].stringNameSelectProject != null) {
+                if (_bloc.listProjectData[index].stringNameSelectProject !=
+                    null) {
                   _bloc.add(RemoveProjectEvent(indexSelect: index));
                 } else {
                   _showMyDialog(context, index);
                 }
               },
               child: LocalImageWidget(
-                url: _bloc.listData[index].stringNameSelectProject != null &&
-                    _bloc.listData[index].stringNameSelectProject !=
-                        _bloc.listData[index].stringNameDefault
+                url: _bloc.listProjectData[index].stringNameSelectProject !=
+                            null &&
+                        _bloc.listProjectData[index].stringNameSelectProject !=
+                            _bloc.listProjectData[index].stringNameDefault
                     ? ic_remove_project_png
                     : ic_add_project_png,
                 width: width_24,
@@ -292,7 +302,9 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                               _bloc.add(FillNameProjectEvent(
                                   index: indexSettingBloc,
                                   nameProject: _bloc
-                                      .listProject[_bloc.intSelectData!].name));
+                                      .listProject[_bloc.intSelectData!].name,
+                                  projectId: _bloc
+                                      .listProject[_bloc.intSelectData!].id));
                               Navigator.pop(context);
                             }
                           },
@@ -332,20 +344,23 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                   width: width_336,
                   child: Column(
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(top: height_20),
-                        child: Text(
-                          "Select 01 subject",
-                          style: TextStyle(
-                              fontSize: fontSize_20,
-                              color: ThemeColor.clr_4C5980,
-                              fontWeight: FontWeight.w500),
+                      Expanded(
+                        flex: 4,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: height_15),
+                          child: Center(
+                            child: Text(
+                              "Are you sure you want to \nsend check-in information?",
+                              style: TextStyle(
+                                  fontSize: fontSize_18,
+                                  color: ThemeColor.clr_4C5980,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
                         ),
                       ),
-                      Positioned(
-                        bottom: 0,
-                        left: 8,
-                        right: 8,
+                      Expanded(
+                        flex: 1,
                         child: Row(
                           children: [
                             Expanded(
@@ -363,20 +378,24 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                               ),
                             ),
                             Expanded(
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: BaseButton(
-                                  height: height_56,
-                                  title: TextConstants.textContinue,
-                                  style:
-                                  TextStyleCommon.textStyleWhiteNormalTitle,
-                                  backgroundColor: ThemeColor.clr_CE6161,
-                                ),
+                              child: BaseButton(
+                                height: height_56,
+                                title: TextConstants.textContinue,
+                                style:
+                                    TextStyleCommon.textStyleWhiteNormalTitle,
+                                backgroundColor: ThemeColor.clr_CE6161,
+                                onPressed: () {
+                                  _bloc.add(ClickSubmitEvent());
+                                  Navigator.pop(context);
+                                },
                               ),
                             ),
                           ],
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      )
                     ],
                   ),
                 ),

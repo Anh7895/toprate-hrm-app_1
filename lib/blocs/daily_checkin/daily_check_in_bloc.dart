@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -26,9 +27,10 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<GetAllSettingBlockEvent>(
         (event, emit) => getAllSettingBlock(event, emit));
     on<GetAllProjectEvent>((event, emit) => getAllProject(event, emit));
+    on<CheckInEvent>((event, emit) => checkIn(event, emit));
   }
 
-  List<ProjectData> listData = [];
+  List<ProjectData> listProjectData = [];
   DateTime dateTime = DateTime.now();
   DateTime dateToday = DateTime.now();
   bool isShowDialog = false;
@@ -56,7 +58,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     emit(BackDayState());
   }
 
-  nextDay(NextDayEvent event,  Emitter<BaseState> emit) async {
+  nextDay(NextDayEvent event, Emitter<BaseState> emit) async {
     final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
     final aDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
     if (today != aDate) {
@@ -69,7 +71,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     emit(NextDayState());
   }
 
-  selectProject(SelectProjectEvent event,  Emitter<BaseState> emit) async {
+  selectProject(SelectProjectEvent event, Emitter<BaseState> emit) async {
     selectedIndex = event.indexSelect;
     intSelectData = event.indexSelect;
     print("Error: letter is null ${event.indexSelect}");
@@ -77,14 +79,16 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   }
 
   fillNameProject(FillNameProjectEvent event, Emitter<BaseState> emit) async {
-    listData[event.index!].stringNameSelectProject = event.nameProject;
+    listProjectData[event.index!].stringNameSelectProject = event.nameProject;
+    listProjectData[event.index!].projectId = event.projectId;
     selectedIndex = -1;
     emit(FillNameProjectState());
   }
 
   removeProject(RemoveProjectEvent event, Emitter<BaseState> emit) async {
-    listData[event.indexSelect!].stringNameSelectProject =
-        listData[event.indexSelect!].stringNameDefault;
+    listProjectData[event.indexSelect!].stringNameSelectProject =
+        listProjectData[event.indexSelect!].stringNameDefault;
+    listProjectData[event.indexSelect!].projectId = null;
     selectedIndex = -1;
     emit(RemoveProjectState());
   }
@@ -99,31 +103,32 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       } else {
         final listModel = response?['data']
             .map<SettingBlock>((e) =>
-        standardSerializers.deserializeWith<SettingBlock>(
-            SettingBlock.serializer, e) ??
-            SettingBlock())
+                standardSerializers.deserializeWith<SettingBlock>(
+                    SettingBlock.serializer, e) ??
+                SettingBlock())
             .toList();
         listSettingBloc.addAll(listModel);
 
         for (int i = 0; i < listSettingBloc.length; i++) {
           numberBloc = int.parse(listSettingBloc[i].number ?? "");
           for (int t = 0; t < numberBloc; t++) {
-            listData.add(ProjectData(
+            listProjectData.add(ProjectData(
                 stringNameDefault: listSettingBloc[i].placeholder!,
                 stringNameSelectProject: null,
-                coefficientPayId: listSettingBloc[i].coefficientPayId));
+                coefficientPayId: listSettingBloc[i].coefficientPayId,
+                time: listSettingBloc[i].time,
+                projectId: null));
           }
         }
         emit(GetAllSettingBlockState());
       }
-    } on DioError catch(e) {
+    } on DioError catch (e) {
       emit(ApiErrorState(error: e));
     }
-
   }
 
   getAllProject(GetAllProjectEvent event, Emitter<BaseState> emit) async {
-    try{
+    try {
       emit(StartCallApiState());
       final response = await dailyCheckInRepository.getAllProject();
       if (response == null) {
@@ -131,20 +136,56 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       } else {
         final listModel = response?['data']
             .map<Project>((e) =>
-        standardSerializers.deserializeWith<Project>(
-            Project.serializer, e) ??
-            Project())
+                standardSerializers.deserializeWith<Project>(
+                    Project.serializer, e) ??
+                Project())
             .toList();
         listProject.addAll(listModel);
         print("getListProject $response");
         emit(GetAllProjectState());
       }
-    }on DioError catch(e) {
+    } on DioError catch (e) {
       emit(ApiErrorState(error: e));
     }
   }
 
   clickSubmit(ClickSubmitEvent event, Emitter<BaseState> emit) async {
-    emit(StartCallApiState());
+    add(CheckInEvent(checkIn: buildCheckIn()));
+    emit(ClickSubmitState());
+  }
+
+  checkIn(CheckInEvent event, Emitter<BaseState> emit) async {
+    try {
+      emit(StartCallApiState());
+      final response = await dailyCheckInRepository.checkIn(event.checkIn!);
+      if (response.data == null) {
+        print("Error: letter is null");
+      } else {
+        emit(showAlertBottomSheetDialogState());
+      }
+    } on DioError catch (e) {
+      emit(ApiErrorState(error: e));
+    } catch (e) {
+      print(e);
+      emit(ApiErrorState(error: e));
+    }
+  }
+
+  //cái này là model gửi lên à
+
+  CheckIn buildCheckIn() {
+    var builder = CheckInBuilder();
+    List<CheckInData> data = [];
+    listProjectData.forEach((e) {
+      if (e.projectId != null && e.coefficientPayId != null && e.time != null) {
+        CheckInDataBuilder checkInDataBuilder = CheckInDataBuilder();
+        checkInDataBuilder.projectId = e.projectId;
+        checkInDataBuilder.coefficientPayId = e.coefficientPayId;
+        checkInDataBuilder.time = e.time;
+        data.add(checkInDataBuilder.build());
+      }
+    });
+    builder.data = BuiltList<CheckInData>.from(data).toBuilder();
+    return builder.build();
   }
 }
