@@ -1,6 +1,7 @@
 .gitignore
 README.md
 analysis_options.yaml
+doc/AccountApi.md
 doc/Auth.md
 doc/CoefficientPay.md
 doc/Exceptions.md
@@ -16,6 +17,7 @@ doc/TimekeepingApi.md
 doc/UserApi.md
 lib/openapi.dart
 lib/src/api.dart
+lib/src/api/account_api.dart
 lib/src/api/project_api.dart
 lib/src/api/setting_block_api.dart
 lib/src/api/timekeeping_api.dart

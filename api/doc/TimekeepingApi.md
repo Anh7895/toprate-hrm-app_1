@@ -5,7 +5,7 @@
 import 'package:openapi/api.dart';
 ```
 
-All URIs are relative to *https://api-thrm.toprate.io*
+All URIs are relative to *https://api-thrm.toprate.io/domain-services*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

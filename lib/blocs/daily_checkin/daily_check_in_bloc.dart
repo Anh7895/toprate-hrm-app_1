@@ -2,18 +2,16 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
-import 'package:toprate_hrm/datasource/data/model/entity/check_in_model.dart';
-import 'package:toprate_hrm/datasource/data/model/entity/get_check_in_model.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/project_data.dart';
-import 'package:toprate_hrm/datasource/data/model/entity/time_subject.dart';
+import 'package:toprate_hrm/datasource/repository/daily_checkin_repository.dart';
 
 part 'daily_check_in_event.dart';
-
 part 'daily_check_in_state.dart';
 
 class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
-  DailyCheckInBloc() : super(DailyCheckInInitial()) {
+  DailyCheckInBloc(this.dailyCheckInRepository) : super(DailyCheckInInitial()) {
     on<DailyCheckInEvent>((event, emit) {
       // TODO: implement event handler
     });
@@ -23,89 +21,36 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<RemoveProjectEvent>((event, emit) => removeProject(event, emit));
     on<SelectProjectEvent>((event, emit) => selectProject(event, emit));
     on<FillNameProjectEvent>((event, emit) => fillNameProject(event, emit));
+    on<ClickSubmitEvent>((event, emit) => clickSubmit(event, emit));
+    on<GetAllSettingBlockEvent>(
+        (event, emit) => getAllSettingBlock(event, emit));
+    on<GetAllProjectEvent>((event, emit) => getAllProject(event, emit));
   }
 
-  List<TimeSubject> listTimeSubject = [];
   List<ProjectData> listData = [];
   DateTime dateTime = DateTime.now();
   DateTime dateToday = DateTime.now();
   bool isShowDialog = false;
   bool isCanGoToNextDay = false;
   String time = "";
-  String nameProject = "";
-  bool isSelect = false;
+  int numberBloc = 0;
   int? selectedIndex;
   int? intSelectData;
-  List<CheckInModel> listCheckInModel = [];
-  List<GetCheckInModel> listGetCheckInModel = [];
+  List<SettingBlock> listSettingBloc = [];
+  List<CoefficientPay> listCoefficientPay = [];
+  List<Project> listProject = [];
+  final DailyCheckInRepository dailyCheckInRepository;
 
-  addData() {
-    listData.add(ProjectData(stringProject: "SIS - School Information"));
-    listData.add(ProjectData(stringProject: "MyTel - Web portal 1"));
-    listData.add(ProjectData(stringProject: "Vas - Smart Motor"));
-    listData.add(ProjectData(stringProject: "Codoox - EU customer"));
-    listData.add(ProjectData(stringProject: "Free Time"));
-  }
-
-  dataFake() {
-    listTimeSubject.add(TimeSubject(
-        name: "Select your project",
-        nameTaskSelect: "SIS-elearning",
-        isSelected: false,
-        color: "ff9b90",
-        extraTime: false,
-        projectData: listData));
-    listTimeSubject.add(TimeSubject(
-        name: "Select your project",
-        nameTaskSelect: "SIS-elearning",
-        isSelected: false,
-        color: "ff9b90",
-        extraTime: false,
-        projectData: listData));
-    listTimeSubject.add(TimeSubject(
-        name: "Select your project",
-        nameTaskSelect: "Mytel Portal",
-        isSelected: false,
-        color: "4C5980",
-        extraTime: false,
-        projectData: listData));
-    listTimeSubject.add(TimeSubject(
-        name: "Select your project",
-        nameTaskSelect: "",
-        isSelected: false,
-        color: "4C5980",
-        extraTime: false,
-        projectData: listData));
-    listTimeSubject.add(TimeSubject(
-        name: "Extra Time (2h)",
-        nameTaskSelect: "",
-        isSelected: false,
-        color: "4C5980",
-        extraTime: true,
-        projectData: listData));
-    listTimeSubject.add(TimeSubject(
-        name: "Extra Time (2h)",
-        nameTaskSelect: "",
-        isSelected: false,
-        color: "4C5980",
-        extraTime: true,
-        projectData: listData));
-  }
-
-  initData(InitDataEvent event,  Emitter<BaseState> emit) async {
+  initData(InitDataEvent event, Emitter<BaseState> emit) async {
     time =
         "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
-    dataFake();
-    addData();
     emit(InitDataState());
   }
 
-  backDay(BackDayEvent event,  Emitter<BaseState> emit) async {
+  backDay(BackDayEvent event, Emitter<BaseState> emit) async {
     dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day - 1);
     time =
         "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
-    listTimeSubject.clear();
-    dataFake();
     isCanGoToNextDay = true;
     emit(BackDayState());
   }
@@ -114,14 +59,11 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
     final aDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
     if (today != aDate) {
-      listTimeSubject.clear();
       dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day + 1);
     }
     isCanGoToNextDay = dateTime == today ? false : true;
     time =
         "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
-    listTimeSubject.clear();
-    dataFake();
     isCanGoToNextDay = true;
     emit(NextDayState());
   }
@@ -134,14 +76,65 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   }
 
   fillNameProject(FillNameProjectEvent event, Emitter<BaseState> emit) async {
-    listTimeSubject[event.index!].nameTaskSelect = event.nameProject;
-    listTimeSubject[event.index!].isSelected =true;
+    listData[event.index!].stringNameSelectProject = event.nameProject;
+    selectedIndex = -1;
     emit(FillNameProjectState());
   }
 
   removeProject(RemoveProjectEvent event, Emitter<BaseState> emit) async {
-    listTimeSubject[event.indexSelect!].isSelected = false;
+    listData[event.indexSelect!].stringNameSelectProject =
+        listData[event.indexSelect!].stringNameDefault;
+    selectedIndex = -1;
     emit(RemoveProjectState());
   }
 
+  getAllSettingBlock(
+      GetAllSettingBlockEvent event, Emitter<BaseState> emit) async {
+    emit(StartCallApiState());
+    final response = await dailyCheckInRepository.getAllSettingBlock();
+    if (response == null) {
+      print("Error: data is null");
+    } else {
+      final listModel = response?['data']
+          .map<SettingBlock>((e) =>
+              standardSerializers.deserializeWith<SettingBlock>(
+                  SettingBlock.serializer, e) ??
+              SettingBlock())
+          .toList();
+      listSettingBloc.addAll(listModel);
+
+      for (int i = 0; i < listSettingBloc.length; i++) {
+        numberBloc = int.parse(listSettingBloc[i].number ?? "");
+        for (int t = 0; t < numberBloc; t++) {
+          listData.add(ProjectData(
+              stringNameDefault: listSettingBloc[i].placeholder!,
+              stringNameSelectProject: null,
+              coefficientPayId: listSettingBloc[i].coefficientPayId));
+        }
+      }
+      emit(GetAllSettingBlockState());
+    }
+  }
+
+  getAllProject(GetAllProjectEvent event, Emitter<BaseState> emit) async {
+    emit(StartCallApiState());
+    final response = await dailyCheckInRepository.getAllProject();
+    if (response == null) {
+      print("Error: data is null");
+    } else {
+      final listModel = response?['data']
+          .map<Project>((e) =>
+              standardSerializers.deserializeWith<Project>(
+                  Project.serializer, e) ??
+              Project())
+          .toList();
+      listProject.addAll(listModel);
+      print("getListProject $response");
+      emit(GetAllProjectState());
+    }
+  }
+
+  clickSubmit(ClickSubmitEvent event, Emitter<BaseState> emit) async {
+    emit(StartCallApiState());
+  }
 }

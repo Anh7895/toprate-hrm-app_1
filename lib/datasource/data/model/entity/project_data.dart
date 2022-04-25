@@ -1,5 +1,6 @@
 class ProjectData {
-  String? stringProject;
-  bool? isSelect;
-  ProjectData({this.stringProject,this.isSelect});
+  String? stringNameDefault;
+  String? stringNameSelectProject;
+  String? coefficientPayId;
+  ProjectData({this.stringNameDefault,this.stringNameSelectProject,this.coefficientPayId});
 }

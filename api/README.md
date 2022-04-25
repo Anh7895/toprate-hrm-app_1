@@ -47,24 +47,25 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import 'package:openapi/openapi.dart';
 
 
-final api = Openapi().getProjectApi();
-final Project project = ; // Project | 
+final api = Openapi().getAccountApi();
+final Auth auth = ; // Auth | 
 
 try {
-    final response = await api.addProject(project);
+    final response = await api.loginWithGoogle(auth);
     print(response);
 } catch on DioError (e) {
-    print("Exception when calling ProjectApi->addProject: $e\n");
+    print("Exception when calling AccountApi->loginWithGoogle: $e\n");
 }
 
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api-thrm.toprate.io*
+All URIs are relative to *https://api-thrm.toprate.io/domain-services*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+[*AccountApi*](doc\AccountApi.md) | [**loginWithGoogle**](doc\AccountApi.md#loginwithgoogle) | **POST** /auth/google | Login With Google
 [*ProjectApi*](doc\ProjectApi.md) | [**addProject**](doc\ProjectApi.md#addproject) | **POST** /projects | Add Project
 [*ProjectApi*](doc\ProjectApi.md) | [**getAllProject**](doc\ProjectApi.md#getallproject) | **GET** /projects | Get all Project
 [*ProjectApi*](doc\ProjectApi.md) | [**getByIdProject**](doc\ProjectApi.md#getbyidproject) | **GET** /projects/{id} | Get by id Project
