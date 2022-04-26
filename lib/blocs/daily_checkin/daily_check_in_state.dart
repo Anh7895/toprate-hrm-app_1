@@ -45,4 +45,8 @@ class ClickSubmitState extends DailyCheckInState {
   ClickSubmitState();
 }
 
+class CheckInState extends ApiSuccessState {
+  CheckInState();
+}
+
 
