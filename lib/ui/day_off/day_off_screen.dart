@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/day_off/day_off_bloc.dart';
 import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils.dart';
+import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils_new.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
@@ -132,7 +133,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
       right: 8,
       child: GestureDetector(
         onTap: () {
-          showAlertBottomSheetDialog(context,
+          showAlertBottomSheetDialogNew(context,
               icon: ic_like,
               title: TextConstants.textSuccess,
               message: "Get a good working day, thank you for your effort!");

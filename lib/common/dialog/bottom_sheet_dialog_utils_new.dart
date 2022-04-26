@@ -6,7 +6,7 @@ import 'package:toprate_hrm/common/widgets/base_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-showAlertBottomSheetDialog(BuildContext context,
+showAlertBottomSheetDialogNew(BuildContext context,
     {double? height,
     String? title,
     String? message,
@@ -35,11 +35,11 @@ showAlertBottomSheetDialog(BuildContext context,
               SizedBox(
                 height: height_8,
               ),
-              Container(
-                color: ThemeColor.clr_C7C7C7,
-                width: width_68,
-                height: height_4,
-              ),
+              // Container(
+              //   color: ThemeColor.clr_C7C7C7,
+              //   width: width_68,
+              //   height: height_4,
+              // ),
               SizedBox(
                 height: height_36,
               ),
@@ -65,8 +65,8 @@ showAlertBottomSheetDialog(BuildContext context,
               Text(
                 message ?? "",
                 style: TextStyle(
-                  color: ThemeColor.clr_757875,
-                  fontSize: fontSize_14,
+                  color: ThemeColor.clr_4C5980,
+                  fontSize: fontSize_20,
                   fontWeight: FontWeight.normal,
                 ),
                 textAlign: TextAlign.center,
@@ -83,10 +83,10 @@ showAlertBottomSheetDialog(BuildContext context,
                   }
                 },
                 margin: EdgeInsets.only(
-                    bottom: height_24, left: width_8, right: width_8),
+                    bottom: height_24, left: width_50, right: width_50),
                 height: height_52,
                 style: TextStyleCommon.textStyleWhiteSmallTitle,
-                backgroundColor: ThemeColor.clr_136849,
+                backgroundColor: ThemeColor.clr_CE6161,
                 title: "Đóng",
                 width: MediaQuery.of(context).size.width,
               )

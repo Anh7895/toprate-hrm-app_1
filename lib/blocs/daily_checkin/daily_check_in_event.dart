@@ -33,10 +33,14 @@ class RemoveProjectEvent extends DailyCheckInEvent {
 }
 
 class FillNameProjectEvent extends DailyCheckInEvent {
-  final String ? nameProject;
+  final String? nameProject;
   final int? index;
   final String? projectId;
-  FillNameProjectEvent({this.index,this.nameProject,this.projectId});
+  final String? avatar;
+  final String? color;
+
+  FillNameProjectEvent(
+      {this.index, this.nameProject, this.projectId, this.avatar, this.color});
 }
 
 class ClickSubmitEvent extends DailyCheckInEvent {

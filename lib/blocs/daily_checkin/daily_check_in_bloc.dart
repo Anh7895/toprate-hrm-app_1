@@ -81,6 +81,8 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   fillNameProject(FillNameProjectEvent event, Emitter<BaseState> emit) async {
     listProjectData[event.index!].stringNameSelectProject = event.nameProject;
     listProjectData[event.index!].projectId = event.projectId;
+    listProjectData[event.index!].avatar = event.avatar;
+    listProjectData[event.index!].color = event.color;
     selectedIndex = -1;
     emit(FillNameProjectState());
   }
@@ -191,11 +193,14 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     var builder = CheckInBuilder();
     List<CheckInData> data = [];
     listProjectData.forEach((e) {
-      if (e.projectId != null && e.coefficientPayId != null && e.time != null) {
+      if (e.projectId != null && e.coefficientPayId != null &&
+          e.time != null && e.avatar != null && e.color != null) {
         CheckInDataBuilder checkInDataBuilder = CheckInDataBuilder();
         checkInDataBuilder.projectId = e.projectId;
         checkInDataBuilder.coefficientPayId = e.coefficientPayId;
         checkInDataBuilder.time = e.time;
+        checkInDataBuilder.avatar = e.avatar;
+        checkInDataBuilder.color = e.color;
         data.add(checkInDataBuilder.build());
       }
     });

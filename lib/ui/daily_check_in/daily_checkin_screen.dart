@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/daily_checkin/daily_check_in_bloc.dart';
-import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils.dart';
+import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils_new.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
@@ -12,6 +12,7 @@ import 'package:toprate_hrm/common/widgets/base_button.dart';
 import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:toprate_hrm/common/widgets/images/local_image_widget.dart';
 import 'package:toprate_hrm/common/widgets/images/svg_image_widget.dart';
+import 'package:toprate_hrm/common/widgets/images/web_image_widget.dart';
 import 'package:toprate_hrm/common/widgets/loading_widget.dart';
 
 class DailyCheckInScreen extends StatefulWidget {
@@ -57,11 +58,11 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             bloc: _bloc,
             listener: (context, state) {
               if (state is showAlertBottomSheetDialogState) {
-                showAlertBottomSheetDialog(context,
+                showAlertBottomSheetDialogNew(context,
                     isDismissible: true,
                     icon: ic_like,
                     message:
-                    "Get a good working day, \nthank you for your effort!");
+                        "Get a good working day, \nthank you for your effort!");
               }
             },
             builder: (context, state) {
@@ -164,7 +165,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
 
   Widget _buildListDaily() {
     return Container(
-      margin: EdgeInsets.only(top: height_48, bottom: height_64),
+      margin: EdgeInsets.only(bottom: height_64),
       child: _bloc.listProjectData.length > 0
           ? ListView.builder(
               scrollDirection: Axis.vertical,
@@ -194,32 +195,39 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                 _bloc.listProjectData[index].stringNameSelectProject != null &&
                         _bloc.listProjectData[index].stringNameSelectProject !=
                             _bloc.listProjectData[index].stringNameDefault
-                    ? ThemeColor.clr_FF9B90
+                    ? Color(int.parse("0XFF" + _bloc.listProjectData[index].color!))
                     : ThemeColor.clr_FFFFFF,
             borderRadius: BorderRadius.all(Radius.circular(radius_16)),
             border: Border.all(color: ThemeColor.clr_D6D9E0, width: 1)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: width_40),
-              child: Text(
-                _bloc.listProjectData[index].stringNameSelectProject == null
-                    ? _bloc.listProjectData[index].stringNameDefault!
-                    : _bloc.listProjectData[index].stringNameSelectProject!,
-                style: TextStyle(
-                    color: _bloc.listProjectData[index]
-                                    .stringNameSelectProject !=
-                                null ||
-                            _bloc.listProjectData[index]
-                                    .stringNameSelectProject !=
-                                _bloc.listProjectData[index].stringNameDefault
-                        ? ThemeColor.clr_D6D9E0
-                        : ThemeColor.clr_FFFFFF,
-                    fontSize: fontSize_16,
-                    fontFamily: TextConstants.fontRubik,
-                    fontWeight: FontWeight.normal),
+            Visibility(
+              visible: _bloc.listProjectData[index].stringNameSelectProject !=
+                      null &&
+                  _bloc.listProjectData[index].stringNameSelectProject !=
+                      _bloc.listProjectData[index].stringNameDefault,
+              child: WebImageWidget(
+                urlImage: _bloc.listProjectData[index].avatar,
+                width: width_24,
+                height: width_24,
               ),
+            ),
+            Text(
+              _bloc.listProjectData[index].stringNameSelectProject == null
+                  ? _bloc.listProjectData[index].stringNameDefault!
+                  : _bloc.listProjectData[index].stringNameSelectProject!,
+              style: TextStyle(
+                  color: _bloc.listProjectData[index].stringNameSelectProject !=
+                              null ||
+                          _bloc.listProjectData[index]
+                                  .stringNameSelectProject !=
+                              _bloc.listProjectData[index].stringNameDefault
+                      ? ThemeColor.clr_D6D9E0
+                      : ThemeColor.clr_FFFFFF,
+                  fontSize: fontSize_16,
+                  fontFamily: TextConstants.fontRubik,
+                  fontWeight: FontWeight.normal),
             ),
             GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -304,7 +312,11 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                                   nameProject: _bloc
                                       .listProject[_bloc.intSelectData!].name,
                                   projectId: _bloc
-                                      .listProject[_bloc.intSelectData!].id));
+                                      .listProject[_bloc.intSelectData!].id,
+                                  avatar: _bloc
+                                      .listProject[_bloc.intSelectData!].avatar,
+                                  color: _bloc.listProject[_bloc.intSelectData!]
+                                      .color));
                               Navigator.pop(context);
                             }
                           },

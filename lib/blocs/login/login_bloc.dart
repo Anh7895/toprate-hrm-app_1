@@ -47,7 +47,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
 
     on<GoogleLoginEvent>((event, emit)async{
       LocalUserData.getInstance.accessToken = event.assetToken!;
-      print(localUserData.accessToken);
+      print( "AccessTokenGoogleLogin ${localUserData.accessToken}");
       email = event.email;
       await doLogin(event, emit);
 
