@@ -205,8 +205,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Visibility(
-              visible: _bloc.listProjectData[index].stringNameSelectProject !=
-                      null &&
+              visible: _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.name != null ||
+              _bloc.listProjectData[index].stringNameSelectProject != null &&
                   _bloc.listProjectData[index].stringNameSelectProject !=
                       _bloc.listProjectData[index].stringNameDefault,
               child: WebImageWidget(
