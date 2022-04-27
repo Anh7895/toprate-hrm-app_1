@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:toprate_hrm/common/utils/preference_utils.dart';
 import 'package:toprate_hrm/datasource/data/model/account_information.dart';
 import 'package:toprate_hrm/datasource/data/model/response/login_model.dart';
@@ -11,7 +12,8 @@ class LocalUserData {
   LocalUserData._internal();
 
   static LocalUserData get getInstance => _singleton;
-
+  String? userName;
+  String? firstName;
   String? partnerPhoneNumber;
   String? imgUrl;
   String? partnerName;
@@ -23,25 +25,21 @@ class LocalUserData {
 
   LoginModel getInfoResponse = LoginModel();
 
-  // Future<OWhoAmI> getAccountInformation() async {
-  //   return await PreferenceUtils.getAccountInformation();
-  // }
+  Future<OWhoAmI> getAccountInformation() async {
+    return await PreferenceUtils.getUserInformation();
+  }
 
-  //  getUserData() async {
-  //    deviceID = await  PreferenceUtils.getString('device_id');
-  //    print("DEvice ID ${deviceID}");
-  //   user =  await PreferenceUtils.getAccountInformation();
-  // }
-  //
-  // Future<OWhoAmI> getAccountInformationFromAcount(
-  //     AccountInformation acount) async {
-  //   return await PreferenceUtils.getAccountInformationFromUser(acount);
-  // }
-  //
-  // Future<void> saveInformationAcount(OWhoAmI userSave) async {
-  //   user = userSave;
-  //   PreferenceUtils.saveAccountInformation(userSave);
-  // }
+   getUserData() async {
+     deviceID = await  PreferenceUtils.getString('device_id');
+     print("DEvice ID ${deviceID}");
+    user =  await PreferenceUtils.getUserInformation();
+  }
+
+
+  Future<void> saveInformationAccount(OWhoAmI userSave) async {
+    user = userSave;
+    PreferenceUtils.saveAccount(userSave);
+  }
 
   Future saveDeviceId({String? deviceID}) async {
     return PreferenceUtils.setString('device_id', deviceID ?? '');

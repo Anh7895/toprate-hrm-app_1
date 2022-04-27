@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
 
@@ -19,7 +20,8 @@ class HomeCardItem extends StatelessWidget {
       children: [
         SVGImageWidget(url: url,height: height_80, width: width_80,),
         SizedBox(height: height_13,),
-        Text(text, style:  textStyle,)
+        Text(text, style:  textStyle,),
+        SizedBox(height: height_5,)
       ],
     );
   }

@@ -8,6 +8,7 @@ import 'package:toprate_hrm/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:openapi/openapi.dart';
+import 'package:toprate_hrm/ui/user/user_screen.dart';
 import 'daily_check_in/daily_checkin_screen.dart';
 import 'login/login_screen.dart';
 
@@ -48,6 +49,11 @@ class Routes {
             builder: (_) => NotificationScreen(),
             settings:
             RouteSettings(name: RouteName.notification));
+      case RouteName.user:
+        return MaterialPageRoute(
+            builder: (_) => UserScreen(),
+            settings:
+            RouteSettings(name: RouteName.user));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

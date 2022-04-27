@@ -17,6 +17,7 @@ import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toprate_hrm/ui/daily_check_in/daily_checkin_screen.dart';
 import 'package:toprate_hrm/ui/day_off/day_off_screen.dart';
+import 'package:toprate_hrm/ui/user/user_screen.dart';
 
 import '../home/home_screen.dart';
 
@@ -104,7 +105,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       listener: (context, state) {
         if (state is InitDataPageState) {
         } else if (state is ChangePageState) {
-          _bloc.controller.jumpToPage(state.currentIndex);
+        _bloc.controller.jumpToPage(state.currentIndex);
         }
       },
       builder: (context, state) {
@@ -130,7 +131,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 HomeScreens(),
                 DailyCheckInScreen(),
-                Container(),
+                UserScreen(),
                 Container(),
               ],
               controller: _bloc.controller,

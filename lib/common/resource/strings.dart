@@ -89,10 +89,13 @@ class TextConstants {
   static const textBack = "Quay lại";
   static const textCheckin = "Check in";
 
-
+  //User
+  static const textChoose = "Select your working mode";
+  static const textWorkingMode = "Select 01 working mode";
   //Daily CheckIn
   static const textSubmit = "Submit";
   static const textOk = "Ok";
   static const textCancel = "Cancel";
   static const textContinue = "Continue";
+
 }

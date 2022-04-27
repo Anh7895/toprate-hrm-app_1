@@ -1,3 +1,4 @@
+import 'package:built_value/json_object.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/datasource/network/network_info.dart';
 
@@ -19,8 +20,23 @@ class LoginRepository {
       throw NetworkConnectionException();
     }
   }
+  Future userInfo()async{
+    if (await networkInfo.isConnected) {
+      return loginDataSource.getUserInfo() ;
+    } else {
+      throw NetworkConnectionException();
+    }
+  }
 
- }
+  Future<JsonObject> logOut({String? username, String? uuid, String? deviceId}) async {
+    if (await networkInfo.isConnected) {
+      return loginDataSource.logout(username: username, uuid: uuid,deviceId: deviceId);
+    } else {
+      throw NetworkConnectionException();
+    }
+  }
+
+}
 
 // Future<JsonObject> revokeToken({String? username}) async {
 //   if (await networkInfo.isConnected) {
@@ -30,11 +46,4 @@ class LoginRepository {
 //   }
 // }
 //
-// Future<JsonObject> logOut({String? username, String? uuid, String? deviceId}) async {
-//   if (await networkInfo.isConnected) {
-//     return loginDataSource.logout(username: username, uuid: uuid, deviceId: deviceId);
-//   } else {
-//     throw NetworkConnectionException();
-//   }
-// }
 

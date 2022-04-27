@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
+import 'package:toprate_hrm/blocs/home/home_bloc.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
 import 'package:toprate_hrm/common/utils/preference_utils.dart';
 import 'package:toprate_hrm/datasource/data/local_user_data.dart';
@@ -27,8 +28,10 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
   SharedPreferences? localStorage;
   final LoginRepository loginRepository;
   LoginModel? getInfoResponse;
+  OWhoAmI? oWhoAmI;
   RAuth? rAuth;
   String? email;
+  String? username;
   bool isObscure = true;
   GoogleSignIn signIn = GoogleSignIn();
   TextEditingController emailController = TextEditingController();
@@ -44,7 +47,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
   LoginBloc(this.loginRepository)
       : super(StartLoginState()) {
 
-
+    ///Handle Login Google
     on<GoogleLoginEvent>((event, emit)async{
       LocalUserData.getInstance.accessToken = event.assetToken!;
       print( "AccessTokenGoogleLogin ${localUserData.accessToken}");
@@ -52,6 +55,8 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       await doLogin(event, emit);
 
     });
+    ///Get User Information
+    on<GetUserInformationEvent>((event,emit)=>getUserInfo(event, emit));
 
     ///Change Obscure
     on<ChangeObscureEvent>((event, emit){
@@ -97,32 +102,37 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     });
   }
 
+  //handle login, check mail valid
   Future<void> doLogin(GoogleLoginEvent event, Emitter<BaseState> emit) async {
     if(email!.endsWith("toprate.io")){
       print("ok");
       emit(StartCallApiState());
       try {
-        rAuth= await loginRepository.socialLogin(LocalUserData.getInstance.accessToken);
-        if (rAuth != null) {
-          LocalUserData.getInstance.accessToken = rAuth?.accessToken??'';
-          await saveToken(rAuth?.accessToken);
-          LocalUserData.getInstance.refreshToken = rAuth?.refreshToken??'';
-          await saveRefreshToken(rAuth?.refreshToken);
+        final rAuth= await loginRepository.socialLogin(LocalUserData.getInstance.accessToken);
+
+          LocalUserData.getInstance.accessToken = rAuth.accessToken??'';
+          await saveToken(rAuth.accessToken);
+          LocalUserData.getInstance.refreshToken = rAuth.refreshToken??'';
+          await saveRefreshToken(rAuth.refreshToken);
+          add(GetUserInformationEvent());
           emit(LoginSuccessState());
-          //add(GetUserInformationEvent());
-        }
+
       } on DioError catch (e) {
         List<String> err = [];
         print(e.response?.statusCode);
-        if (e.response?.statusCode == HttpStatus.unauthorized ||
-            e.response?.statusCode == HttpStatus.badRequest) {
-          print(e.response);
+        if(e.response?.statusCode == HttpStatus.badRequest
+            || e.response?.statusCode == HttpStatus.unprocessableEntity){
+          if(e.response?.data["errors"] != null){
+            return emit(ApiErrorState(errorMessage: e.response!.data["message"].toString()));
+          }
+          return emit(ApiErrorState(errorMessage: e.response!.data["message"].toString()));
         }
+        return
         emit(
             ApiErrorState(error: e,
                 errorMessage: e.response?.data['message'] ?? err.toString()));
       } catch (e) {
-        emit(
+        return emit(
             ApiErrorState(
                 errorMessage: TextConstants.text101Err));
       }
@@ -131,6 +141,41 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       emit(LoginFailState());
     }
 
+  }
+
+  Future<void> getUserInfo(GetUserInformationEvent event, Emitter<BaseState> emit) async {
+    emit(StartCallApiState());
+    try {
+      final oWhoAmI = await loginRepository.userInfo();
+      if (oWhoAmI != null) {
+        LocalUserData.getInstance.user = oWhoAmI;
+        print(LocalUserData.getInstance.firstName);
+        await saveAccountInformation(oWhoAmI);
+        emit(GetInfoUserState());
+      }
+      else{
+        emit(  ApiErrorState(
+            errorMessage: "Get Info User Fail"));
+        //emit(LoginFailState());
+      }
+
+    } on DioError catch (e) {
+    print(e.response?.statusCode);
+    if (e.response?.statusCode == HttpStatus.unauthorized ||
+        e.response?.statusCode == HttpStatus.badRequest) {
+      if(e.response?.data["errors"] != null){
+        return emit(ApiErrorState(errorMessage: e.response!.data["message"].toString()));
+      }else
+      return emit(ApiErrorState(errorMessage: e.response!.data["message"].toString()));
+    }
+    else return emit(
+        ApiErrorState(error: e,
+            errorMessage: e.response?.data['message'] ?? ""));
+    } catch (e) {
+      return emit(
+          ApiErrorState(
+              errorMessage: TextConstants.text101Err));
+    }
   }
 
   //Save Token Login
@@ -148,9 +193,9 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     return await PreferenceUtils.saveUserLogin(userModel);
   }
 
-  // saveAccountInformation(OWhoAmI? user) async {
-  //   return await PreferenceUtils.saveAccountInformation(user);
-  // }
+  saveAccountInformation(OWhoAmI? user) async {
+    return await PreferenceUtils.saveAccount(user);
+  }
 
 
   Future<String?> _getId() async {

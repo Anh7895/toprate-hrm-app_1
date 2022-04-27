@@ -346,64 +346,102 @@ class TextStyleCommon {
   static TextStyle textStyleWelcome = TextStyle(
       color: ThemeColor.clr_2D3142,
       fontSize: fontSize_28,
-      fontWeight: FontWeight.w500,);
+      fontWeight: FontWeight.w500,
+      fontFamily: TextConstants.fontRubik);
 
   static TextStyle textStyleTopRate = TextStyle(
       color: ThemeColor.clr_CE6161,
       fontSize: fontSize_28,
-      fontWeight: FontWeight.w500);
+      fontWeight: FontWeight.w500,
+      fontFamily: TextConstants.fontRubik);
 
   static TextStyle textStyleDetailWelcome = TextStyle(
       color: ThemeColor.clr_4C5980,
       fontSize: fontSize_16,
-      fontWeight: FontWeight.w400);
+      fontWeight: FontWeight.w400,
+      fontFamily: TextConstants.fontRubik);
 
   static TextStyle textStyleButtonWelcome = TextStyle(
       color: ThemeColor.clr_FFFFFF,
       fontSize: fontSize_16,
-      fontWeight: FontWeight.w500);
+      fontWeight: FontWeight.w500,
+      fontFamily: TextConstants.fontRubik);
 
   //notification
   static TextStyle textStyleTopRateApp = TextStyle(
       color: ThemeColor.clr_2D3142,
       fontSize: fontSize_18,
-      fontWeight: FontWeight.w500);
+      fontWeight: FontWeight.w500,
+      fontFamily: TextConstants.fontRubik);
 
   static TextStyle textStyleDetailNotification = TextStyle(
       color: ThemeColor.clr_2D3142,
       fontSize: fontSize_12,
-      fontWeight: FontWeight.w400);
+      fontWeight: FontWeight.w400,
+      fontFamily: TextConstants.fontRubik);
 
   //Home
   static TextStyle textHiName = TextStyle(
     color: ThemeColor.clr_2D3142,
     fontSize: fontSize_32,
     fontWeight: FontWeight.w500,
-
+      fontFamily: TextConstants.fontRubik
   );
 
   static TextStyle textDate =  TextStyle(
     color: ThemeColor.clr_CE6161,
     fontSize: fontSize_12,
-    fontWeight: FontWeight.w500
+    fontWeight: FontWeight.w500,
+      fontFamily: TextConstants.fontRubik
   );
 
   static TextStyle textHomeTitle = TextStyle(
     color:  ThemeColor.clr_2D3142,
     fontSize: fontSize_18,
-    fontWeight: FontWeight.w500
+    fontWeight: FontWeight.w500,
+      fontFamily: TextConstants.fontRubik
   );
 
   static TextStyle textTopCardItem = TextStyle(
       color: ThemeColor.clr_4C5980,
       fontSize: fontSize_14,
       fontWeight: FontWeight.w400,
+      fontFamily: TextConstants.fontRubik,
       );
 
   static TextStyle textBottomCardItem = TextStyle(
       color: ThemeColor.clr_9C9EB9,
       fontSize: fontSize_14,
-      fontWeight: FontWeight.w400
+      fontWeight: FontWeight.w400,
+      fontFamily: TextConstants.fontRubik,
       );
+
+  static TextStyle textUserNameHeader =  TextStyle(
+    color: ThemeColor.clr_CE6161,
+    fontSize: fontSize_32,
+    fontWeight: FontWeight.w500,
+      fontFamily: TextConstants.fontRubik,
+  );
+
+  static TextStyle textUserChoose = TextStyle(
+    color: ThemeColor.clr_D6D9E0,
+    fontSize: fontSize_16,
+    fontWeight:  FontWeight.w400,
+      fontFamily: TextConstants.fontRubik
+  );
+
+  static TextStyle textStyleUserButtonSubmit = TextStyle(
+    color: ThemeColor.clr_FFFFFF,
+    fontSize: fontSize_16,
+    fontWeight:  FontWeight.w500,
+    fontFamily: TextConstants.fontRubik
+  );
+
+  static TextStyle textStyleTitleDialog = TextStyle(
+          fontSize: fontSize_20,
+          color: ThemeColor.clr_4C5980,
+          fontWeight: FontWeight.w500,
+          fontFamily:  TextConstants.fontRubik
+  );
 }
 
