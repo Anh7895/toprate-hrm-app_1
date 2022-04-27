@@ -58,4 +58,10 @@ class LoginDataSource {
   //   return res.data as JsonObject;
   // }
 
+   Future<Response<DeviceToken>> addDeviceToken(DeviceToken deviceToken) async {
+     final apiClient = ApiClient();
+     final response = await apiClient.getDeviceTokenApi().addDeviceToken(deviceToken: deviceToken);
+     return response;
+   }
+
 }

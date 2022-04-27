@@ -1,24 +1,22 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bloc/bloc.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:openapi/openapi.dart';
+import 'package:openapi/openapi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/home/home_bloc.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
 import 'package:toprate_hrm/common/utils/preference_utils.dart';
 import 'package:toprate_hrm/datasource/data/local_user_data.dart';
-import 'package:toprate_hrm/datasource/data/model/request/social_login_request.dart';
 import 'package:toprate_hrm/datasource/data/model/response/login_model.dart';
-import 'package:toprate_hrm/datasource/data/remote/login_datasource.dart';
 import 'package:toprate_hrm/datasource/repository/login_repository.dart';
-import 'package:bloc/bloc.dart';
-import 'package:built_value/json_object.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_event.dart';
 import 'login_state.dart';
@@ -203,14 +201,45 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     if (Platform.isIOS) {
       // import 'dart:io'
       var iosDeviceInfo = await deviceInfo.iosInfo;
-      LocalUserData.getInstance.saveDeviceId(deviceID: iosDeviceInfo.identifierForVendor);
+      LocalUserData.getInstance
+          .saveDeviceId(deviceID: iosDeviceInfo.identifierForVendor);
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
     } else {
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      LocalUserData.getInstance.saveDeviceId(deviceID: androidDeviceInfo.androidId);
+      LocalUserData.getInstance
+          .saveDeviceId(deviceID: androidDeviceInfo.androidId);
       print("Device ID: ${androidDeviceInfo.androidId}");
       return androidDeviceInfo.androidId; // unique ID on Android
     }
   }
 
+  addDeviceToken(Emitter<BaseState> emit, int? userId) async {
+    try {
+      emit(StartCallApiState());
+      // Get the token each time the application loads
+      String? token = await FirebaseMessaging.instance.getToken();
+      print("Token Firebase $token");
+      final DeviceTokenBuilder builder = DeviceTokenBuilder();
+      String type = "ANDROID";
+      if (Platform.isIOS) {
+        type = "IOS";
+      }
+      builder.userId = userId;
+      builder.token = token;
+      builder.type = type;
+      builder.deviceId = await _getId();
+      print("DeviceToken ${builder.build()}");
+      final response = await loginRepository.addDeviceToken(builder.build());
+      if (response.data == null) {
+        print("Error: data is null");
+      } else {
+        emit(AddDeviceTokenSuccessState());
+      }
+    } on DioError catch (e) {
+      emit(ApiErrorState(error: e));
+      print("ApiErrorState $e");
+    } catch (e) {
+      emit(ApiErrorState(errorMessage: TextConstants.text101Err));
+    }
+  }
 }

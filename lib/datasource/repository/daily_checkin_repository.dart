@@ -4,6 +4,7 @@ import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/common/exceptions/network_connection_exception.dart';
 import 'package:toprate_hrm/datasource/data/remote/daily_check_in_datasource.dart';
 import 'package:toprate_hrm/datasource/network/network_info.dart';
+import 'package:built_collection/src/list.dart';
 
 class DailyCheckInRepository {
   final NetworkInfoImpl networkInfo;
@@ -20,22 +21,20 @@ class DailyCheckInRepository {
     }
   }
 
-   getProjectByDate(String? date) async {
+  Future<Response<OProjectByUser>> getProjectByUser() async {
+    if (await networkInfo.isConnected) {
+      return dailyCheckInDataSource.getProjectByUser();
+    } else {
+      throw NetworkConnectionException();
+    }
+  }
+  getProjectByDate(String? date) async {
     if (await networkInfo.isConnected) {
       return dailyCheckInDataSource.getProjectByDate(date);
     } else {
       throw NetworkConnectionException();
     }
   }
-
-  getAllProject() async {
-    if (await networkInfo.isConnected) {
-      return dailyCheckInDataSource.getAllProject();
-    } else {
-      throw NetworkConnectionException();
-    }
-  }
-
   Future<Response<JsonObject>> checkIn(CheckIn checkIn) async {
     if (await networkInfo.isConnected) {
       return dailyCheckInDataSource.checkIn(checkIn);

@@ -17,6 +17,7 @@ import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toprate_hrm/ui/daily_check_in/daily_checkin_screen.dart';
 import 'package:toprate_hrm/ui/day_off/day_off_screen.dart';
+import 'package:toprate_hrm/ui/report/report_screen.dart';
 import 'package:toprate_hrm/ui/user/user_screen.dart';
 
 import '../home/home_screen.dart';
@@ -132,7 +133,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 HomeScreens(),
                 DailyCheckInScreen(),
                 UserScreen(),
-                Container(),
+                ReportScreen(),
               ],
               controller: _bloc.controller,
             ));
@@ -165,6 +166,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           activeIcon: SvgPicture.asset(ic_personal, color: ThemeColor.clr_CE6161),
           icon: SvgPicture.asset(ic_personal),
           label: "Personal",
+        ),
+        BottomNavigationBarItem(
+          activeIcon: SvgPicture.asset(ic_chart, color: ThemeColor.clr_CE6161),
+          icon: SvgPicture.asset(ic_chart),
+          label: "Chart",
         ),
       ],
     );

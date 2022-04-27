@@ -53,4 +53,8 @@ class CheckInState extends ApiSuccessState {
   CheckInState();
 }
 
+class GetTimekeepingByUserAndByDateState extends ApiSuccessState {
+  GetTimekeepingByUserAndByDateState();
+}
+
 

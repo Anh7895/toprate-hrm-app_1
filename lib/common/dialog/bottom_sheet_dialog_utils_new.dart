@@ -1,5 +1,6 @@
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
+import 'package:toprate_hrm/common/resource/strings.dart';
 import 'package:toprate_hrm/common/resource/text_style.dart';
 import 'package:toprate_hrm/common/resource/theme_color.dart';
 import 'package:toprate_hrm/common/widgets/base_button.dart';
@@ -68,6 +69,7 @@ showAlertBottomSheetDialogNew(BuildContext context,
                   color: ThemeColor.clr_4C5980,
                   fontSize: fontSize_20,
                   fontWeight: FontWeight.normal,
+                  fontFamily: TextConstants.fontRubik,
                 ),
                 textAlign: TextAlign.center,
               ),

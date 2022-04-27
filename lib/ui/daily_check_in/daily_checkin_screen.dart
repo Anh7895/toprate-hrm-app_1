@@ -300,7 +300,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             physics: BouncingScrollPhysics(),
-                            itemCount: _bloc.listProject.length,
+                            itemCount: _bloc.listProjectDefault.length,
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                   onTap: () {
@@ -321,12 +321,12 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                               _bloc.add(FillNameProjectEvent(
                                   index: indexSettingBloc,
                                   nameProject: _bloc
-                                      .listProject[_bloc.intSelectData!].name,
+                                      .listProjectDefault[_bloc.intSelectData!].name,
                                   projectId: _bloc
-                                      .listProject[_bloc.intSelectData!].id,
+                                      .listProjectDefault[_bloc.intSelectData!].id,
                                   avatar: _bloc
-                                      .listProject[_bloc.intSelectData!].avatar,
-                                  color: _bloc.listProject[_bloc.intSelectData!]
+                                      .listProjectDefault[_bloc.intSelectData!].avatar,
+                                  color: _bloc.listProjectDefault[_bloc.intSelectData!]
                                       .color));
                               Navigator.pop(context);
                             }
@@ -363,20 +363,18 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                   borderRadius: BorderRadius.circular(radius_16),
                 ),
                 child: Container(
-                  height: height_344,
-                  width: width_336,
+                  height: height_200,
                   child: Column(
                     children: [
                       Expanded(
-                        flex: 4,
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: height_15),
                           child: Center(
                             child: Text(
                               "Are you sure you want to \nsend check-in information?",
                               style: TextStyle(
                                   fontSize: fontSize_18,
                                   color: ThemeColor.clr_4C5980,
+                                  fontFamily: TextConstants.fontRubik,
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -416,9 +414,6 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      )
                     ],
                   ),
                 ),
@@ -449,7 +444,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             Container(
               margin: EdgeInsets.only(left: width_8),
               child: Text(
-                _bloc.listProject[index].name!,
+                _bloc.listProjectDefault[index].name!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
 import 'package:toprate_hrm/ui/day_off/day_off_screen.dart';
@@ -9,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/ui/user/user_screen.dart';
+import 'package:toprate_hrm/ui/report/report_screen.dart';
+
 import 'daily_check_in/daily_checkin_screen.dart';
 import 'login/login_screen.dart';
 
@@ -23,23 +27,22 @@ class Routes {
         return MaterialPageRoute(
             builder: (_) => DashboardScreen(),
             settings:
-                RouteSettings(name: RouteName.dashboard));
-      // case RouteName.splashScreen:
-      //   return MaterialPageRoute(
-      //       builder: (_) => SplashScreen(),
-      //       settings:
-      //       RouteSettings(name: RouteName.splashScreen));
-        case RouteName.dailyCheckInScreen:
+            RouteSettings(name: RouteName.dashboard));
+    // case RouteName.splashScreen:
+    //   return MaterialPageRoute(
+    //       builder: (_) => SplashScreen(),
+    //       settings:
+    //       RouteSettings(name: RouteName.splashScreen));
+      case RouteName.dailyCheckInScreen:
         return MaterialPageRoute(
             builder: (_) => DailyCheckInScreen(),
             settings:
             RouteSettings(name: RouteName.dailyCheckInScreen));
 
-        case RouteName.dayOffScreen:
+      case RouteName.dayOffScreen:
         return MaterialPageRoute(
             builder: (_) => DayOffScreen(),
-            settings:
-            RouteSettings(name: RouteName.dayOffScreen));
+            settings: RouteSettings(name: RouteName.dayOffScreen));
       case RouteName.checkinScreen:
         return MaterialPageRoute(
             builder: (_) => CheckinScreen(),
@@ -54,6 +57,10 @@ class Routes {
             builder: (_) => UserScreen(),
             settings:
             RouteSettings(name: RouteName.user));
+      case RouteName.report:
+        return MaterialPageRoute(
+            builder: (_) => ReportScreen(),
+            settings: RouteSettings(name: RouteName.report));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

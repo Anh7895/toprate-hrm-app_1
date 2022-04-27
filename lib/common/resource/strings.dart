@@ -98,4 +98,5 @@ class TextConstants {
   static const textCancel = "Cancel";
   static const textContinue = "Continue";
 
+  static const textReport = "Report";
 }

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_collection/src/list.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -30,6 +31,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<GetAllProjectEvent>((event, emit) => getAllProject(event, emit));
     on<GetProjectByDateEvent>((event, emit) => GetProjectByDate(event, emit));
     on<CheckInEvent>((event, emit) => checkIn(event, emit));
+   // on<GetTimekeepingByUserAndByDateEvent>((event, emit) => getTimekeepingByUserAndByDate(event, emit));
   }
 
   List<ProjectData> listProjectData = [];
@@ -43,8 +45,11 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   int? selectedIndex;
   int? intSelectData;
   List<SettingBlock> listSettingBloc = [];
+  List<COTimekeeping> listCOTimekeeping = [];
   List<CoefficientPay> listCoefficientPay = [];
-  List<Project> listProject = [];
+  OProjectByUser? oProjectByUser;
+  List<Project> listProjectDefault = [];
+  List<Project> listProjectTimekeeping = [];
   final DailyCheckInRepository dailyCheckInRepository;
   String date = "";
 
@@ -63,6 +68,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     date = dateTime.convertDateTimeToString("dd-MM-yyyy");
     listProjectByDate.clear();
     add(GetProjectByDateEvent(date));
+    // add(GetTimekeepingByUserAndByDateEvent(date: DateFormat("dd-MM-yyyy").format(dateTime)));
     emit(BackDayState());
   }
 
@@ -143,24 +149,46 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   getAllProject(GetAllProjectEvent event, Emitter<BaseState> emit) async {
     try {
       emit(StartCallApiState());
-      final response = await dailyCheckInRepository.getAllProject();
+      final response = await dailyCheckInRepository.getProjectByUser();
       if (response == null) {
         print("Error: data is null");
       } else {
-        final listModel = response?['data']
-            .map<Project>((e) =>
-                standardSerializers.deserializeWith<Project>(
-                    Project.serializer, e) ??
-                Project())
-            .toList();
-        listProject.addAll(listModel);
-        print("getListProject $response");
+        response.data?.project?.forEach((e) {
+          if(e.project != null){
+            listProjectDefault.add(e.project!);
+          }
+        });
+        listProjectDefault.addAll(response.data?.projectDefault ?? []);
+        print("getListProject ${listProjectDefault}");
         emit(GetAllProjectState());
       }
     } on DioError catch (e) {
       emit(ApiErrorState(error: e));
     }
   }
+
+
+  // getTimekeepingByUserAndByDate(GetTimekeepingByUserAndByDateEvent event, Emitter<BaseState> emit) async {
+  //   try {
+  //     emit(StartCallApiState());
+  //     final response = await dailyCheckInRepository.getTimekeepingByUserAndByDate(event.date!);
+  //     if (response == null) {
+  //       print("Error: data is null");
+  //     } else {
+  //       print("getListProject ${response.data?.length}");
+  //       listProjectTimekeeping.clear();
+  //       response.data?.forEach((e) {
+  //         if(e.project != null){
+  //           listProjectTimekeeping.add(e.project!);
+  //         }
+  //       });
+  //       print("Error: data is null ${listProjectTimekeeping.length}");
+  //       emit(GetTimekeepingByUserAndByDateState());
+  //     }
+  //   } on DioError catch (e) {
+  //     emit(ApiErrorState(error: e));
+  //   }
+  // }
 
   clickSubmit(ClickSubmitEvent event, Emitter<BaseState> emit) async {
     add(CheckInEvent(checkIn: buildCheckIn()));
@@ -225,14 +253,11 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     var builder = CheckInBuilder();
     List<CheckInData> data = [];
     listProjectData.forEach((e) {
-      if (e.projectId != null && e.coefficientPayId != null &&
-          e.time != null && e.avatar != null && e.color != null) {
+      if (e.projectId != null && e.coefficientPayId != null && e.time != null) {
         CheckInDataBuilder checkInDataBuilder = CheckInDataBuilder();
         checkInDataBuilder.projectId = e.projectId;
         checkInDataBuilder.coefficientPayId = e.coefficientPayId;
         checkInDataBuilder.time = e.time;
-        // checkInDataBuilder.avatar = e.avatar;
-        // checkInDataBuilder.color = e.color;
         data.add(checkInDataBuilder.build());
       }
     });

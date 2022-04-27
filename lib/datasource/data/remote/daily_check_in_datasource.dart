@@ -2,6 +2,8 @@ import 'package:built_value/json_object.dart';
 import 'package:dio/dio.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/datasource/network/dio/api_client.dart';
+import 'package:built_collection/src/list.dart';
+
 
 class DailyCheckInDataSource {
   final ApiClient apiClient;
@@ -13,9 +15,9 @@ class DailyCheckInDataSource {
     return response.data?.asMap;
   }
 
-  Future getAllProject() async {
-    final response = await apiClient.getProjectApi().getAllProject();
-    return response.data?.asMap;
+  Future<Response<OProjectByUser>> getProjectByUser() async {
+    final response = await apiClient.getProjectApi().getProjectByUser();
+    return response;
   }
 
   Future<Response<JsonObject>> checkIn(CheckIn checkIn) async {
