@@ -84,7 +84,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                     height: height_60,
                                     width: width_50,
                                     decoration: BoxDecoration(
-                                        image: DecorationImage(image: NetworkImage("${LocalUserData.getInstance.user?.avatar}"))
+                                        image: DecorationImage(image: NetworkImage(LocalUserData.getInstance.user.avatar??"https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"))
                                         ,borderRadius: BorderRadius.circular(radius_20)),
                                   ),
                                   Container(

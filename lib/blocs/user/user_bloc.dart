@@ -24,40 +24,45 @@ class UserBloc extends Bloc<UserEvent, BaseState> {
       // TODO: implement event handler
     });
 
-    on<LogoutEvent>((event,emit){
+    on<LogoutEvent>((event,emit)async{
+      await doLogout(event,emit);
     });
 
-    Future<void> doLogout(LogoutEvent event, Emitter<BaseState> emit) async {
-
-        print("ok");
-        emit(StartCallApiState());
-        try {
-         rAuth = await loginRepository.logOut(username: LocalUserData.getInstance.user?.username,
-             uuid: LocalUserData.getInstance.user?.uuid );
-          if (rAuth != null) {
-
-            emit(LoginSuccessState());
-          }
-        } on DioError catch (e) {
-          List<String> err = [];
-          print(e.response?.statusCode);
-          if (e.response?.statusCode == HttpStatus.unauthorized ||
-              e.response?.statusCode == HttpStatus.badRequest) {
-            print(e.response);
-          }
-          emit(
-              ApiErrorState(error: e,
-                  errorMessage: e.response?.data['message'] ?? err.toString()));
-        } catch (e) {
-          emit(
-              ApiErrorState(
-                  errorMessage: TextConstants.text101Err));
-        }
-
-
-    }
   }
+  Future<void> doLogout(LogoutEvent event, Emitter<BaseState> emit) async {
 
+    print("ok");
+    emit(StartCallApiState());
+    try {
+      rAuth = await loginRepository.logOut(username: LocalUserData.getInstance.user?.username,
+          uuid: LocalUserData.getInstance.user?.uuid, deviceId: LocalUserData.getInstance.deviceID );
+      if (rAuth != null) {
+        LocalUserData.getInstance.user = '';
+
+        emit(LogoutSuccessState());
+      }
+      else emit(LogoutFailState());
+    } on DioError catch (e) {
+      List<String> err = [];
+      print(e.response?.statusCode);
+      if (e.response?.statusCode == HttpStatus.unauthorized ||
+          e.response?.statusCode == HttpStatus.badRequest) {
+        if(e.response?.data["errors"] != null){
+          return emit(ApiErrorState(errorMessage: e.response!.data["message"].toString()));
+        }else
+          return emit(ApiErrorState(errorMessage: e.response!.data["message"].toString()));
+      }
+     return emit(
+          ApiErrorState(error: e,
+              errorMessage: e.response?.data['message'] ?? err.toString()));
+    } catch (e) {
+      emit(
+          ApiErrorState(
+              errorMessage: TextConstants.text101Err));
+    }
+
+
+  }
 
 
 }

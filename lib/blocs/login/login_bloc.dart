@@ -52,13 +52,11 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       LocalUserData.getInstance.accessToken = event.assetToken!;
       print( "AccessTokenGoogleLogin ${localUserData.accessToken}");
       email = event.email;
-      await doLogin(event, emit).whenComplete(() => getUserInfo(event, emit));
+      await doLogin(event, emit);
 
     });
     ///Get User Information
-    on<GetUserInformationEvent>((event,emit)async{
-   
-    });
+    on<GetUserInformationEvent>((event,emit)=>getUserInfo(event, emit));
 
     ///Change Obscure
     on<ChangeObscureEvent>((event, emit){
@@ -110,27 +108,31 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       print("ok");
       emit(StartCallApiState());
       try {
-        rAuth= await loginRepository.socialLogin(LocalUserData.getInstance.accessToken);
-        if (rAuth != null) {
-          LocalUserData.getInstance.accessToken = rAuth?.accessToken??'';
-          await saveToken(rAuth?.accessToken);
-          LocalUserData.getInstance.refreshToken = rAuth?.refreshToken??'';
-          await saveRefreshToken(rAuth?.refreshToken);
+        final rAuth= await loginRepository.socialLogin(LocalUserData.getInstance.accessToken);
+
+          LocalUserData.getInstance.accessToken = rAuth.accessToken??'';
+          await saveToken(rAuth.accessToken);
+          LocalUserData.getInstance.refreshToken = rAuth.refreshToken??'';
+          await saveRefreshToken(rAuth.refreshToken);
           add(GetUserInformationEvent());
           emit(LoginSuccessState());
-        }
+
       } on DioError catch (e) {
         List<String> err = [];
         print(e.response?.statusCode);
-        if (e.response?.statusCode == HttpStatus.unauthorized ||
-            e.response?.statusCode == HttpStatus.badRequest) {
-          print(e.response);
+        if(e.response?.statusCode == HttpStatus.badRequest
+            || e.response?.statusCode == HttpStatus.unprocessableEntity){
+          if(e.response?.data["errors"] != null){
+            return emit(ApiErrorState(errorMessage: e.response!.data["message"].toString()));
+          }
+          return emit(ApiErrorState(errorMessage: e.response!.data["message"].toString()));
         }
+        return
         emit(
             ApiErrorState(error: e,
                 errorMessage: e.response?.data['message'] ?? err.toString()));
       } catch (e) {
-        emit(
+        return emit(
             ApiErrorState(
                 errorMessage: TextConstants.text101Err));
       }
@@ -141,23 +143,17 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
 
   }
 
-  Future<void> getUserInfo(GoogleLoginEvent event, Emitter<BaseState> emit) async {
+  Future<void> getUserInfo(GetUserInformationEvent event, Emitter<BaseState> emit) async {
     emit(StartCallApiState());
     try {
-      oWhoAmI= await loginRepository.userInfo();
+      final oWhoAmI = await loginRepository.userInfo();
       if (oWhoAmI != null) {
-        print("test");
-        print(oWhoAmI?.username);
-        localUserData.user = oWhoAmI;
         LocalUserData.getInstance.user = oWhoAmI;
         print(LocalUserData.getInstance.firstName);
-        print(oWhoAmI?.googleId);
-        print(oWhoAmI?.avatar);
         await saveAccountInformation(oWhoAmI);
         emit(GetInfoUserState());
       }
       else{
-        print("No");
         emit(  ApiErrorState(
             errorMessage: "Get Info User Fail"));
         //emit(LoginFailState());
@@ -167,13 +163,16 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     print(e.response?.statusCode);
     if (e.response?.statusCode == HttpStatus.unauthorized ||
         e.response?.statusCode == HttpStatus.badRequest) {
-      print(e.response);
+      if(e.response?.data["errors"] != null){
+        return emit(ApiErrorState(errorMessage: e.response!.data["message"].toString()));
+      }else
+      return emit(ApiErrorState(errorMessage: e.response!.data["message"].toString()));
     }
-    emit(
+    else return emit(
         ApiErrorState(error: e,
             errorMessage: e.response?.data['message'] ?? ""));
     } catch (e) {
-      emit(
+      return emit(
           ApiErrorState(
               errorMessage: TextConstants.text101Err));
     }

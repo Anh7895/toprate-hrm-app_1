@@ -28,9 +28,9 @@ class LoginRepository {
     }
   }
 
-  Future<JsonObject> logOut({String? username, String? uuid}) async {
+  Future<JsonObject> logOut({String? username, String? uuid, String? deviceId}) async {
     if (await networkInfo.isConnected) {
-      return loginDataSource.logout(username: username, uuid: uuid);
+      return loginDataSource.logout(username: username, uuid: uuid,deviceId: deviceId);
     } else {
       throw NetworkConnectionException();
     }

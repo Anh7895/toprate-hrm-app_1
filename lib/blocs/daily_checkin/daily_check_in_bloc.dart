@@ -199,8 +199,8 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         checkInDataBuilder.projectId = e.projectId;
         checkInDataBuilder.coefficientPayId = e.coefficientPayId;
         checkInDataBuilder.time = e.time;
-        checkInDataBuilder.avatar = e.avatar;
-        checkInDataBuilder.color = e.color;
+        // checkInDataBuilder.avatar = e.avatar;
+        // checkInDataBuilder.color = e.color;
         data.add(checkInDataBuilder.build());
       }
     });

@@ -35,8 +35,8 @@ class LoginDataSource {
      return res.data as JsonObject;
    }
 
-   Future<JsonObject> logout({String? username, String? uuid}) async{
-     final res = await apiClient.getAccountApi().logout(username: username??'', uuid: uuid??'');
+   Future<JsonObject> logout({String? username, String? uuid, String? deviceId}) async{
+     final res = await apiClient.getAccountApi().logout(username: username??'', uuid: uuid??'', deviceId: deviceId ??'');
      return res.data as JsonObject;
    }
 

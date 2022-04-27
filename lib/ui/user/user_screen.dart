@@ -71,13 +71,13 @@ class _UserScreenState extends State<UserScreen> {
 
                     ],
                   ),
-                  BaseButton(    height: height_45,
+                  BaseButton( height: height_45,
                     width: width_200,
                     title: "Logout",
                     style: TextStyleCommon.textStyleWhiteNormalTitle,
                     backgroundColor: ThemeColor.clr_CE6161,
                     onPressed: (){
-
+                        _bloc.add(LogoutEvent());
                     },
                   ),
                   BaseButton(
@@ -137,7 +137,7 @@ class _UserScreenState extends State<UserScreen> {
                             }),
                       ),
                       SizedBox(
-                        height: 15,
+                        height: height_15,
                       ),
                       Container(
                         margin: EdgeInsets.only(bottom: height_8),
