@@ -16,13 +16,29 @@ class LoginDataSource {
 
 
    Future<RAuth> socialLogin(String accessToken) async {
-    // String url ='';
      AuthBuilder auth = AuthBuilder();
      auth.accessToken = accessToken;
      final response = await apiClient.getAccountApi().loginWithGoogle(auth: auth.build());
      return response.data as RAuth;
    }
 
+   Future<OWhoAmI> getUserInfo() async {
+     ApiClient apiClientOWAI = ApiClient();
+     final response = await apiClientOWAI.getUserApi().getCurrentUserInformation();
+     print(response.data?.username);
+     return response.data as OWhoAmI;
+   }
+
+   Future<JsonObject> revokeToken({String? username}) async{
+     ApiClient apiClientRefresh = ApiClient();
+     final res = await apiClientRefresh.getAccountApi().revokeToken(username: username??'');
+     return res.data as JsonObject;
+   }
+
+   Future<JsonObject> logout({String? username, String? uuid}) async{
+     final res = await apiClient.getAccountApi().logout(username: username??'', uuid: uuid??'');
+     return res.data as JsonObject;
+   }
 
 
   //

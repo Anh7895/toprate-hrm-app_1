@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
+import 'package:toprate_hrm/blocs/home/home_bloc.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
 import 'package:toprate_hrm/common/utils/preference_utils.dart';
 import 'package:toprate_hrm/datasource/data/local_user_data.dart';
@@ -27,8 +28,10 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
   SharedPreferences? localStorage;
   final LoginRepository loginRepository;
   LoginModel? getInfoResponse;
+  OWhoAmI? oWhoAmI;
   RAuth? rAuth;
   String? email;
+  String? username;
   bool isObscure = true;
   GoogleSignIn signIn = GoogleSignIn();
   TextEditingController emailController = TextEditingController();
@@ -44,13 +47,17 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
   LoginBloc(this.loginRepository)
       : super(StartLoginState()) {
 
-
+    ///Handle Login Google
     on<GoogleLoginEvent>((event, emit)async{
       LocalUserData.getInstance.accessToken = event.assetToken!;
       print( "AccessTokenGoogleLogin ${localUserData.accessToken}");
       email = event.email;
-      await doLogin(event, emit);
+      await doLogin(event, emit).whenComplete(() => getUserInfo(event, emit));
 
+    });
+    ///Get User Information
+    on<GetUserInformationEvent>((event,emit)async{
+   
     });
 
     ///Change Obscure
@@ -97,6 +104,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     });
   }
 
+  //handle login, check mail valid
   Future<void> doLogin(GoogleLoginEvent event, Emitter<BaseState> emit) async {
     if(email!.endsWith("toprate.io")){
       print("ok");
@@ -108,8 +116,8 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
           await saveToken(rAuth?.accessToken);
           LocalUserData.getInstance.refreshToken = rAuth?.refreshToken??'';
           await saveRefreshToken(rAuth?.refreshToken);
+          add(GetUserInformationEvent());
           emit(LoginSuccessState());
-          //add(GetUserInformationEvent());
         }
       } on DioError catch (e) {
         List<String> err = [];
@@ -133,6 +141,42 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
 
   }
 
+  Future<void> getUserInfo(GoogleLoginEvent event, Emitter<BaseState> emit) async {
+    emit(StartCallApiState());
+    try {
+      oWhoAmI= await loginRepository.userInfo();
+      if (oWhoAmI != null) {
+        print("test");
+        print(oWhoAmI?.username);
+        localUserData.user = oWhoAmI;
+        LocalUserData.getInstance.user = oWhoAmI;
+        print(LocalUserData.getInstance.firstName);
+        print(oWhoAmI?.googleId);
+        print(oWhoAmI?.avatar);
+        await saveAccountInformation(oWhoAmI);
+        emit(GetInfoUserState());
+      }
+      else{
+        print("No");
+        //emit(LoginFailState());
+      }
+
+    } on DioError catch (e) {
+    print(e.response?.statusCode);
+    if (e.response?.statusCode == HttpStatus.unauthorized ||
+        e.response?.statusCode == HttpStatus.badRequest) {
+      print(e.response);
+    }
+    emit(
+        ApiErrorState(error: e,
+            errorMessage: e.response?.data['message'] ?? ""));
+    } catch (e) {
+      emit(
+          ApiErrorState(
+              errorMessage: TextConstants.text101Err));
+    }
+  }
+
   //Save Token Login
   saveToken(String? accessToken) async {
     return await PreferenceUtils.setString("access_token", accessToken ?? "");
@@ -148,9 +192,9 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     return await PreferenceUtils.saveUserLogin(userModel);
   }
 
-  // saveAccountInformation(OWhoAmI? user) async {
-  //   return await PreferenceUtils.saveAccountInformation(user);
-  // }
+  saveAccountInformation(OWhoAmI? user) async {
+    return await PreferenceUtils.saveAccount(user);
+  }
 
 
   Future<String?> _getId() async {

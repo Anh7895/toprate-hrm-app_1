@@ -43,17 +43,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   @override
   void initState() {
-    getToken().then((value) {
-      if(value != null && value != ''){
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => DashboardScreen()),
-                  (Route<dynamic> route) => false);
-        });
-      }else{
-        return ;
-      }
-    });
+    // getToken().then((value) {
+    //   if(value != null && value != ''){
+    //     Future.delayed(Duration(seconds: 1), () {
+    //       Navigator.of(context).pushAndRemoveUntil(
+    //           MaterialPageRoute(builder: (context) => DashboardScreen()),
+    //               (Route<dynamic> route) => false);
+    //     });
+    //   }else{
+    //     return ;
+    //   }
+    // });
     _bloc.add(InitLoginEvent());
     super.initState();
   }
@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
         bloc: _bloc,
         listener: (context, state) async {
 
-          if (state is LoginSuccessState) {
+          if (state is GetInfoUserState) {
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => DashboardScreen()),
                     (Route<dynamic> route) => false);
