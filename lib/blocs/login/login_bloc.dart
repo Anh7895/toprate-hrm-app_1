@@ -158,6 +158,8 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       }
       else{
         print("No");
+        emit(  ApiErrorState(
+            errorMessage: "Get Info User Fail"));
         //emit(LoginFailState());
       }
 
