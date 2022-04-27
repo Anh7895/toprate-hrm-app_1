@@ -210,7 +210,9 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                   _bloc.listProjectData[index].stringNameSelectProject !=
                       _bloc.listProjectData[index].stringNameDefault,
               child: WebImageWidget(
-                urlImage: _bloc.listProjectByDate[index].project!.avatar,
+                urlImage: _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.avatar != null ?
+                _bloc.listProjectByDate[index].project!.avatar! :
+                _bloc.listProjectData[index].avatar,
                 width: width_24,
                 height: width_24,
               ),
