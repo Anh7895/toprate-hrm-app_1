@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
+import 'package:toprate_hrm/common/utils/extensions.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/project_data.dart';
 import 'package:toprate_hrm/datasource/repository/daily_checkin_repository.dart';
 
@@ -27,10 +28,12 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<GetAllSettingBlockEvent>(
         (event, emit) => getAllSettingBlock(event, emit));
     on<GetAllProjectEvent>((event, emit) => getAllProject(event, emit));
+    on<GetProjectByDateEvent>((event, emit) => GetProjectByDate(event, emit));
     on<CheckInEvent>((event, emit) => checkIn(event, emit));
   }
 
   List<ProjectData> listProjectData = [];
+  List<COTimekeeping> listProjectByDate = [];
   DateTime dateTime = DateTime.now();
   DateTime dateToday = DateTime.now();
   bool isShowDialog = false;
@@ -43,6 +46,8 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   List<CoefficientPay> listCoefficientPay = [];
   List<Project> listProject = [];
   final DailyCheckInRepository dailyCheckInRepository;
+  String date = "";
+
 
   initData(InitDataEvent event, Emitter<BaseState> emit) async {
     time =
@@ -55,6 +60,9 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     time =
         "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
     isCanGoToNextDay = true;
+    date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+    listProjectByDate.clear();
+    add(GetProjectByDateEvent(date));
     emit(BackDayState());
   }
 
@@ -68,6 +76,9 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     time =
         "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
     isCanGoToNextDay = true;
+    date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+    listProjectByDate.clear();
+    add(GetProjectByDateEvent(date));
     emit(NextDayState());
   }
 
@@ -154,6 +165,27 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   clickSubmit(ClickSubmitEvent event, Emitter<BaseState> emit) async {
     add(CheckInEvent(checkIn: buildCheckIn()));
     emit(ClickSubmitState());
+  }
+
+
+  GetProjectByDate(
+      GetProjectByDateEvent event, Emitter<BaseState> emit) async {
+    try {
+      emit(StartCallApiState());
+      final response = await dailyCheckInRepository.getProjectByDate(date);
+      if (response == null) {
+        print("Error: data is null");
+      } else {
+        print("dataaaa $response");
+        ListBuilder<COTimekeeping> listBuilder = ListBuilder();
+        listBuilder.addAll(response);
+        listProjectByDate.clear();
+        listProjectByDate.addAll(listBuilder.build().asList());
+        emit(GetProjectByDateState());
+      }
+    } on DioError catch (e) {
+      emit(ApiErrorState(error: e));
+    }
   }
 
   checkIn(CheckInEvent event, Emitter<BaseState> emit) async {

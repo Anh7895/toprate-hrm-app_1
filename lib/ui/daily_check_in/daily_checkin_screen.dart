@@ -166,12 +166,12 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
   Widget _buildListDaily() {
     return Container(
       margin: EdgeInsets.only(bottom: height_64),
-      child: _bloc.listProjectData.length > 0
+      child: _bloc.listProjectByDate.length > 0 || _bloc.listProjectData.length > 0
           ? ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
-              itemCount: _bloc.listProjectData.length,
+              itemCount: _bloc.listProjectByDate.length > 0 ? _bloc.listProjectByDate.length : _bloc.listProjectData.length,
               itemBuilder: (BuildContext context, int index) {
                 return _buildListSelected(index);
               })
@@ -192,6 +192,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
         padding: EdgeInsets.symmetric(horizontal: width_20),
         decoration: BoxDecoration(
             color:
+                _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.name != null ?
+                Color(int.parse("0xFF" + _bloc.listProjectByDate[index].project!.color! )) :
                 _bloc.listProjectData[index].stringNameSelectProject != null &&
                         _bloc.listProjectData[index].stringNameSelectProject !=
                             _bloc.listProjectData[index].stringNameDefault
@@ -208,17 +210,21 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                   _bloc.listProjectData[index].stringNameSelectProject !=
                       _bloc.listProjectData[index].stringNameDefault,
               child: WebImageWidget(
-                urlImage: _bloc.listProjectData[index].avatar,
+                urlImage: _bloc.listProjectByDate[index].project!.avatar,
                 width: width_24,
                 height: width_24,
               ),
             ),
             Text(
+              _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.name != null ?
+              _bloc.listProjectByDate[index].project!.name! :
               _bloc.listProjectData[index].stringNameSelectProject == null
                   ? _bloc.listProjectData[index].stringNameDefault!
                   : _bloc.listProjectData[index].stringNameSelectProject!,
-              style: TextStyle(
-                  color: _bloc.listProjectData[index].stringNameSelectProject !=
+              style: TextStyle(color:
+              _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.name != null ?
+                  ThemeColor.clr_FFFFFF :
+                  _bloc.listProjectData[index].stringNameSelectProject !=
                               null ||
                           _bloc.listProjectData[index]
                                   .stringNameSelectProject !=
@@ -240,7 +246,10 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                 }
               },
               child: LocalImageWidget(
-                url: _bloc.listProjectData[index].stringNameSelectProject !=
+                url:
+                _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.name != null ?
+                ic_remove_project_png :
+                _bloc.listProjectData[index].stringNameSelectProject !=
                             null &&
                         _bloc.listProjectData[index].stringNameSelectProject !=
                             _bloc.listProjectData[index].stringNameDefault

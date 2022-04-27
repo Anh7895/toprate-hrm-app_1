@@ -53,4 +53,10 @@ class CheckInEvent extends DailyCheckInEvent {
   CheckInEvent({this.checkIn});
 }
 
+class GetProjectByDateEvent extends DailyCheckInEvent {
+  final String? date;
+  GetProjectByDateEvent(this.date);
+}
+
+
 

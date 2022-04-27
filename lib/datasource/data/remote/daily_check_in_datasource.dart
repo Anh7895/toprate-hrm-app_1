@@ -24,4 +24,10 @@ class DailyCheckInDataSource {
         await apiClient.getTimekeepingApi().checkIn(checkIn: checkIn);
     return response;
   }
+
+  Future getProjectByDate(String? date) async {
+    final response = await apiClient.getTimekeepingApi().getTimekeepingByUserAndByDate(date: date);
+    return response.data;
+  }
+
 }
