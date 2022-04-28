@@ -55,7 +55,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     });
     ///Get User Information
     on<GetUserInformationEvent>((event,emit)=>getUserInfo(event, emit));
-
+    on<AddDeviceTokenEvent>((event,emit)=>addDeviceToken(emit, LocalUserData.getInstance.user.id));
     ///Change Obscure
     on<ChangeObscureEvent>((event, emit){
       isObscure = !isObscure;
@@ -112,9 +112,8 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
           await saveToken(rAuth.accessToken);
           LocalUserData.getInstance.refreshToken = rAuth.refreshToken??'';
           await saveRefreshToken(rAuth.refreshToken);
-          add(GetUserInformationEvent());
-          emit(LoginSuccessState());
-
+        add(GetUserInformationEvent());
+        emit(LoginSuccessState());
       } on DioError catch (e) {
         List<String> err = [];
         print(e.response?.statusCode);
@@ -146,10 +145,13 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     try {
       final oWhoAmI = await loginRepository.userInfo();
       if (oWhoAmI != null) {
-        LocalUserData.getInstance.user = oWhoAmI;
-        print(LocalUserData.getInstance.firstName);
         await saveAccountInformation(oWhoAmI);
+        LocalUserData.getInstance.user = oWhoAmI;
+        LocalUserData.getInstance.firstName=oWhoAmI.firstName;
+        print(oWhoAmI.firstName);
+        print(LocalUserData.getInstance.user.firstName);
         emit(GetInfoUserState());
+       // add(AddDeviceTokenEvent());
       }
       else{
         emit(  ApiErrorState(
@@ -213,7 +215,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     }
   }
 
-  addDeviceToken(Emitter<BaseState> emit, int? userId) async {
+  addDeviceToken(Emitter<BaseState> emit, String? userId) async {
     try {
       emit(StartCallApiState());
       // Get the token each time the application loads

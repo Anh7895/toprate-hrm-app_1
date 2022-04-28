@@ -28,11 +28,11 @@ class Routes {
             builder: (_) => DashboardScreen(),
             settings:
             RouteSettings(name: RouteName.dashboard));
-    // case RouteName.splashScreen:
-    //   return MaterialPageRoute(
-    //       builder: (_) => SplashScreen(),
-    //       settings:
-    //       RouteSettings(name: RouteName.splashScreen));
+    case RouteName.splashScreen:
+      return MaterialPageRoute(
+          builder: (_) => SplashScreen(),
+          settings:
+          RouteSettings(name: RouteName.splashScreen));
       case RouteName.dailyCheckInScreen:
         return MaterialPageRoute(
             builder: (_) => DailyCheckInScreen(),

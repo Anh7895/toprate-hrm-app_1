@@ -12,6 +12,7 @@ import 'package:toprate_hrm/datasource/data/local_user_data.dart';
 
 import '../../common/injector/injector.dart';
 import '../../common/widgets/base_button.dart';
+import '../login/login_screen.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
@@ -28,6 +29,11 @@ class _UserScreenState extends State<UserScreen> {
       body: HttpStreamHandler<UserBloc,BaseState>(
         bloc: _bloc,
         listener: (context, state) async{
+          if(state is LogoutSuccessState){
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+                    (Route<dynamic> route) => false);
+          }
         },
         builder: (context,state){
           return Padding(
@@ -71,15 +77,15 @@ class _UserScreenState extends State<UserScreen> {
 
                     ],
                   ),
-                  // BaseButton( height: height_45,
-                  //   width: width_200,
-                  //   title: "Logout",
-                  //   style: TextStyleCommon.textStyleWhiteNormalTitle,
-                  //   backgroundColor: ThemeColor.clr_CE6161,
-                  //   onPressed: (){
-                  //       _bloc.add(LogoutEvent());
-                  //   },
-                  // ),
+                  BaseButton( height: height_45,
+                    width: width_200,
+                    title: "Logout",
+                    style: TextStyleCommon.textStyleWhiteNormalTitle,
+                    backgroundColor: ThemeColor.clr_CE6161,
+                    onPressed: (){
+                        _bloc.add(LogoutEvent());
+                    },
+                  ),
                   BaseButton(
                     height: height_56,
                       width: width_250,
