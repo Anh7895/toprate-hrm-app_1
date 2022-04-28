@@ -134,6 +134,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
           numberBloc = int.parse(listSettingBloc[i].number ?? "");
           for (int t = 0; t < numberBloc; t++) {
             listProjectByDate.clear();
+            listProjectData.clear();
             listProjectData.add(ProjectData(
                 stringNameDefault: listSettingBloc[i].placeholder!,
                 stringNameSelectProject: null,
@@ -156,12 +157,12 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       if (response == null) {
         print("Error: data is null");
       } else {
-        response.data?.project?.forEach((e) {
+        response.data?.projects?.forEach((e) {
           if(e.project != null){
             listProjectDefault.add(e.project!);
           }
         });
-        listProjectDefault.addAll(response.data?.projectDefault ?? []);
+        listProjectDefault.addAll(response.data?.projectsDefault ?? []);
         print("getListProject ${listProjectDefault}");
         emit(GetAllProjectState());
       }
@@ -191,6 +192,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
             isClick =false;
             listProjectByDate.clear();
             listProjectData.clear();
+            print("dataadhjhjkaa ${listProjectByDate.length}");
             response.data?.forEach((e) {
               if(e.project != null){
                 listProjectByDate.add(e.project!);

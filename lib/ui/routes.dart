@@ -57,8 +57,6 @@ class Routes {
             builder: (_) => ReportScreen(),
             settings: RouteSettings(name: RouteName.report));
 
-            settings:
-            RouteSettings(name: RouteName.notification));
       case RouteName.user:
         return MaterialPageRoute(
             builder: (_) => UserScreen(),

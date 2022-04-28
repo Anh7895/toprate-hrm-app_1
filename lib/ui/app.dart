@@ -175,7 +175,7 @@ class _BaseAppState extends State<BaseApp> {
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: ThemeColor.appStyleColor,
+        statusBarColor: ThemeColor.clr_CE6161,
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.dark
     ));
