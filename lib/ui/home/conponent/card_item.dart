@@ -19,9 +19,10 @@ class HomeCardItem extends StatelessWidget {
     return Column(
       children: [
         SVGImageWidget(url: url,height: height_80, width: width_80,),
-        SizedBox(height: height_13,),
-        Text(text, style:  textStyle,),
-        SizedBox(height: height_5,)
+        SizedBox(height: height_5,),
+        Container(width:width_86,
+            child: Text(text, style:  textStyle,textAlign: TextAlign.center,)),
+        SizedBox(height: height_10,)
       ],
     );
   }

@@ -47,7 +47,7 @@ class PreferenceUtils {
       fullName: oWhoAmI?.fullName,
       firstName: oWhoAmI?.firstName,
       lastName: oWhoAmI?.lastName,
-      avatar: oWhoAmI?.avatar,
+      avatar: oWhoAmI?.avatarUrl,
       email: oWhoAmI?.email,
       googleId: oWhoAmI?.googleId,
       isLocked: oWhoAmI?.isLocked,
@@ -76,7 +76,7 @@ class PreferenceUtils {
       oWhoAmIBuilder.fullName = userInformation.fullName;
       oWhoAmIBuilder.firstName = userInformation.firstName;
       oWhoAmIBuilder.lastName = userInformation.lastName;
-      oWhoAmIBuilder.avatar = userInformation.avatar;
+      oWhoAmIBuilder.avatarUrl = userInformation.avatar;
       oWhoAmIBuilder.email = userInformation.email;
       oWhoAmIBuilder.googleId = userInformation.googleId;
       oWhoAmIBuilder.isLocked = userInformation.isLocked;

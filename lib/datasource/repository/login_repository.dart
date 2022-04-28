@@ -37,7 +37,7 @@ class LoginRepository {
     }
   }
 
-  Future<Response<DeviceToken>> addDeviceToken(DeviceToken deviceToken) async {
+  Future<Response<JsonObject>> addDeviceToken(DeviceToken deviceToken) async {
     if (await networkInfo.isConnected) {
       return loginDataSource.addDeviceToken(deviceToken);
     } else {
@@ -45,7 +45,7 @@ class LoginRepository {
     }
   }
  }
-}
+
 
 // Future<JsonObject> revokeToken({String? username}) async {
 //   if (await networkInfo.isConnected) {
