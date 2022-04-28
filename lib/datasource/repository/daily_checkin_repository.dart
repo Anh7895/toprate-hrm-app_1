@@ -20,6 +20,14 @@ class DailyCheckInRepository {
     }
   }
 
+   getProjectByDate(String? date) async {
+    if (await networkInfo.isConnected) {
+      return dailyCheckInDataSource.getProjectByDate(date);
+    } else {
+      throw NetworkConnectionException();
+    }
+  }
+
   getAllProject() async {
     if (await networkInfo.isConnected) {
       return dailyCheckInDataSource.getAllProject();

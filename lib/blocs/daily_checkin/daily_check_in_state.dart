@@ -33,6 +33,10 @@ class GetAllSettingBlockState extends ApiSuccessState {
   GetAllSettingBlockState();
 }
 
+class GetProjectByDateState extends ApiSuccessState {
+  GetProjectByDateState();
+}
+
 class GetAllProjectState extends ApiSuccessState {
   GetAllProjectState();
 }
