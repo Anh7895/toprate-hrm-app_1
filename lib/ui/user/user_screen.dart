@@ -38,63 +38,85 @@ class _UserScreenState extends State<UserScreen> {
         builder: (context,state){
           return Padding(
               padding: EdgeInsets.symmetric(horizontal: width_24, vertical: height_60),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("${LocalUserData.getInstance.user?.firstName}",style: TextStyleCommon.textUserNameHeader,),
-                      SizedBox(height:  height_45,),
-                      Container(
-                        height: height_50,
-                        width: width_325,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(radius_16),
-                          border: Border.all(color: ThemeColor.clr_D6D9E0),
-
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: SingleChildScrollView(
+                child: Column(
+                  children:[
+                    Container(
+                      decoration: BoxDecoration(color: ThemeColor.clr_FFFFFF,
+                      borderRadius: BorderRadius.circular(radius_16),
+                        border: Border.all(color: ThemeColor.clr_CE6161)
+                      ),
+                       width: MediaQuery.of(context).size.width,
+                      // height: MediaQuery.of(context).size.height,
+                      child: Padding(
+                        padding: EdgeInsets.all(width_20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            CircleAvatar(backgroundImage: NetworkImage(LocalUserData.getInstance.user?.avatarUrl),radius: radius_52,),
+                            Text("${LocalUserData.getInstance.user?.firstName}",style: TextStyleCommon.textUserNameHeader,),
+                            SizedBox(height:  height_45,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
 
-                            Padding(
-                              padding:  EdgeInsets.only(left: width_60),
-                              child: Text(TextConstants.textChoose, style: TextStyleCommon.textUserChoose,),
-                            ),
-
-                            Container(
-                              margin: EdgeInsets.only(right: width_10),
-                              child: GestureDetector(
-                                  onTap: (){
-                                _showMyDialog(context);
-                                  },
-                                  child: Icon(Icons.keyboard_arrow_down_outlined,color: ThemeColor.clr_CE6161,)),
-                            ),
+                              ],
+                            )
                           ],
                         ),
                       ),
+                    ),
+                    SizedBox(height: height_12,),
+                    Container(
+                      height: height_50,
+                      width: width_325,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(radius_16),
+                        border: Border.all(color: ThemeColor.clr_D6D9E0),
 
-                    ],
-                  ),
-                  BaseButton( height: height_45,
-                    width: width_200,
-                    title: "Logout",
-                    style: TextStyleCommon.textStyleWhiteNormalTitle,
-                    backgroundColor: ThemeColor.clr_CE6161,
-                    onPressed: (){
-                        _bloc.add(LogoutEvent());
-                    },
-                  ),
-                  BaseButton(
-                    height: height_56,
-                      width: width_250,
-                    title: TextConstants.textSubmit,
-                    backgroundColor: ThemeColor.clr_CE6161,
-                    colorText: ThemeColor.clr_FFFFFF,
-                    style: TextStyleCommon.textStyleUserButtonSubmit,
-                  )
-                ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+
+                          Padding(
+                            padding:  EdgeInsets.only(left: width_60),
+                            child: Text(TextConstants.textChoose, style: TextStyleCommon.textUserChoose,),
+                          ),
+
+                          Container(
+                            margin: EdgeInsets.only(right: width_10),
+                            child: GestureDetector(
+                                onTap: (){
+                                  _showMyDialog(context);
+                                },
+                                child: Icon(Icons.keyboard_arrow_down_outlined,color: ThemeColor.clr_CE6161,)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+
+                      child: Column(children: [
+                      BaseButton(
+
+                        title: "Logout",
+                        style: TextStyleCommon.textStyleWhiteNormalTitle,
+                        backgroundColor: ThemeColor.clr_CE6161,
+                        onPressed: (){
+                          _bloc.add(LogoutEvent());
+                        },
+                      ),
+                      BaseButton(
+                        title: TextConstants.textSubmit,
+                        backgroundColor: ThemeColor.clr_CE6161,
+                        colorText: ThemeColor.clr_FFFFFF,
+                        style: TextStyleCommon.textStyleUserButtonSubmit,
+                      )
+                    ],),)
+
+                  ]
+                )
               ),
           );
         },

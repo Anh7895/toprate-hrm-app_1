@@ -133,6 +133,10 @@ class ApiClient extends Openapi {
                   }
                 }
                 if(e.response?.statusCode == HttpStatus.forbidden){
+                  removeAccessToken();
+                  removeDeviceId();
+                  removeUserInformation();
+                  removeDeviceToken();
                   Navigator.of(NavKey.navKey.currentContext!).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => LoginScreen()),
                           (Route<dynamic> route) => false);
@@ -165,7 +169,23 @@ saveToken(String? accessToken) async {
   return await PreferenceUtils.setString("access_token", accessToken ?? "");
 }
 
+removeDeviceToken() async {
+  return await PreferenceUtils.setString("device_token", '');
+}
+removeUserInformation() async {
+  return await PreferenceUtils.setString("user_information", '');
+}
+removeDeviceId() async {
+  return await PreferenceUtils.setString("device_id", '');
+}
+//Remove access token
+removeAccessToken() async {
+  return await PreferenceUtils.setString("access_token", '');
+}
+
 //Save Refresh Token
 saveRefreshToken(String? refreshToken) async {
   return await PreferenceUtils.setString("refresh_token", refreshToken ?? "");
+
+
 }

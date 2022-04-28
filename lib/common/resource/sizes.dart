@@ -189,6 +189,7 @@ double radius_16 = 16.r;
 double radius_20 = 20.r;
 double radius_24 = 24.r;
 double radius_32 = 32.r;
+double radius_52 = 52.r;
 double radius_200 = 200.r;
 
 /// Font size
