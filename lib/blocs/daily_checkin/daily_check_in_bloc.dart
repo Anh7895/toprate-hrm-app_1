@@ -35,15 +35,16 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   }
 
   List<ProjectData> listProjectData = [];
-  List<COTimekeeping> listProjectByDate = [];
+  List<Project> listProjectByDate = [];
   DateTime dateTime = DateTime.now();
   DateTime dateToday = DateTime.now();
-  bool isShowDialog = false;
+  bool isClick = false;
   bool isCanGoToNextDay = false;
   String time = "";
   int numberBloc = 0;
   int? selectedIndex;
   int? intSelectData;
+  String? stringDayNow = DateFormat("dd-MM-yyyy").format(DateTime.now());
   List<SettingBlock> listSettingBloc = [];
   List<COTimekeeping> listCOTimekeeping = [];
   List<CoefficientPay> listCoefficientPay = [];
@@ -65,10 +66,9 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     time =
         "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
     isCanGoToNextDay = true;
-    date = dateTime.convertDateTimeToString("dd-MM-yyyy");
-    listProjectByDate.clear();
-    add(GetProjectByDateEvent(date));
     // add(GetTimekeepingByUserAndByDateEvent(date: DateFormat("dd-MM-yyyy").format(dateTime)));
+    date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+    add(GetProjectByDateEvent(date: date));
     emit(BackDayState());
   }
 
@@ -77,14 +77,14 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     final aDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
     if (today != aDate) {
       dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day + 1);
+      add(GetProjectByDateEvent(date: date));
     }
+
     isCanGoToNextDay = dateTime == today ? false : true;
     time =
         "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
     isCanGoToNextDay = true;
     date = dateTime.convertDateTimeToString("dd-MM-yyyy");
-    listProjectByDate.clear();
-    add(GetProjectByDateEvent(date));
     emit(NextDayState());
   }
 
@@ -120,6 +120,9 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       if (response == null) {
         print("Error: data is null");
       } else {
+        isClick = true;
+        listSettingBloc.clear();
+        listProjectByDate.clear();
         final listModel = response?['data']
             .map<SettingBlock>((e) =>
                 standardSerializers.deserializeWith<SettingBlock>(
@@ -127,10 +130,10 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
                 SettingBlock())
             .toList();
         listSettingBloc.addAll(listModel);
-
         for (int i = 0; i < listSettingBloc.length; i++) {
           numberBloc = int.parse(listSettingBloc[i].number ?? "");
           for (int t = 0; t < numberBloc; t++) {
+            listProjectByDate.clear();
             listProjectData.add(ProjectData(
                 stringNameDefault: listSettingBloc[i].placeholder!,
                 stringNameSelectProject: null,
@@ -167,29 +170,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     }
   }
 
-
-  // getTimekeepingByUserAndByDate(GetTimekeepingByUserAndByDateEvent event, Emitter<BaseState> emit) async {
-  //   try {
-  //     emit(StartCallApiState());
-  //     final response = await dailyCheckInRepository.getTimekeepingByUserAndByDate(event.date!);
-  //     if (response == null) {
-  //       print("Error: data is null");
-  //     } else {
-  //       print("getListProject ${response.data?.length}");
-  //       listProjectTimekeeping.clear();
-  //       response.data?.forEach((e) {
-  //         if(e.project != null){
-  //           listProjectTimekeeping.add(e.project!);
-  //         }
-  //       });
-  //       print("Error: data is null ${listProjectTimekeeping.length}");
-  //       emit(GetTimekeepingByUserAndByDateState());
-  //     }
-  //   } on DioError catch (e) {
-  //     emit(ApiErrorState(error: e));
-  //   }
-  // }
-
   clickSubmit(ClickSubmitEvent event, Emitter<BaseState> emit) async {
     add(CheckInEvent(checkIn: buildCheckIn()));
     emit(ClickSubmitState());
@@ -205,10 +185,19 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         print("Error: data is null");
       } else {
         print("dataaaa $response");
-        ListBuilder<COTimekeeping> listBuilder = ListBuilder();
-        listBuilder.addAll(response);
-        listProjectByDate.clear();
-        listProjectByDate.addAll(listBuilder.build().asList());
+          if(response.data?.length == 0){
+            add(GetAllSettingBlockEvent());
+          }else{
+            isClick =false;
+            listProjectByDate.clear();
+            listProjectData.clear();
+            response.data?.forEach((e) {
+              if(e.project != null){
+                listProjectByDate.add(e.project!);
+              }
+            });
+          print("dataaaa ${listProjectByDate.length}");
+        }
         emit(GetProjectByDateState());
       }
     } on DioError catch (e) {
@@ -223,6 +212,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       if (response.data == null) {
         print("Error: letter is null");
       } else {
+        isClick = false;
         emit(showAlertBottomSheetDialogState());
       }
     } on DioError catch (e) {

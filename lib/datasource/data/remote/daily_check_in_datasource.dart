@@ -27,9 +27,9 @@ class DailyCheckInDataSource {
     return response;
   }
 
-  Future getProjectByDate(String? date) async {
+  Future<Response<BuiltList<COTimekeeping>>> getProjectByDate(String? date) async {
     final response = await apiClient.getTimekeepingApi().getTimekeepingByUserAndByDate(date: date);
-    return response.data;
+    return response;
   }
 
 }

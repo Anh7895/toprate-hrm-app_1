@@ -50,6 +50,13 @@ class Routes {
       case RouteName.notification:
         return MaterialPageRoute(
             builder: (_) => NotificationScreen(),
+            settings: RouteSettings(name: RouteName.notification));
+
+      case RouteName.report:
+        return MaterialPageRoute(
+            builder: (_) => ReportScreen(),
+            settings: RouteSettings(name: RouteName.report));
+
             settings:
             RouteSettings(name: RouteName.notification));
       case RouteName.user:
@@ -57,10 +64,6 @@ class Routes {
             builder: (_) => UserScreen(),
             settings:
             RouteSettings(name: RouteName.user));
-      case RouteName.report:
-        return MaterialPageRoute(
-            builder: (_) => ReportScreen(),
-            settings: RouteSettings(name: RouteName.report));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

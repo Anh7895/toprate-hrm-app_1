@@ -28,16 +28,17 @@ class DailyCheckInRepository {
       throw NetworkConnectionException();
     }
   }
-  getProjectByDate(String? date) async {
+
+  Future<Response<JsonObject>> checkIn(CheckIn checkIn) async {
     if (await networkInfo.isConnected) {
-      return dailyCheckInDataSource.getProjectByDate(date);
+      return dailyCheckInDataSource.checkIn(checkIn);
     } else {
       throw NetworkConnectionException();
     }
   }
-  Future<Response<JsonObject>> checkIn(CheckIn checkIn) async {
+  Future<Response<BuiltList<COTimekeeping>>> getProjectByDate(String? date) async {
     if (await networkInfo.isConnected) {
-      return dailyCheckInDataSource.checkIn(checkIn);
+      return dailyCheckInDataSource.getProjectByDate(date);
     } else {
       throw NetworkConnectionException();
     }
