@@ -8,5 +8,6 @@ class RouteName {
   static const dailyCheckInScreen = '/daily_check_in_screen';
   static const dayOffScreen = '/day_off_screen';
   static const notification = '/notification';
+  static const report = '/report';
   static const user = '/user';
 }

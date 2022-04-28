@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_collection/src/list.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -30,21 +31,26 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<GetAllProjectEvent>((event, emit) => getAllProject(event, emit));
     on<GetProjectByDateEvent>((event, emit) => GetProjectByDate(event, emit));
     on<CheckInEvent>((event, emit) => checkIn(event, emit));
+   // on<GetTimekeepingByUserAndByDateEvent>((event, emit) => getTimekeepingByUserAndByDate(event, emit));
   }
 
   List<ProjectData> listProjectData = [];
-  List<COTimekeeping> listProjectByDate = [];
+  List<Project> listProjectByDate = [];
   DateTime dateTime = DateTime.now();
   DateTime dateToday = DateTime.now();
-  bool isShowDialog = false;
+  bool isClick = false;
   bool isCanGoToNextDay = false;
   String time = "";
   int numberBloc = 0;
   int? selectedIndex;
   int? intSelectData;
+  String? stringDayNow = DateFormat("dd-MM-yyyy").format(DateTime.now());
   List<SettingBlock> listSettingBloc = [];
+  List<COTimekeeping> listCOTimekeeping = [];
   List<CoefficientPay> listCoefficientPay = [];
-  List<Project> listProject = [];
+  OProjectByUser? oProjectByUser;
+  List<Project> listProjectDefault = [];
+  List<Project> listProjectTimekeeping = [];
   final DailyCheckInRepository dailyCheckInRepository;
   String date = "";
 
@@ -60,9 +66,9 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     time =
         "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
     isCanGoToNextDay = true;
+    // add(GetTimekeepingByUserAndByDateEvent(date: DateFormat("dd-MM-yyyy").format(dateTime)));
     date = dateTime.convertDateTimeToString("dd-MM-yyyy");
-    listProjectByDate.clear();
-    add(GetProjectByDateEvent(date));
+    add(GetProjectByDateEvent(date: date));
     emit(BackDayState());
   }
 
@@ -71,14 +77,14 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     final aDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
     if (today != aDate) {
       dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day + 1);
+      add(GetProjectByDateEvent(date: date));
     }
+
     isCanGoToNextDay = dateTime == today ? false : true;
     time =
         "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
     isCanGoToNextDay = true;
     date = dateTime.convertDateTimeToString("dd-MM-yyyy");
-    listProjectByDate.clear();
-    add(GetProjectByDateEvent(date));
     emit(NextDayState());
   }
 
@@ -114,6 +120,9 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       if (response == null) {
         print("Error: data is null");
       } else {
+        isClick = true;
+        listSettingBloc.clear();
+        listProjectByDate.clear();
         final listModel = response?['data']
             .map<SettingBlock>((e) =>
                 standardSerializers.deserializeWith<SettingBlock>(
@@ -121,10 +130,10 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
                 SettingBlock())
             .toList();
         listSettingBloc.addAll(listModel);
-
         for (int i = 0; i < listSettingBloc.length; i++) {
           numberBloc = int.parse(listSettingBloc[i].number ?? "");
           for (int t = 0; t < numberBloc; t++) {
+            listProjectByDate.clear();
             listProjectData.add(ProjectData(
                 stringNameDefault: listSettingBloc[i].placeholder!,
                 stringNameSelectProject: null,
@@ -143,18 +152,17 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   getAllProject(GetAllProjectEvent event, Emitter<BaseState> emit) async {
     try {
       emit(StartCallApiState());
-      final response = await dailyCheckInRepository.getAllProject();
+      final response = await dailyCheckInRepository.getProjectByUser();
       if (response == null) {
         print("Error: data is null");
       } else {
-        final listModel = response?['data']
-            .map<Project>((e) =>
-                standardSerializers.deserializeWith<Project>(
-                    Project.serializer, e) ??
-                Project())
-            .toList();
-        listProject.addAll(listModel);
-        print("getListProject $response");
+        response.data?.project?.forEach((e) {
+          if(e.project != null){
+            listProjectDefault.add(e.project!);
+          }
+        });
+        listProjectDefault.addAll(response.data?.projectDefault ?? []);
+        print("getListProject ${listProjectDefault}");
         emit(GetAllProjectState());
       }
     } on DioError catch (e) {
@@ -177,10 +185,19 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         print("Error: data is null");
       } else {
         print("dataaaa $response");
-        ListBuilder<COTimekeeping> listBuilder = ListBuilder();
-        listBuilder.addAll(response);
-        listProjectByDate.clear();
-        listProjectByDate.addAll(listBuilder.build().asList());
+          if(response.data?.length == 0){
+            add(GetAllSettingBlockEvent());
+          }else{
+            isClick =false;
+            listProjectByDate.clear();
+            listProjectData.clear();
+            response.data?.forEach((e) {
+              if(e.project != null){
+                listProjectByDate.add(e.project!);
+              }
+            });
+          print("dataaaa ${listProjectByDate.length}");
+        }
         emit(GetProjectByDateState());
       }
     } on DioError catch (e) {
@@ -195,6 +212,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       if (response.data == null) {
         print("Error: letter is null");
       } else {
+        isClick = false;
         emit(showAlertBottomSheetDialogState());
       }
     } on DioError catch (e) {
@@ -225,14 +243,11 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     var builder = CheckInBuilder();
     List<CheckInData> data = [];
     listProjectData.forEach((e) {
-      if (e.projectId != null && e.coefficientPayId != null &&
-          e.time != null && e.avatar != null && e.color != null) {
+      if (e.projectId != null && e.coefficientPayId != null && e.time != null) {
         CheckInDataBuilder checkInDataBuilder = CheckInDataBuilder();
         checkInDataBuilder.projectId = e.projectId;
         checkInDataBuilder.coefficientPayId = e.coefficientPayId;
         checkInDataBuilder.time = e.time;
-        // checkInDataBuilder.avatar = e.avatar;
-        // checkInDataBuilder.color = e.color;
         data.add(checkInDataBuilder.build());
       }
     });

@@ -34,7 +34,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
   void initState() {
     // TODO: implement initState
     _bloc.add(InitDataEvent());
-    _bloc.add(GetAllSettingBlockEvent());
+    _bloc.add(GetProjectByDateEvent(date: _bloc.stringDayNow));
     _bloc.add(GetAllProjectEvent());
     super.initState();
   }
@@ -68,7 +68,10 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             builder: (context, state) {
               return Stack(
                 children: [
-                  _buildDetailBody(context),
+                  Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: SingleChildScrollView(
+                          child: _buildDetailBody(context))),
                   _buildButtonBottomWidget(context),
                   Visibility(
                     visible: state is StartCallApiState,
@@ -91,7 +94,9 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
       right: 8,
       child: GestureDetector(
         onTap: () {
-          _showDialogConfirm(context);
+          if (_bloc.isClick == true) {
+            _showDialogConfirm(context);
+          }
         },
         child: Column(
           children: [
@@ -114,10 +119,9 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
   Widget _buildDetailBody(BuildContext context) {
     return Container(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: height_25),
+        padding: EdgeInsets.fromLTRB(25, 25, 25, 30),
         child: Column(
           children: [
-            SizedBox(height: height_24),
             _buildCalendar(),
             SizedBox(height: height_24),
             _buildListDaily(),
@@ -166,16 +170,19 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
   Widget _buildListDaily() {
     return Container(
       margin: EdgeInsets.only(bottom: height_64),
-      child: _bloc.listProjectByDate.length > 0 || _bloc.listProjectData.length > 0
-          ? ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              itemCount: _bloc.listProjectByDate.length > 0 ? _bloc.listProjectByDate.length : _bloc.listProjectData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return _buildListSelected(index);
-              })
-          : SizedBox(),
+      child:
+          _bloc.listProjectByDate.length > 0 || _bloc.listProjectData.length > 0
+              ? ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _bloc.listProjectByDate.length > 0
+                      ? _bloc.listProjectByDate.length
+                      : _bloc.listProjectData.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _buildListSelected(index);
+                  })
+              : SizedBox(),
     );
   }
 
@@ -183,7 +190,9 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        _showMyDialog(context, index);
+        if (_bloc.isClick == true) {
+          _showMyDialog(context, index);
+        }
       },
       child: Container(
         width: width_336,
@@ -191,13 +200,15 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
         margin: EdgeInsets.only(top: height_12),
         padding: EdgeInsets.symmetric(horizontal: width_20),
         decoration: BoxDecoration(
-            color:
-                _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.name != null ?
-                Color(int.parse("0xFF" + _bloc.listProjectByDate[index].project!.color! )) :
-                _bloc.listProjectData[index].stringNameSelectProject != null &&
+            color: _bloc.listProjectByDate.length > 0
+                ? Color(
+                    int.parse("0xFF" + _bloc.listProjectByDate[index].color!))
+                : _bloc.listProjectData[index].stringNameSelectProject !=
+                            null &&
                         _bloc.listProjectData[index].stringNameSelectProject !=
                             _bloc.listProjectData[index].stringNameDefault
-                    ? Color(int.parse("0XFF" + _bloc.listProjectData[index].color!))
+                    ? Color(
+                        int.parse("0XFF" + _bloc.listProjectData[index].color!))
                     : ThemeColor.clr_FFFFFF,
             borderRadius: BorderRadius.all(Radius.circular(radius_16)),
             border: Border.all(color: ThemeColor.clr_D6D9E0, width: 1)),
@@ -205,34 +216,40 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Visibility(
-              visible: _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.name != null ||
-              _bloc.listProjectData[index].stringNameSelectProject != null &&
-                  _bloc.listProjectData[index].stringNameSelectProject !=
-                      _bloc.listProjectData[index].stringNameDefault,
+              visible: _bloc.listProjectByDate.length > 0 &&
+                      _bloc.listProjectByDate[index].avatar != null ||
+                  _bloc.listProjectData != [] &&
+                      _bloc.listProjectData[index].stringNameSelectProject !=
+                          null &&
+                      _bloc.listProjectData[index].stringNameSelectProject !=
+                          _bloc.listProjectData[index].stringNameDefault,
               child: WebImageWidget(
-                urlImage: _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.avatar != null ?
-                _bloc.listProjectByDate[index].project!.avatar! :
-                _bloc.listProjectData[index].avatar,
+                urlImage: _bloc.listProjectByDate.length > 0
+                    ? _bloc.listProjectByDate[index].avatar
+                    : _bloc.listProjectData[index].avatar,
                 width: width_24,
                 height: width_24,
               ),
             ),
             Text(
-              _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.name != null ?
-              _bloc.listProjectByDate[index].project!.name! :
-              _bloc.listProjectData[index].stringNameSelectProject == null
-                  ? _bloc.listProjectData[index].stringNameDefault!
-                  : _bloc.listProjectData[index].stringNameSelectProject!,
-              style: TextStyle(color:
-              _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.name != null ?
-                  ThemeColor.clr_FFFFFF :
-                  _bloc.listProjectData[index].stringNameSelectProject !=
-                              null ||
-                          _bloc.listProjectData[index]
-                                  .stringNameSelectProject !=
-                              _bloc.listProjectData[index].stringNameDefault
-                      ? ThemeColor.clr_D6D9E0
-                      : ThemeColor.clr_FFFFFF,
+              _bloc.listProjectByDate.length > 0
+                  ? _bloc.listProjectByDate[index].name!
+                  : _bloc.listProjectData[index].stringNameSelectProject == null
+                      ? _bloc.listProjectData[index].stringNameDefault!
+                      : _bloc.listProjectData[index].stringNameSelectProject!,
+              style: TextStyle(
+                  color: _bloc.listProjectByDate.length > 0 &&
+                          _bloc.listProjectByDate[index].name != null
+                      ? ThemeColor.clr_FFFFFF
+                      : _bloc.listProjectData != [] &&
+                                  _bloc.listProjectData[index]
+                                          .stringNameSelectProject !=
+                                      null ||
+                              _bloc.listProjectData[index]
+                                      .stringNameSelectProject !=
+                                  _bloc.listProjectData[index].stringNameDefault
+                          ? ThemeColor.clr_D6D9E0
+                          : ThemeColor.clr_FFFFFF,
                   fontSize: fontSize_16,
                   fontFamily: TextConstants.fontRubik,
                   fontWeight: FontWeight.normal),
@@ -240,23 +257,28 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                if (_bloc.listProjectData[index].stringNameSelectProject !=
-                    null) {
-                  _bloc.add(RemoveProjectEvent(indexSelect: index));
-                } else {
-                  _showMyDialog(context, index);
+                if (_bloc.isClick == true) {
+                  if (_bloc.listProjectData != [] &&
+                      _bloc.listProjectData[index].stringNameSelectProject !=
+                          null) {
+                    _bloc.add(RemoveProjectEvent(indexSelect: index));
+                  } else {
+                    _showMyDialog(context, index);
+                  }
                 }
               },
               child: LocalImageWidget(
-                url:
-                _bloc.listProjectByDate.length > 0 && _bloc.listProjectByDate[index].project!.name != null ?
-                ic_remove_project_png :
-                _bloc.listProjectData[index].stringNameSelectProject !=
-                            null &&
-                        _bloc.listProjectData[index].stringNameSelectProject !=
-                            _bloc.listProjectData[index].stringNameDefault
+                url: _bloc.listProjectByDate.length > 0
                     ? ic_remove_project_png
-                    : ic_add_project_png,
+                    : _bloc.listProjectData != [] &&
+                            _bloc.listProjectData[index]
+                                    .stringNameSelectProject !=
+                                null &&
+                            _bloc.listProjectData[index]
+                                    .stringNameSelectProject !=
+                                _bloc.listProjectData[index].stringNameDefault
+                        ? ic_remove_project_png
+                        : ic_add_project_png,
                 width: width_24,
                 height: width_24,
               ),
@@ -300,7 +322,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             physics: BouncingScrollPhysics(),
-                            itemCount: _bloc.listProject.length,
+                            itemCount: _bloc.listProjectDefault.length,
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                   onTap: () {
@@ -321,12 +343,12 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                               _bloc.add(FillNameProjectEvent(
                                   index: indexSettingBloc,
                                   nameProject: _bloc
-                                      .listProject[_bloc.intSelectData!].name,
+                                      .listProjectDefault[_bloc.intSelectData!].name,
                                   projectId: _bloc
-                                      .listProject[_bloc.intSelectData!].id,
+                                      .listProjectDefault[_bloc.intSelectData!].id,
                                   avatar: _bloc
-                                      .listProject[_bloc.intSelectData!].avatar,
-                                  color: _bloc.listProject[_bloc.intSelectData!]
+                                      .listProjectDefault[_bloc.intSelectData!].avatar,
+                                  color: _bloc.listProjectDefault[_bloc.intSelectData!]
                                       .color));
                               Navigator.pop(context);
                             }
@@ -363,20 +385,18 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                   borderRadius: BorderRadius.circular(radius_16),
                 ),
                 child: Container(
-                  height: height_344,
-                  width: width_336,
+                  height: height_200,
                   child: Column(
                     children: [
                       Expanded(
-                        flex: 4,
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: height_15),
                           child: Center(
                             child: Text(
                               "Are you sure you want to \nsend check-in information?",
                               style: TextStyle(
                                   fontSize: fontSize_18,
                                   color: ThemeColor.clr_4C5980,
+                                  fontFamily: TextConstants.fontRubik,
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -416,9 +436,6 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      )
                     ],
                   ),
                 ),
@@ -449,7 +466,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             Container(
               margin: EdgeInsets.only(left: width_8),
               child: Text(
-                _bloc.listProject[index].name!,
+                _bloc.listProjectDefault[index].name!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

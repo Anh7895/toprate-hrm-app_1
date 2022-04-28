@@ -27,6 +27,7 @@ const ic_error = "assets/icons/svg/ic_error.svg";
 const ic_home = "assets/icons/svg/ic_home.svg";
 const ic_checkin = "assets/icons/svg/ic_checkin.svg";
 const ic_personal = "assets/icons/svg/ic_personal.svg";
+const ic_chart = "assets/icons/svg/icon_chart.svg";
 const ic_select_true = "assets/icons/svg/ic_select_true.svg";
 const ic_select_false = "assets/icons/svg/ic_select_false.svg";
 const ic_like = "assets/icons/svg/ic_like.svg";

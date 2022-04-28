@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:built_value/json_object.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/datasource/network/network_info.dart';
@@ -36,6 +37,14 @@ class LoginRepository {
     }
   }
 
+  Future<Response<DeviceToken>> addDeviceToken(DeviceToken deviceToken) async {
+    if (await networkInfo.isConnected) {
+      return loginDataSource.addDeviceToken(deviceToken);
+    } else {
+      throw NetworkConnectionException();
+    }
+  }
+ }
 }
 
 // Future<JsonObject> revokeToken({String? username}) async {

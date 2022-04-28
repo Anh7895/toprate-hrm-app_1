@@ -4,6 +4,7 @@ import 'package:toprate_hrm/blocs/dashboard/dashboard_bloc.dart';
 import 'package:toprate_hrm/blocs/day_off/day_off_bloc.dart';
 import 'package:toprate_hrm/blocs/login/login_bloc.dart';
 import 'package:toprate_hrm/blocs/notification/notification_bloc.dart';
+import 'package:toprate_hrm/blocs/report/report_bloc.dart';
 import 'package:toprate_hrm/blocs/splash/splash_bloc.dart';
 import 'package:toprate_hrm/blocs/user/user_bloc.dart';
 import 'package:toprate_hrm/datasource/data/remote/daily_check_in_datasource.dart';
@@ -54,6 +55,7 @@ abstract class InjectorConfig {
   @Register.factory(DayOffBloc)
   @Register.factory(NotificationBloc)
   @Register.factory(UserBloc)
+  @Register.factory(ReportBloc)
   void _configureBlocs();
 
   @Register.factory(LoginRepository)
