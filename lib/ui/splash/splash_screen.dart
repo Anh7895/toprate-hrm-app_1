@@ -34,15 +34,15 @@ class _SplashScreenState extends State<SplashScreen> {
   String? payload;
 
   // For handling notification when the app is in terminated state
-  // void checkForInitialMessage() async {
-  //   await Firebase.initializeApp();
-  //   RemoteMessage? initialMessage =
-  //   await FirebaseMessaging.instance.getInitialMessage();
-  //
-  //   if (initialMessage != null) {
-  //     payload = initialMessage.data["action"] == null ? null : initialMessage.data["action"];
-  //   }
-  // }
+  void checkForInitialMessage() async {
+    await Firebase.initializeApp();
+    RemoteMessage? initialMessage =
+    await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      payload = initialMessage.data["action"] == null ? null : initialMessage.data["action"];
+    }
+  }
   //
   // void selectNotification(String? payload) async {
   //   debugPrint('notification payload: $payload');

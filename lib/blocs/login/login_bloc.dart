@@ -55,7 +55,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     });
     ///Get User Information
     on<GetUserInformationEvent>((event,emit)=>getUserInfo(event, emit));
-    on<AddDeviceTokenEvent>((event,emit)=>addDeviceToken(emit, LocalUserData.getInstance.user.id));
+    // on<AddDeviceTokenEvent>((event,emit)=>addDeviceToken(emit, "626623ddd3b95ad2690b9e73"));
     ///Change Obscure
     on<ChangeObscureEvent>((event, emit){
       isObscure = !isObscure;
@@ -112,6 +112,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
           await saveToken(rAuth.accessToken);
           LocalUserData.getInstance.refreshToken = rAuth.refreshToken??'';
           await saveRefreshToken(rAuth.refreshToken);
+
         add(GetUserInformationEvent());
         emit(LoginSuccessState());
       } on DioError catch (e) {
@@ -150,6 +151,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
         LocalUserData.getInstance.firstName=oWhoAmI.firstName;
         print(oWhoAmI.firstName);
         print(LocalUserData.getInstance.user.firstName);
+        await addDeviceToken(emit, LocalUserData.getInstance.user?.id);
         emit(GetInfoUserState());
        // add(AddDeviceTokenEvent());
       }
@@ -219,17 +221,18 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     try {
       emit(StartCallApiState());
       // Get the token each time the application loads
-      String? token = await FirebaseMessaging.instance.getToken();
-      print("Token Firebase $token");
+      // final token = await FirebaseMessaging.instance.getToken();
+      // print("Token Firebase $token");
       final DeviceTokenBuilder builder = DeviceTokenBuilder();
       String type = "ANDROID";
       if (Platform.isIOS) {
         type = "IOS";
       }
       builder.userId = userId;
-      builder.token = token;
+      builder.token = LocalUserData.getInstance.deviceToken;
       builder.type = type;
       builder.deviceId = await _getId();
+      LocalUserData.getInstance.deviceID = builder.deviceId;
       print("DeviceToken ${builder.build()}");
       final response = await loginRepository.addDeviceToken(builder.build());
       if (response.data == null) {
