@@ -33,12 +33,21 @@ class TextConstants {
   static const textInfo = "Internal app for all TopRater";
   static const textWelcome = "Welcome to";
   static const textTopRate = "TopRate";
+  static const textCompany = "TOPRATE";
   static const textApp = "App";
   static const textButtonLogin = "Login";
   static const textForgotPass = "Bạn quên mật khẩu?";
   static const textViewInfoRecruitment = "Xem thông tin tuyển dụng";
   static const textSaveAcc= "Lưu tài khoản";
-
+  static const textEdit= "Edit";
+  static const textCancel= "Cancel";
+  static const textUserInfo = "User Infomation";
+  static const textLastName = "Last name";
+  static const textFirstName = "First name";
+  static const textEmail = "Email";
+  static const textPhoneNumber = "Phone number";
+  static const textDateOfBirth = "Date of birth";
+  static const textAddress= "Address";
   //Notification
   static const textTopRateApp = "TopRate app";
   static const textDetailNotification = "Maybe you need to do daily checkin now!";
@@ -95,8 +104,8 @@ class TextConstants {
   //Daily CheckIn
   static const textSubmit = "Submit";
   static const textOk = "Ok";
-  static const textCancel = "Cancel";
   static const textContinue = "Continue";
 
   static const textReport = "Report";
+  static const textButtonLogout = "Logout";
 }

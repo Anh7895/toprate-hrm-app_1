@@ -12,3 +12,12 @@ class LogoutSuccessState extends UserState{
 class LogoutFailState extends UserState{
   LogoutFailState();
 }
+class SelectedDateState extends UserState{
+  SelectedDateState();
+}
+class InitDataState extends UserState{
+  InitDataState();
+}
+class SelectedEditState extends UserState{
+  SelectedEditState();
+}

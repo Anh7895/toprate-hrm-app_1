@@ -97,8 +97,9 @@ class _HomeScreensState extends State<HomeScreens> {
                             ),
                             SizedBox(height: height_13,),
                             Container(
-                              width: width_319,
+                              width: width,
                               height: height_94,
+                              margin: EdgeInsets.symmetric(horizontal: width_5),
                               decoration: BoxDecoration(color: ThemeColor.clr_FFEBEB,
                               borderRadius: BorderRadius.circular(radius_20),
                                   boxShadow: [BoxShadow( color: Colors.grey.withOpacity(0.5),

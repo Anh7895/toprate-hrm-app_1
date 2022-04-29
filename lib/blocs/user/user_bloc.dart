@@ -21,16 +21,47 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, BaseState> {
   final LoginRepository loginRepository;
   var rAuth;
-
+  bool edit = false;
+  FocusNode focusNodeFirstName = FocusNode();
+  FocusNode focusNodeLastName = FocusNode();
+  FocusNode focusNodeEmail = FocusNode();
+  FocusNode focusNodeAddress = FocusNode();
+  FocusNode focusNodePhone = FocusNode();
+  FocusNode focusNodeDateOfBirth = FocusNode();
+  DateTime selectedDate = DateTime.now();
+  TextEditingController textFirstNameController = TextEditingController();
+  TextEditingController textLastNameController = TextEditingController();
+  TextEditingController textEmailController = TextEditingController();
+  TextEditingController textPhoneController = TextEditingController();
+  TextEditingController textAddressController = TextEditingController();
+  TextEditingController textDateOfBirthController = TextEditingController();
   UserBloc(this.loginRepository) : super(UserInitial()) {
     on<UserEvent>((event, emit) {
       // TODO: implement event handler
+    });
+    on<SelectedDateEvent>((event,emit){
+      onSelectedToDate(event, emit);
+    });
+    on<InitDataEvent>((event,emit){
+
+    });
+    on<SelectedEditEvent>((event,emit){
+          event.edit =!event.edit!;
+          edit = event.edit!;
+          print(edit);
+      emit(SelectedEditState());
     });
 
     on<LogoutEvent>((event,emit)async{
       await doLogout(event,emit);
     });
 
+  }
+
+
+  onSelectedToDate(SelectedDateEvent event, Emitter<BaseState> emit) async {
+    textDateOfBirthController.text = event.setSelectedDate!;
+    emit(SelectedDateState());
   }
   Future<void> doLogout(LogoutEvent event, Emitter<BaseState> emit) async {
     emit(StartCallApiState());
