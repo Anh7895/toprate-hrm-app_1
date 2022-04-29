@@ -135,6 +135,7 @@ class ApiClient extends Openapi {
                 if(e.response?.statusCode == HttpStatus.forbidden){
                   removeAccessToken();
                   removeDeviceId();
+                  removeRefreshToken();
                   removeUserInformation();
                   removeDeviceToken();
                   Navigator.of(NavKey.navKey.currentContext!).pushAndRemoveUntil(
@@ -180,7 +181,12 @@ removeDeviceId() async {
 }
 //Remove access token
 removeAccessToken() async {
+  LocalUserData.getInstance.accessToken='';
   return await PreferenceUtils.setString("access_token", '');
+}
+removeRefreshToken() async {
+  LocalUserData.getInstance.refreshToken='';
+  return await PreferenceUtils.setString("refresh_token", '');
 }
 
 //Save Refresh Token

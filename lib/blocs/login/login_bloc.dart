@@ -48,7 +48,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     ///Handle Login Google
     on<GoogleLoginEvent>((event, emit)async{
       LocalUserData.getInstance.accessToken = event.assetToken!;
-      print( "AccessTokenGoogleLogin ${localUserData.accessToken}");
+      //print( "AccessTokenGoogleLogin ${localUserData.accessToken}");
       email = event.email;
       await doLogin(event, emit);
 
@@ -103,7 +103,6 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
   //handle login, check mail valid
   Future<void> doLogin(GoogleLoginEvent event, Emitter<BaseState> emit) async {
     if(email!.endsWith("toprate.io")){
-      print("ok");
       emit(StartCallApiState());
       try {
         final rAuth= await loginRepository.socialLogin(LocalUserData.getInstance.accessToken);
@@ -148,9 +147,6 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       if (oWhoAmI != null) {
         await saveAccountInformation(oWhoAmI);
         LocalUserData.getInstance.user = oWhoAmI;
-        LocalUserData.getInstance.firstName=oWhoAmI.firstName;
-        print(oWhoAmI.firstName);
-        print(LocalUserData.getInstance.user.firstName);
         await addDeviceToken(emit, LocalUserData.getInstance.user?.id);
         emit(GetInfoUserState());
        // add(AddDeviceTokenEvent());
@@ -212,7 +208,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       var androidDeviceInfo = await deviceInfo.androidInfo;
       LocalUserData.getInstance
           .saveDeviceId(deviceID: androidDeviceInfo.androidId);
-      print("Device ID: ${androidDeviceInfo.androidId}");
+      // print("Device ID: ${androidDeviceInfo.androidId}");
       return androidDeviceInfo.androidId; // unique ID on Android
     }
   }
@@ -233,10 +229,11 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       builder.type = type;
       builder.deviceId = await _getId();
       LocalUserData.getInstance.deviceID = builder.deviceId;
-      print("DeviceToken ${builder.build()}");
+      // print("DeviceToken ${builder.build()}");
       final response = await loginRepository.addDeviceToken(builder.build());
       if (response.data == null) {
-        print("Error: data is null");
+        //print("Error: data is null");
+        emit(ApiErrorState(errorMessage: "No data from your device"));
       } else {
         emit(AddDeviceTokenSuccessState());
       }

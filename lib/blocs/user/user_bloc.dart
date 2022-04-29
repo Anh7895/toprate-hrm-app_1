@@ -33,10 +33,6 @@ class UserBloc extends Bloc<UserEvent, BaseState> {
 
   }
   Future<void> doLogout(LogoutEvent event, Emitter<BaseState> emit) async {
-    print(LocalUserData.getInstance.user?.username);
-    print(LocalUserData.getInstance.deviceID);
-    print(LocalUserData.getInstance.user?.uuid);
-    print("ok");
     emit(StartCallApiState());
     try {
       rAuth = await loginRepository.logOut(username: LocalUserData.getInstance.user?.username,
@@ -46,6 +42,7 @@ class UserBloc extends Bloc<UserEvent, BaseState> {
         removeDeviceId();
         removeUserInformation();
         removeDeviceToken();
+        removeRefreshToken();
         emit(LogoutSuccessState());
 
       }
@@ -84,7 +81,11 @@ class UserBloc extends Bloc<UserEvent, BaseState> {
   }
 //Remove access token
   removeAccessToken() async {
+    LocalUserData.getInstance.accessToken='';
     return await PreferenceUtils.setString("access_token", '');
   }
-
+  removeRefreshToken() async {
+    LocalUserData.getInstance.refreshToken='';
+    return await PreferenceUtils.setString("refresh_token", '');
+  }
 }
