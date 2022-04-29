@@ -450,12 +450,6 @@ class TextStyleCommon {
       fontWeight: FontWeight.w500,
       fontFamily:  TextConstants.fontRubik
   );
-  static TextStyle textStyleExpandBar = TextStyle(
-      fontSize: fontSize_18,
-      color: ThemeColor.clr_FFFFFF,
-      fontWeight: FontWeight.w500,
-      fontFamily:  TextConstants.fontRubik
-  );
 
   static TextStyle textField = TextStyle(
       fontSize: fontSize_14,
@@ -463,5 +457,13 @@ class TextStyleCommon {
     //  fontWeight: FontWeight.w500,
       fontFamily:  TextConstants.fontRubik
   );
+
+  static TextStyle textStyleExpandBar = TextStyle(
+      fontSize: fontSize_18,
+      color: ThemeColor.clr_FFFFFF,
+      fontWeight: FontWeight.w500,
+      fontFamily:  TextConstants.fontRubik
+  );
+
 }
 
