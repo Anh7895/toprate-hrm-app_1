@@ -48,14 +48,14 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     ///Handle Login Google
     on<GoogleLoginEvent>((event, emit)async{
       LocalUserData.getInstance.accessToken = event.assetToken!;
-      print( "AccessTokenGoogleLogin ${localUserData.accessToken}");
+      //print( "AccessTokenGoogleLogin ${localUserData.accessToken}");
       email = event.email;
       await doLogin(event, emit);
 
     });
     ///Get User Information
     on<GetUserInformationEvent>((event,emit)=>getUserInfo(event, emit));
-
+    // on<AddDeviceTokenEvent>((event,emit)=>addDeviceToken(emit, "626623ddd3b95ad2690b9e73"));
     ///Change Obscure
     on<ChangeObscureEvent>((event, emit){
       isObscure = !isObscure;
@@ -103,7 +103,6 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
   //handle login, check mail valid
   Future<void> doLogin(GoogleLoginEvent event, Emitter<BaseState> emit) async {
     if(email!.endsWith("toprate.io")){
-      print("ok");
       emit(StartCallApiState());
       try {
         final rAuth= await loginRepository.socialLogin(LocalUserData.getInstance.accessToken);
@@ -112,9 +111,9 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
           await saveToken(rAuth.accessToken);
           LocalUserData.getInstance.refreshToken = rAuth.refreshToken??'';
           await saveRefreshToken(rAuth.refreshToken);
-          add(GetUserInformationEvent());
-          emit(LoginSuccessState());
 
+        add(GetUserInformationEvent());
+        emit(LoginSuccessState());
       } on DioError catch (e) {
         List<String> err = [];
         print(e.response?.statusCode);
@@ -146,10 +145,11 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
     try {
       final oWhoAmI = await loginRepository.userInfo();
       if (oWhoAmI != null) {
-        LocalUserData.getInstance.user = oWhoAmI;
-        print(LocalUserData.getInstance.firstName);
         await saveAccountInformation(oWhoAmI);
+        LocalUserData.getInstance.user = oWhoAmI;
+        await addDeviceToken(emit, LocalUserData.getInstance.user?.id);
         emit(GetInfoUserState());
+       // add(AddDeviceTokenEvent());
       }
       else{
         emit(  ApiErrorState(
@@ -208,30 +208,32 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
       var androidDeviceInfo = await deviceInfo.androidInfo;
       LocalUserData.getInstance
           .saveDeviceId(deviceID: androidDeviceInfo.androidId);
-      print("Device ID: ${androidDeviceInfo.androidId}");
+      // print("Device ID: ${androidDeviceInfo.androidId}");
       return androidDeviceInfo.androidId; // unique ID on Android
     }
   }
 
-  addDeviceToken(Emitter<BaseState> emit, int? userId) async {
+  addDeviceToken(Emitter<BaseState> emit, String? userId) async {
     try {
       emit(StartCallApiState());
       // Get the token each time the application loads
-      String? token = await FirebaseMessaging.instance.getToken();
-      print("Token Firebase $token");
+      // final token = await FirebaseMessaging.instance.getToken();
+      // print("Token Firebase $token");
       final DeviceTokenBuilder builder = DeviceTokenBuilder();
       String type = "ANDROID";
       if (Platform.isIOS) {
         type = "IOS";
       }
       builder.userId = userId;
-      builder.token = token;
+      builder.token = LocalUserData.getInstance.deviceToken;
       builder.type = type;
       builder.deviceId = await _getId();
-      print("DeviceToken ${builder.build()}");
+      LocalUserData.getInstance.deviceID = builder.deviceId;
+      // print("DeviceToken ${builder.build()}");
       final response = await loginRepository.addDeviceToken(builder.build());
       if (response.data == null) {
-        print("Error: data is null");
+        //print("Error: data is null");
+        emit(ApiErrorState(errorMessage: "No data from your device"));
       } else {
         emit(AddDeviceTokenSuccessState());
       }

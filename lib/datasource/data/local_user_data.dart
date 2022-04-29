@@ -12,6 +12,7 @@ class LocalUserData {
   LocalUserData._internal();
 
   static LocalUserData get getInstance => _singleton;
+  String? deviceToken;
   String? userName;
   String? firstName;
   String? partnerPhoneNumber;
@@ -44,5 +45,14 @@ class LocalUserData {
   Future saveDeviceId({String? deviceID}) async {
     return PreferenceUtils.setString('device_id', deviceID ?? '');
   }
+  Future<void >saveToken(String? accessTokenNew) async {
+    accessToken = accessTokenNew??"";
+    PreferenceUtils.setString("access_token", accessTokenNew ?? "");
+  }
 
+  //Save Refresh Token
+  Future<void>saveRefreshToken(String? refreshTokenNew) async {
+    refreshToken = refreshToken??"";
+    PreferenceUtils.setString("refresh_token", refreshTokenNew ?? "");
+  }
 }

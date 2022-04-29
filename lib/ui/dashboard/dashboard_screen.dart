@@ -87,6 +87,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
+
     super.initState();
     _bloc.add(ChangePageEvent(currentIndex: widget.index ?? 0));
 

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
@@ -11,6 +12,7 @@ import 'package:toprate_hrm/datasource/data/remote/login_datasource.dart';
 import 'package:toprate_hrm/datasource/repository/login_repository.dart';
 
 import '../../common/resource/strings.dart';
+import '../../common/utils/preference_utils.dart';
 import '../../datasource/data/local_user_data.dart';
 
 part 'user_event.dart';
@@ -19,6 +21,7 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, BaseState> {
   final LoginRepository loginRepository;
   var rAuth;
+
   UserBloc(this.loginRepository) : super(UserInitial()) {
     on<UserEvent>((event, emit) {
       // TODO: implement event handler
@@ -30,16 +33,18 @@ class UserBloc extends Bloc<UserEvent, BaseState> {
 
   }
   Future<void> doLogout(LogoutEvent event, Emitter<BaseState> emit) async {
-
-    print("ok");
     emit(StartCallApiState());
     try {
       rAuth = await loginRepository.logOut(username: LocalUserData.getInstance.user?.username,
           uuid: LocalUserData.getInstance.user?.uuid, deviceId: LocalUserData.getInstance.deviceID );
       if (rAuth != null) {
-        LocalUserData.getInstance.user = '';
-
+        removeAccessToken();
+        removeDeviceId();
+        removeUserInformation();
+        removeDeviceToken();
+        removeRefreshToken();
         emit(LogoutSuccessState());
+
       }
       else emit(LogoutFailState());
     } on DioError catch (e) {
@@ -65,4 +70,22 @@ class UserBloc extends Bloc<UserEvent, BaseState> {
   }
 
 
+  removeDeviceToken() async {
+    return await PreferenceUtils.setString("device_token", '');
+  }
+  removeUserInformation() async {
+    return await PreferenceUtils.setString("user_information", '');
+  }
+  removeDeviceId() async {
+    return await PreferenceUtils.setString("device_id", '');
+  }
+//Remove access token
+  removeAccessToken() async {
+    LocalUserData.getInstance.accessToken='';
+    return await PreferenceUtils.setString("access_token", '');
+  }
+  removeRefreshToken() async {
+    LocalUserData.getInstance.refreshToken='';
+    return await PreferenceUtils.setString("refresh_token", '');
+  }
 }
