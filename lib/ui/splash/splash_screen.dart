@@ -18,6 +18,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../common/resource/strings.dart';
 import '../../common/resource/text_style.dart';
@@ -32,7 +33,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   SplashBloc _bloc = Injector.resolve<SplashBloc>();
   String? payload;
-
   // For handling notification when the app is in terminated state
   void checkForInitialMessage() async {
     await Firebase.initializeApp();
@@ -80,23 +80,33 @@ class _SplashScreenState extends State<SplashScreen> {
   //     }
   //   }
   // }
+  @override
+  void dispose() {
+    super.dispose();
+    if (_bloc.controller != null) {
+      _bloc.controller.dispose();
 
+    }
+  }
   @override
   void initState() {
+    loadVideoPlayer();
     getRefreshToken();
     getUser();
     getToken().then((value) {
       if(value != null && value != ''){
         LocalUserData.getInstance.getUserData();
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(seconds: 6), () {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => DashboardScreen()),
                   (Route<dynamic> route) => false);
         });
       }else{
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-                (Route<dynamic> route) => false);
+        Future.delayed(Duration(seconds: 6),(){
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+                  (Route<dynamic> route) => false);
+        });
       }
     });
 
@@ -117,6 +127,13 @@ class _SplashScreenState extends State<SplashScreen> {
     return LocalUserData.getInstance.getUserData();
   }
 
+  loadVideoPlayer(){
+    _bloc.controller = VideoPlayerController.asset("assets/video/video_logo.mp4");
+    _bloc.controller.initialize().then((value){
+      _bloc.add(GetVideoEvent());
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,33 +144,44 @@ class _SplashScreenState extends State<SplashScreen> {
 
         },
         builder: (context, state) {
-          return Padding(
-            padding: EdgeInsets.only(top: height_120),
-            child: Container(
+          return Scaffold(
+            body: Container(
               width: MediaQuery.of(context).size.width,
-              height:  MediaQuery.of(context).size.height,
-              color: ThemeColor.clr_FFFFFF,
-              child:  Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(TextConstants.textTopRate, style: TextStyleCommon.textStyleTopRate,),
-                      SizedBox(width: 5,),
-                      Text(TextConstants.textApp, style:  TextStyleCommon.textStyleWelcome,),
-                    ],
-                  ),
-                  SizedBox(height: height_16),
-                  Text(
-                    TextConstants.textInfo,
-                    style:TextStyleCommon.textStyleDetailWelcome,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              )),
+              height: MediaQuery.of(context).size.height,
+              child :AspectRatio(
+                aspectRatio: _bloc.controller.value.aspectRatio,
+                child: VideoPlayer(_bloc.controller),
+              ),
+            ),
+
+          //   Padding(
+          //   padding: EdgeInsets.only(top: height_120),
+          //   child: Container(
+          //     width: MediaQuery.of(context).size.width,
+          //     height:  MediaQuery.of(context).size.height,
+          //     color: ThemeColor.clr_FFFFFF,
+          //     child:  Column(
+          //       children: [
+          //         Row(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Text(TextConstants.textTopRate, style: TextStyleCommon.textStyleTopRate,),
+          //             SizedBox(width: 5,),
+          //             Text(TextConstants.textApp, style:  TextStyleCommon.textStyleWelcome,),
+          //           ],
+          //         ),
+          //         SizedBox(height: height_16),
+          //         Text(
+          //           TextConstants.textInfo,
+          //           style:TextStyleCommon.textStyleDetailWelcome,
+          //           textAlign: TextAlign.center,
+          //         ),
+          //       ],
+          //     )),
           );
         }
       ),
     );
   }
 }
+

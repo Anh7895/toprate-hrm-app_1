@@ -18,4 +18,8 @@ class SelectedEditEvent extends UserEvent{
   bool? edit;
   SelectedEditEvent(this.edit);
 }
+class ShowInfoEvent extends UserEvent{
+  bool? info;
+  ShowInfoEvent(this.info);
+}
 

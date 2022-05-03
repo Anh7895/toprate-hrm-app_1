@@ -21,3 +21,6 @@ class InitDataState extends UserState{
 class SelectedEditState extends UserState{
   SelectedEditState();
 }
+class ShowInfoState extends UserState{
+  ShowInfoState();
+}
