@@ -13,6 +13,18 @@ class BackDayState extends DailyCheckInState {
   BackDayState();
 }
 
+class SelectDayState extends DailyCheckInState {
+  SelectDayState();
+}
+
+class FormatChangeState extends DailyCheckInState {
+  FormatChangeState();
+}
+
+class DayPredicateState extends DailyCheckInState {
+  DayPredicateState();
+}
+
 class RemoveProjectState extends DailyCheckInState {
   RemoveProjectState();
 }
