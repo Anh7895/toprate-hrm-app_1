@@ -66,6 +66,10 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     }
   }
 
+  getDateToday(){
+
+  }
+
   getTimeKeeping(GetDataTimeKeepingEvent event, Emitter<BaseState> emit){}
 
   // getTimeKeeping(

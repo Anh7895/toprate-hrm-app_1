@@ -18,6 +18,22 @@ class BackDayEvent extends DailyCheckInEvent {
   BackDayEvent();
 }
 
+class SelectDayEvent extends DailyCheckInEvent {
+  final DateTime? selectDay;
+  final DateTime? focusDay;
+  SelectDayEvent(this.selectDay, this.focusDay);
+}
+
+class FormatChangeEvent extends DailyCheckInEvent {
+  final CalendarFormat? _format;
+  FormatChangeEvent(this._format);
+}
+
+class DayPredicateEvent extends DailyCheckInEvent {
+  final DateTime? date;
+  DayPredicateEvent(this.date);
+}
+
 class NextDayEvent extends DailyCheckInEvent {
   NextDayEvent();
 }

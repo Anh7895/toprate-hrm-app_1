@@ -227,22 +227,22 @@ class _CheckinScreenState extends State<CheckinScreen> {
                   color: Colors.red, borderRadius: BorderRadius.circular(8)),
             ),
           ),
-          GestureDetector(
-            onTap: null,
-            child: Container(
-              alignment: Alignment.bottomRight,
-              child: Text(
-                "TODAY",
-                style: TextStyle(
-                  color: ThemeColor.clr_6200E8,
-                  fontFamily: TextConstants.textNotoSans,
-                  fontWeight: FontWeight.w500,
-                  fontStyle: FontStyle.normal,
-                  fontSize: fontSize_14,
-                ),
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: null ,
+          //   child: Container(
+          //     alignment: Alignment.bottomRight,
+          //     child: Text(
+          //       "TODAY",
+          //       style: TextStyle(
+          //         color: ThemeColor.clr_6200E8,
+          //         fontFamily: TextConstants.textNotoSans,
+          //         fontWeight: FontWeight.w500,
+          //         fontStyle: FontStyle.normal,
+          //         fontSize: fontSize_14,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
