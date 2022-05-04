@@ -384,7 +384,7 @@ class TextStyleCommon {
   //Home
   static TextStyle textHiName = TextStyle(
     color: ThemeColor.clr_2D3142,
-    fontSize: fontSize_32,
+    fontSize: fontSize_27,
     fontWeight: FontWeight.w500,
       fontFamily: TextConstants.fontRubik
   );

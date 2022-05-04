@@ -19,6 +19,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart';
 import 'package:flutter/material.dart';
+import '../../common/multi_language/internationalization.dart';
 import '../../common/resource/strings.dart';
 import '../../common/resource/text_style.dart';
 
@@ -147,14 +148,14 @@ class _SplashScreenState extends State<SplashScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(TextConstants.textTopRate, style: TextStyleCommon.textStyleTopRate,),
+                          Text(S.of(context).translate("textTopRate"), style: TextStyleCommon.textStyleTopRate,),
                           SizedBox(width: 5,),
-                          Text(TextConstants.textApp, style:  TextStyleCommon.textStyleWelcome,),
+                          Text(S.of(context).translate("textApp"), style:  TextStyleCommon.textStyleWelcome,),
                         ],
                       ),
                       SizedBox(height: height_16),
                       Text(
-                        TextConstants.textInfo,
+                        S.of(context).translate("textInfo"),
                         style:TextStyleCommon.textStyleDetailWelcome,
                         textAlign: TextAlign.center,
                       ),

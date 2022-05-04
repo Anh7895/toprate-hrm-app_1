@@ -21,6 +21,7 @@ import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../common/multi_language/internationalization.dart';
 import '../../common/utils/preference_utils.dart';
 import '../../common/widgets/social_login_bottom_widget.dart';
 import '../../datasource/data/local_user_data.dart';
@@ -74,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LoginFailState) {
 
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Yêu Cầu Mail Công Ty"),
+              content: Text(S.of(context).translate("validMail")),
             ));
           }
 
@@ -126,18 +127,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                   boxFit: BoxFit.fill,
                                 ),
                              SizedBox(height: height_26),
-                             Text(TextConstants.textWelcome, style:  TextStyleCommon.textStyleWelcome,),
+                             Text(S.of(context).translate("textWelcome"), style:  TextStyleCommon.textStyleWelcome,),
                              Row(
                                mainAxisAlignment: MainAxisAlignment.center,
                                children: [
-                                 Text(TextConstants.textTopRate, style: TextStyleCommon.textStyleTopRate,),
+                                 Text(S.of(context).translate("textTopRate"), style: TextStyleCommon.textStyleTopRate,),
                                  SizedBox(width: 5,),
-                                 Text(TextConstants.textApp, style:  TextStyleCommon.textStyleWelcome,),
+                                 Text(S.of(context).translate("textApp"), style:  TextStyleCommon.textStyleWelcome,),
                                ],
                              ),
                                 SizedBox(height: height_16),
                                 Text(
-                                  TextConstants.textInfo,
+                                  S.of(context).translate("textInfo"),
                                   style:TextStyleCommon.textStyleDetailWelcome,
                                   textAlign: TextAlign.center,
                                 ),
@@ -146,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   height: height_27,
                                 ),
                                 GroupSocialScreen(showFacebook: false,
-                                  callBackGoogle: (value){
+                                  callBackGoogle: (List value){
                                   _bloc.add(GoogleLoginEvent(value[0],value[1]));
                                   },
 

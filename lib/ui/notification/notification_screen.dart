@@ -10,6 +10,7 @@ import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:toprate_hrm/common/widgets/images/svg_image_widget.dart';
 
 import '../../blocs/base_state/base_state.dart';
+import '../../common/multi_language/internationalization.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -56,9 +57,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: height_22,),
-                        Text(TextConstants.textTopRateApp,style: TextStyleCommon.textStyleTopRateApp),
+                        Text(S.of(context).translate("textTopRateApp"),style: TextStyleCommon.textStyleTopRateApp),
                         SizedBox(height: height_5,),
-                        Text(TextConstants.textDetailNotification, style: TextStyleCommon.textStyleDetailNotification,),
+                        Text(S.of(context).translate("textDetailNotification"), style: TextStyleCommon.textStyleDetailNotification,),
                       ],
 
                     )

@@ -7,6 +7,8 @@ import 'package:toprate_hrm/common/widgets/base_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../multi_language/internationalization.dart';
+
 showAlertBottomSheetDialogNew(BuildContext context,
     {double? height,
     String? title,
@@ -89,7 +91,7 @@ showAlertBottomSheetDialogNew(BuildContext context,
                 height: height_52,
                 style: TextStyleCommon.textStyleWhiteSmallTitle,
                 backgroundColor: ThemeColor.clr_CE6161,
-                title: "Đóng",
+                title: S.of(context).translate("close"),
                 width: MediaQuery.of(context).size.width,
               )
             ],

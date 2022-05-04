@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:core';
-import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -47,13 +46,13 @@ class S {
   S._internal();
 
   String? localeName;
-  List<LanguageReferenceEntity>? languageReferences;
+  List<LanguageReferenceEntity> languageReferences =[];
   Map<String, String>? _sentences;
   final Map<String, Map<String, String>>? _cachedData = {};
 
   Map _mapLanguageReference() {
     for (final LanguageReferenceEntity languageReference
-        in languageReferences!) {
+        in languageReferences) {
       localeName == LanguageConstants.english
           ? _sentences![languageReference.code!] = languageReference.english!
           : _sentences![languageReference.code!] = languageReference.vietnamese!;
@@ -81,7 +80,7 @@ class S {
   Future<bool> load(Locale locale,
       {List<LanguageReferenceEntity>? languageReferences}) async {
     localeName = locale.languageCode;
-    this.languageReferences = languageReferences;
+    this.languageReferences = languageReferences ?? [];
 
     if (_cachedData![localeName] == null) {
       await _loadData();
