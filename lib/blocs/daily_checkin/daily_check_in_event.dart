@@ -24,6 +24,10 @@ class SelectDayEvent extends DailyCheckInEvent {
   SelectDayEvent(this.selectDay, this.focusDay);
 }
 
+class CantSeclectDayEvent extends DailyCheckInEvent {
+  CantSeclectDayEvent();
+}
+
 class FormatChangeEvent extends DailyCheckInEvent {
   final CalendarFormat? _format;
   FormatChangeEvent(this._format);

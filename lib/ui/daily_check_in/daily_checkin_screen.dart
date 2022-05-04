@@ -421,9 +421,14 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                         _bloc.add(FormatChangeEvent(_format));
                     },
                     onDaySelected: (DateTime selectDay, DateTime focusDay){
-                      _bloc.add(SelectDayEvent(selectDay, focusDay));
-                      _bloc.add(InitDataEvent());
-                      Navigator.pop(context);
+                      if(selectDay.compareTo(DateTime.now()) <= 0){
+                        _bloc.add(SelectDayEvent(selectDay, focusDay));
+                        _bloc.add(InitDataEvent());
+                        Navigator.pop(context);
+                      }else {
+                        _bloc.add(CantSeclectDayEvent());
+                        Navigator.pop(context);
+                      }
                     },
                     selectedDayPredicate: (DateTime date){
                       return isSameDay(_bloc.selectedDay, date);

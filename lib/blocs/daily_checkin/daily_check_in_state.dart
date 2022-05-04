@@ -17,6 +17,10 @@ class SelectDayState extends DailyCheckInState {
   SelectDayState();
 }
 
+class CantSelectDayState extends DailyCheckInState {
+  CantSelectDayState();
+}
+
 class FormatChangeState extends DailyCheckInState {
   FormatChangeState();
 }
