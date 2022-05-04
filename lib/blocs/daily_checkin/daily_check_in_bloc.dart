@@ -3,12 +3,14 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_collection/src/list.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:openapi/openapi.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
+import 'package:toprate_hrm/common/resource/theme_color.dart';
 import 'package:toprate_hrm/common/utils/extensions.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/project_data.dart';
 import 'package:toprate_hrm/datasource/repository/daily_checkin_repository.dart';
@@ -35,6 +37,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<GetProjectByDateEvent>((event, emit) => GetProjectByDate(event, emit));
     on<CheckInEvent>((event, emit) => checkIn(event, emit));
     on<SelectDayEvent>((event, emit) => onDaySelect(event, emit));
+    on<CantSeclectDayEvent>((event, emit) => cantSelectDay(event, emit));
     on<FormatChangeEvent>((event, emit) => onFormatChange(event, emit));
     on<DayPredicateEvent>((event, emit) => onDayPredicate(event, emit));
    // on<GetTimekeepingByUserAndByDateEvent>((event, emit) => getTimekeepingByUserAndByDate(event, emit));
@@ -105,6 +108,16 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     }
     emit(SelectDayState());
   }
+
+  cantSelectDay(CantSeclectDayEvent event, Emitter<BaseState> emit) async {
+    Fluttertoast.showToast(
+        msg: "Bạn không thể chọn ngày lớn hơn hiện tại",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+    );
+    emit(CantSelectDayState());
+  }
+
 
   onFormatChange(FormatChangeEvent event, Emitter<BaseState> emit) async {
     format = event._format!;
