@@ -36,4 +36,7 @@ class SearchMailState extends DayOffState {
 class InitDataListMailState extends DayOffState {
   InitDataListMailState();
 }
+class SetReasonSuccessState extends DayOffState {
+  SetReasonSuccessState();
+}
 

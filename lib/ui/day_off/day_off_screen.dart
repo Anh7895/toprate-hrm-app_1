@@ -4,7 +4,6 @@ import 'package:flutter_tags/flutter_tags.dart';
 import 'package:intl/intl.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/day_off/day_off_bloc.dart';
-import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils.dart';
 import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils_new.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
@@ -81,6 +80,10 @@ class _DayOffScreenState extends State<DayOffScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    _bloc.fromController.text =
+        DateFormat("dd/MM/yyyy").format(_bloc.selectedDate);
+    _bloc.toController.text =
+        DateFormat("dd/MM/yyyy").format(_bloc.selectedDate);
     super.initState();
   }
 
@@ -105,14 +108,10 @@ class _DayOffScreenState extends State<DayOffScreen> {
             builder: (context, state) {
               return Stack(
                 children: [
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        _buildDetailBody(context),
-                        SizedBox(
-                          height: height_92,
-                        )
-                      ],
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: SingleChildScrollView(
+                      child: _buildDetailBody(context),
                     ),
                   ),
                   _buildButtonBottomWidget(context),
@@ -128,7 +127,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
 
   Widget _buildButtonBottomWidget(BuildContext context) {
     return Positioned(
-      bottom: 0,
+      bottom: 20,
       left: 8,
       right: 8,
       child: GestureDetector(
@@ -142,7 +141,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(
-                  height_60, height_zero, height_60, height_24),
+                  height_50, height_zero, height_50, height_24),
               child: BaseButton(
                 height: height_56,
                 title: TextConstants.textSubmit,
@@ -159,10 +158,9 @@ class _DayOffScreenState extends State<DayOffScreen> {
   Widget _buildDetailBody(BuildContext context) {
     return Container(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: height_25),
+        padding: EdgeInsets.fromLTRB(25, 25, 25, 30),
         child: Column(
           children: [
-            SizedBox(height: height_15),
             _buildAppBar(),
             SizedBox(height: height_15),
             _builDuration(),
@@ -214,10 +212,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
           alignment: Alignment.centerLeft,
           child: Text(
             'Duration',
-            style: TextStyle(
-                color: ThemeColor.clr_2D3142,
-                fontSize: fontSize_14,
-                fontWeight: FontWeight.bold),
+            style: TextStyleCommon.textStyleTopRateApp,
           ),
         ),
         Row(
@@ -236,7 +231,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                     },
                   ),
                 ),
-                Text('One day')
+                Text('One day',style: TextStyleCommon.textStyleColor979797Size14,)
               ],
             ),
             SizedBox(
@@ -256,7 +251,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                     },
                   ),
                 ),
-                Text('Many Day')
+                Text('Many Day',style: TextStyleCommon.textStyleColor979797Size14)
               ],
             ),
           ],
@@ -272,10 +267,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
         SizedBox(height: height_15),
         Text(
           'Time',
-          style: TextStyle(
-              color: ThemeColor.clr_2D3142,
-              fontSize: fontSize_18,
-              fontWeight: FontWeight.w500),
+          style: TextStyleCommon.textStyleTopRateApp,
         ),
         SizedBox(
           height: height_8,
@@ -296,8 +288,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                         child: TextFormField(
                           readOnly: true,
                           controller: _bloc.fromController,
-                          decoration: InputDecoration(hintText: "from"),
-                          style: TextStyle(color: ThemeColor.clr_979797),
+                          style: TextStyleCommon.textStyleColor979797Size14,
                         ),
                       ),
                     ),
@@ -331,8 +322,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                         child: TextFormField(
                           readOnly: true,
                           controller: _bloc.toController,
-                          decoration: InputDecoration(hintText: "from"),
-                          style: TextStyle(color: ThemeColor.clr_979797),
+                          style: TextStyleCommon.textStyleColor979797Size14,
                         ),
                       ),
                     ),
@@ -374,7 +364,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                           },
                         ),
                       ),
-                      Text('All day')
+                      Text('All day',style: TextStyleCommon.textStyleColor979797Size14)
                     ],
                   ),
                 ),
@@ -392,7 +382,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                           },
                         ),
                       ),
-                      Text('Morning')
+                      Text('Morning',style: TextStyleCommon.textStyleColor979797Size14)
                     ],
                   ),
                 ),
@@ -410,7 +400,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                           },
                         ),
                       ),
-                      Text('Afternoon')
+                      Text('Afternoon',style: TextStyleCommon.textStyleColor979797Size14)
                     ],
                   ),
                 )
@@ -426,11 +416,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Reason',
-            style: TextStyle(
-                color: ThemeColor.clr_2D3142,
-                fontSize: fontSize_18,
-                fontWeight: FontWeight.w500)),
+        Text('Reason', style: TextStyleCommon.textStyleTopRateApp),
         DropdownButton<String>(
           value: _bloc.defaultReason,
           icon: const Icon(
@@ -446,14 +432,12 @@ class _DayOffScreenState extends State<DayOffScreen> {
             color: ThemeColor.clr_979797,
           ),
           onChanged: (String? newValue) {
-            setState(() {
-              _bloc.setReason(newValue!);
-            });
+              _bloc.add(SetReasonEvent(reason: newValue));
           },
           items: _bloc.reasons.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value),
+              child: Text(value,style: TextStyleCommon.textStyleColor979797Size14),
             );
           }).toList(),
         )
@@ -473,62 +457,62 @@ class _DayOffScreenState extends State<DayOffScreen> {
           ),
           Text(
             'Approver',
-            style: TextStyle(
-                color: ThemeColor.clr_2D3142,
-                fontSize: fontSize_18,
-                fontWeight: FontWeight.w500),
+            style: TextStyleCommon.textStyleTopRateApp
           ),
           SizedBox(
-            height: height_20,
+            height: height_15,
           ),
           Stack(
             children: [
               Container(
-                margin: EdgeInsets.only(right: width_15),
-                child: Tags(
-                  alignment: WrapAlignment.start,
-                  itemCount: _bloc.managerMail.length,
-                  // required
-                  itemBuilder: (int index) {
-                    return _bloc.managerMail[index].isChecked
-                        ? ItemTags(
-                            color: ThemeColor.clr_FEC0C1,
-                            active: false,
-                            pressEnabled: false,
-                            textColor: ThemeColor.clr_2D3142,
-                            // Each ItemTags must contain a Key. Keys allow Flutter to
-                            // uniquely identify widgets.
-                            key: Key(index.toString()),
-                            index: index,
-                            // required
-                            title: _bloc.managerMail[index].name != ""
-                                ? _bloc.managerMail[index].name
-                                : _bloc.managerMail[index].mail!,
-                            textStyle: TextStyle(
-                              fontSize: fontSize_18,
-                            ),
-                            combine: ItemTagsCombine.withTextBefore,
-                            //
-                            removeButton: (index != 0 && index != 1)
-                                ? ItemTagsRemoveButton(
-                                    icon: Icons.remove_circle_outline,
-                                    color: ThemeColor.clr_CE6161,
-                                    backgroundColor: ThemeColor.clr_FEC0C1,
-                                    size: height_16,
-                                    onRemoved: () {
-                                      _bloc.add(RemovedMailEvent(
-                                          index: index, isChecked: false));
-                                      //required
-                                      return true;
-                                    },
-                                  )
-                                : null,
-                            // OR null,
-                            onPressed: null,
-                            onLongPressed: null,
-                          )
-                        : SizedBox();
-                  },
+                height: 200,
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Tags(
+                    alignment: WrapAlignment.start,
+                    itemCount: _bloc.managerMail.length,
+                    // required
+                    itemBuilder: (int index) {
+                      return _bloc.managerMail[index].isChecked
+                          ? ItemTags(
+                              color: ThemeColor.clr_FEC0C1,
+                              active: false,
+                              pressEnabled: false,
+                              textColor: ThemeColor.clr_2D3142,
+                              // Each ItemTags must contain a Key. Keys allow Flutter to
+                              // uniquely identify widgets.
+                              key: Key(index.toString()),
+                              index: index,
+                              // required
+                              title: _bloc.managerMail[index].name != ""
+                                  ? _bloc.managerMail[index].name
+                                  : _bloc.managerMail[index].mail!,
+                              textStyle: TextStyle(
+                                fontSize: fontSize_18,
+                              ),
+                              combine: ItemTagsCombine.withTextBefore,
+                              //
+                              removeButton: (index != 0 && index != 1)
+                                  ? ItemTagsRemoveButton(
+                                      icon: Icons.remove_circle_outline,
+                                      color: ThemeColor.clr_CE6161,
+                                      backgroundColor: ThemeColor.clr_FEC0C1,
+                                      size: height_16,
+                                      onRemoved: () {
+                                        _bloc.add(RemovedMailEvent(
+                                            index: index, isChecked: false));
+                                        //required
+                                        return true;
+                                      },
+                                    )
+                                  : null,
+                              // OR null,
+                              onPressed: null,
+                              onLongPressed: null,
+                            )
+                          : SizedBox();
+                    },
+                  ),
                 ),
               ),
               Align(

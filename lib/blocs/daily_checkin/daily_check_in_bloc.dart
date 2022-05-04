@@ -8,6 +8,7 @@ import 'package:meta/meta.dart';
 import 'package:openapi/openapi.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
+import 'package:toprate_hrm/common/resource/strings.dart';
 import 'package:toprate_hrm/common/utils/extensions.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/project_data.dart';
 import 'package:toprate_hrm/datasource/repository/daily_checkin_repository.dart';
@@ -30,6 +31,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<GetAllSettingBlockEvent>(
         (event, emit) => getAllSettingBlock(event, emit));
     on<GetAllProjectEvent>((event, emit) => getAllProject(event, emit));
+    on<SubmitFailEvent>((event, emit) => submitFail(event, emit));
     on<GetProjectByDateEvent>((event, emit) => GetProjectByDate(event, emit));
     on<CheckInEvent>((event, emit) => checkIn(event, emit));
     on<SelectDayEvent>((event, emit) => onDaySelect(event, emit));
@@ -51,13 +53,10 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   int? intSelectData;
   String? stringDayNow = DateFormat("dd-MM-yyyy").format(DateTime.now());
   List<SettingBlock> listSettingBloc = [];
-  List<COTimekeeping> listCOTimekeeping = [];
-  List<CoefficientPay> listCoefficientPay = [];
-  OProjectByUser? oProjectByUser;
-  List<Project> listProjectDefault = [];
-  List<Project> listProjectTimekeeping = [];
+  List<Project> listProjectHistory = [];
   final DailyCheckInRepository dailyCheckInRepository;
   String date = "";
+  String colorSelect = "";
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
@@ -217,12 +216,12 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         print("Error: data is null");
       } else {
         response.data?.projects?.forEach((e) {
-          if(e.project != null){
-            listProjectDefault.add(e.project!);
+          if (e.project != null) {
+            listProjectHistory.add(e.project!);
           }
         });
-        listProjectDefault.addAll(response.data?.projectsDefault ?? []);
-        print("getListProject ${listProjectDefault}");
+        listProjectHistory.addAll(response.data?.projectsDefault ?? []);
+        print("getListProject ${listProjectHistory}");
         emit(GetAllProjectState());
       }
     } on DioError catch (e) {
@@ -233,6 +232,10 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   clickSubmit(ClickSubmitEvent event, Emitter<BaseState> emit) async {
     add(CheckInEvent(checkIn: buildCheckIn()));
     emit(ClickSubmitState());
+  }
+
+  submitFail(SubmitFailEvent event, Emitter<BaseState> emit) async {
+    emit(SubmitFailState());
   }
 
 
@@ -251,7 +254,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
             isClick =false;
             listProjectByDate.clear();
             listProjectData.clear();
-            print("dataadhjhjkaa ${listProjectByDate.length}");
             response.data?.forEach((e) {
               if(e.project != null){
                 listProjectByDate.add(e.project!);
@@ -295,8 +297,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
           error: e,
           errorMessage: e.response?.data['message'] ?? err.toString()));
     } catch (e) {
-      print(e);
-      emit(ApiErrorState(error: e));
+      emit(ApiErrorState(errorMessage: TextConstants.text101Err));
     }
   }
 
@@ -304,7 +305,12 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     var builder = CheckInBuilder();
     List<CheckInData> data = [];
     listProjectData.forEach((e) {
-      if (e.projectId != null && e.coefficientPayId != null && e.time != null) {
+      if(e.projectId == null){
+        add(SubmitFailEvent());
+      }
+   if (e.projectId != null &&
+          e.coefficientPayId != null &&
+          e.time != null) {
         CheckInDataBuilder checkInDataBuilder = CheckInDataBuilder();
         checkInDataBuilder.projectId = e.projectId;
         checkInDataBuilder.coefficientPayId = e.coefficientPayId;
@@ -313,6 +319,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       }
     });
     builder.data = BuiltList<CheckInData>.from(data).toBuilder();
+    builder.date = dateTime.convertDateTimeToString("dd-MM-yyyy");
     return builder.build();
   }
 }

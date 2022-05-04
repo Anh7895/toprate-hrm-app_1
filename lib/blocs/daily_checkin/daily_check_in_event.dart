@@ -40,6 +40,7 @@ class NextDayEvent extends DailyCheckInEvent {
 
 class SelectProjectEvent extends DailyCheckInEvent {
   final int? indexSelect;
+
   SelectProjectEvent({this.indexSelect});
 }
 
@@ -60,8 +61,11 @@ class FillNameProjectEvent extends DailyCheckInEvent {
 }
 
 class ClickSubmitEvent extends DailyCheckInEvent {
-  final List<ProjectData>? listProject;
-  ClickSubmitEvent({this.listProject});
+  ClickSubmitEvent();
+}
+
+class SubmitFailEvent extends DailyCheckInEvent {
+  SubmitFailEvent();
 }
 
 class CheckInEvent extends DailyCheckInEvent {

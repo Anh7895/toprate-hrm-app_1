@@ -26,6 +26,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     on<RemovedMailEvent>((event, emit) => removedMail(event, emit));
     on<SearchMailEvent>((event, emit) => searchMail(event, emit));
     on<InitDataListMailEvent>((event, emit) => initDataListMail(event, emit));
+    on<SetReasonEvent>((event, emit) => setReason(event, emit));
     on<ClickCheckboxTimeOffEvent>(
         (event, emit) => clickCheckboxTimeOff(event, emit));
   }
@@ -38,12 +39,13 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
   Mode character = Mode.OneDay;
   TimeOff timeOff = TimeOff.Allday;
   var isDayOffOneDay = true;
-  var defaultReason = "One";
-  var reasons = ["One", "Two", "Three", "Four"];
+  var defaultReason = "Choose reasons";
+  var reasons = ["Choose reasons","One", "Two", "Three", "Four"];
   var listResult = [];
   String selectedDOB = "";
   bool? isChecked = false;
   int? selectIndex;
+  DateTime dateTime = DateTime.now();
   DateTime selectedDate = DateTime.now();
 
   List<ManagerMailModel> managerMail = [
@@ -69,8 +71,9 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     timeOff = timeOff;
   }
 
-  setReason(String reason) {
-    this.defaultReason = reason;
+  setReason(SetReasonEvent event,Emitter<BaseState> emit)async {
+    this.defaultReason = event.reason!;
+    emit(SetReasonSuccessState());
   }
 
   removedMail(RemovedMailEvent event, Emitter<BaseState> emit) async {
