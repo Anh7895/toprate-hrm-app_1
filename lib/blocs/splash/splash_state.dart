@@ -10,3 +10,7 @@ class SplashInitial extends SplashState {}
 class GetUserInformationState extends SplashState {
   GetUserInformationState();
 }
+
+class GetVideoState extends SplashState{
+  GetVideoState();
+}

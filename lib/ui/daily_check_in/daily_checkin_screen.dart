@@ -207,7 +207,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
         decoration: BoxDecoration(
             color: _bloc.listProjectByDate.length > 0
                 ? Color(
-                    int.parse("0xFF" + _bloc.listProjectByDate[index].color!))
+                    int.parse("0xFF" + _bloc.listProjectByDate[index].background!))
                 : _bloc.listProjectData[index].stringNameSelectProject !=
                             null &&
                         _bloc.listProjectData[index].stringNameSelectProject !=
@@ -222,7 +222,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
           children: [
             Visibility(
               visible: _bloc.listProjectByDate.length > 0 &&
-                      _bloc.listProjectByDate[index].avatar != null ||
+                      _bloc.listProjectByDate[index].avatarUrl != null ||
                   _bloc.listProjectData != [] &&
                       _bloc.listProjectData[index].stringNameSelectProject !=
                           null &&
@@ -230,7 +230,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                           _bloc.listProjectData[index].stringNameDefault,
               child: WebImageWidget(
                 urlImage: _bloc.listProjectByDate.length > 0
-                    ? _bloc.listProjectByDate[index].avatar
+                    ? _bloc.listProjectByDate[index].avatarUrl
                     : _bloc.listProjectData[index].avatar,
                 width: width_24,
                 height: width_24,
@@ -352,9 +352,9 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                                   projectId: _bloc
                                       .listProjectDefault[_bloc.intSelectData!].id,
                                   avatar: _bloc
-                                      .listProjectDefault[_bloc.intSelectData!].avatar,
+                                      .listProjectDefault[_bloc.intSelectData!].avatarUrl,
                                   color: _bloc.listProjectDefault[_bloc.intSelectData!]
-                                      .color));
+                                      .background));
                               Navigator.pop(context);
                             }
                           },
