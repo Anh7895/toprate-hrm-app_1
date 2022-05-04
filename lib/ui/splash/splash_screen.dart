@@ -11,6 +11,7 @@ import 'package:toprate_hrm/common/resource/theme_color.dart';
 import 'package:toprate_hrm/common/utils/preference_utils.dart';
 import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:toprate_hrm/common/widgets/images/local_image_widget.dart';
+import 'package:toprate_hrm/common/widgets/images/svg_image_widget.dart';
 import 'package:toprate_hrm/datasource/data/local_user_data.dart';
 import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
 import 'package:toprate_hrm/ui/login/login_screen.dart';
@@ -138,15 +139,10 @@ class _SplashScreenState extends State<SplashScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        width: width_70,
-                        height: height_72,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(png_ic_logo),
-                          )
-                        ),
-                      ),
+                      SVGImageWidget(url: ic_svg_logo,
+                      height: height_72,
+                      width: width_80,),
+
                       SizedBox(height: height_10,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
