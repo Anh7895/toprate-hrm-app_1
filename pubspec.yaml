@@ -51,7 +51,6 @@ dependencies:
   image: ^3.0.2
   flutter_native_image: ^0.0.6
   syncfusion_flutter_calendar: ^19.4.54
-  video_player: ^2.4.0
   rxdart: ^0.27.2
 
   firebase_core: ^1.12.0
@@ -109,7 +108,6 @@ flutter:
     - assets/icons/png/
     - assets/icons/svg/
     - assets/languages/
-    - assets/video/
 
   #font
   fonts:
