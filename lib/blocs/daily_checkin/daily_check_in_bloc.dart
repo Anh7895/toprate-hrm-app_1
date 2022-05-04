@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:openapi/openapi.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/common/utils/extensions.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/project_data.dart';
@@ -31,6 +32,9 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<GetAllProjectEvent>((event, emit) => getAllProject(event, emit));
     on<GetProjectByDateEvent>((event, emit) => GetProjectByDate(event, emit));
     on<CheckInEvent>((event, emit) => checkIn(event, emit));
+    on<SelectDayEvent>((event, emit) => onDaySelect(event, emit));
+    on<FormatChangeEvent>((event, emit) => onFormatChange(event, emit));
+    on<DayPredicateEvent>((event, emit) => onDayPredicate(event, emit));
    // on<GetTimekeepingByUserAndByDateEvent>((event, emit) => getTimekeepingByUserAndByDate(event, emit));
   }
 
@@ -39,6 +43,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   DateTime dateTime = DateTime.now();
   DateTime dateToday = DateTime.now();
   bool isClick = false;
+  bool isSelectDay = false;
   bool isCanGoToNextDay = false;
   String time = "";
   int numberBloc = 0;
@@ -53,38 +58,92 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   List<Project> listProjectTimekeeping = [];
   final DailyCheckInRepository dailyCheckInRepository;
   String date = "";
+  CalendarFormat format = CalendarFormat.month;
+  DateTime selectedDay = DateTime.now();
+  DateTime focusedDay = DateTime.now();
 
 
   initData(InitDataEvent event, Emitter<BaseState> emit) async {
-    time =
-        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
+    if (isSelectDay == false){
+      time =
+      "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
+    } else {
+      time =
+      "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
+    }
+    print("selectedDaydatetoday ${selectedDay}");
     emit(InitDataState());
   }
 
   backDay(BackDayEvent event, Emitter<BaseState> emit) async {
-    dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day - 1);
-    time =
-        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
-    isCanGoToNextDay = true;
-    // add(GetTimekeepingByUserAndByDateEvent(date: DateFormat("dd-MM-yyyy").format(dateTime)));
-    date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+    if(isSelectDay == false){
+      dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day - 1);
+      time =
+      "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
+      isCanGoToNextDay = true;
+      // add(GetTimekeepingByUserAndByDateEvent(date: DateFormat("dd-MM-yyyy").format(dateTime)));
+      date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+    } else{
+      selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day - 1);
+      time =
+      "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
+      isCanGoToNextDay = true;
+      // add(GetTimekeepingByUserAndByDateEvent(date: DateFormat("dd-MM-yyyy").format(dateTime)));
+      date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
+    }
+    print("selectedDay ${selectedDay}");
     add(GetProjectByDateEvent(date: date));
     emit(BackDayState());
   }
 
+  onDaySelect(SelectDayEvent event, Emitter<BaseState> emit) async {
+    selectedDay = event.selectDay!;
+    focusedDay = event.focusDay!;
+    if(selectedDay == DateTime.now()){
+      isSelectDay = false;
+    } else {
+      isSelectDay = true;
+    }
+    emit(SelectDayState());
+  }
+
+  onFormatChange(FormatChangeEvent event, Emitter<BaseState> emit) async {
+    format = event._format!;
+    emit(FormatChangeState());
+  }
+
+  onDayPredicate(DayPredicateEvent event, Emitter<BaseState> emit) async {
+    isSameDay(selectedDay, event.date);
+    emit(DayPredicateState());
+  }
+
   nextDay(NextDayEvent event, Emitter<BaseState> emit) async {
-    final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
-    final aDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
-    if (today != aDate) {
-      dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day + 1);
-      add(GetProjectByDateEvent(date: date));
+    if(isSelectDay == false){
+      final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
+      final aDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
+      if (today != aDate) {
+        dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day + 1);
+        add(GetProjectByDateEvent(date: date));
+      }
+
+      isCanGoToNextDay = dateTime == today ? false : true;
+      time =
+      "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
+      isCanGoToNextDay = true;
+    } else {
+      final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
+      final aDate = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+      if (today != aDate) {
+        selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day + 1);
+        add(GetProjectByDateEvent(date: date));
+      }
+      isCanGoToNextDay = selectedDay == today ? false : true;
+      time =
+      "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
+      isCanGoToNextDay = true;
     }
 
-    isCanGoToNextDay = dateTime == today ? false : true;
-    time =
-        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
-    isCanGoToNextDay = true;
-    date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+    date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
     emit(NextDayState());
   }
 

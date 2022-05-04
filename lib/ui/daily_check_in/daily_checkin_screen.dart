@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/daily_checkin/daily_check_in_bloc.dart';
 import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils_new.dart';
@@ -25,7 +26,6 @@ class DailyCheckInScreen extends StatefulWidget {
 class _DailyCheckInScreenState extends State<DailyCheckInScreen>
     with AutomaticKeepAliveClientMixin {
   DailyCheckInBloc _bloc = Injector.resolve<DailyCheckInBloc>();
-
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -145,13 +145,18 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
               onPressed: () {
                 _bloc.add(BackDayEvent());
               }),
-          Text(
-            _bloc.time,
-            style: TextStyle(
-                color: ThemeColor.clr_CE6161,
-                fontFamily: TextConstants.fontRubik,
-                fontSize: fontSize_32,
-                fontWeight: FontWeight.w500),
+          GestureDetector(
+            onTap: (){
+              _showDialogCalendar(context);
+            },
+            child: Text(
+              _bloc.time,
+              style: TextStyle(
+                  color: ThemeColor.clr_CE6161,
+                  fontFamily: TextConstants.fontRubik,
+                  fontSize: fontSize_32,
+                  fontWeight: FontWeight.w500),
+            ),
           ),
           IconButton(
               icon: Icon(
@@ -363,6 +368,65 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                         ),
                       ),
                     ],
+                  ),
+                ),
+              );
+            });
+      },
+    );
+  }
+
+  _showDialogCalendar(BuildContext context) async {
+    return await showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return HttpStreamHandler<DailyCheckInBloc, BaseState>(
+            bloc: _bloc,
+            listener: (context, state) {},
+            builder: (context, setState) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radius_16),
+                ),
+                child: Container(
+                  height: 350,
+                  width: 200,
+                  child: TableCalendar(
+                    headerVisible: true,
+                    locale: "en",
+                    focusedDay: _bloc.selectedDay,
+                    firstDay: DateTime(1990),
+                    lastDay: DateTime(2050),
+                    calendarFormat: _bloc.format,
+                    onFormatChanged: (CalendarFormat _format){
+                        _bloc.add(FormatChangeEvent(_format));
+                    },
+                    onDaySelected: (DateTime selectDay, DateTime focusDay){
+                      _bloc.add(SelectDayEvent(selectDay, focusDay));
+                      _bloc.add(InitDataEvent());
+                      Navigator.pop(context);
+                    },
+                    selectedDayPredicate: (DateTime date){
+                      return isSameDay(_bloc.selectedDay, date);
+                    },
+                    isEventday: true,
+                    availableGestures: AvailableGestures.none,
+                    pageJumpingEnabled: false,
+                    pageAnimationEnabled: false,
+                    onCalendarCreated: (controller) {},
+                    calendarStyle: CalendarStyle(
+                      isTodayHighlighted: true,
+                      outsideDaysVisible: true,
+                      markersAlignment: AlignmentDirectional.center,
+                      markerDecoration: BoxDecoration(
+                          color: Colors.red, borderRadius: BorderRadius.circular(8)),
+                      selectedDecoration: BoxDecoration(
+                        color: ThemeColor.clr_CE6161,
+                        shape: BoxShape.circle,
+                      ),
+                      selectedTextStyle: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               );
