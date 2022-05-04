@@ -64,6 +64,12 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                     message:
                         "Get a good working day, \nthank you for your effort!");
               }
+              if (state is SubmitFailState) {
+
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Thông tin không được để trống."),
+                ));
+              }
             },
             builder: (context, state) {
               return Stack(
@@ -102,12 +108,18 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(
-                  height_60, height_zero, height_60, height_24),
+                  height_50, height_zero, height_50, height_24),
               child: BaseButton(
                 height: height_56,
                 title: TextConstants.textSubmit,
-                style: TextStyleCommon.textStyleWhiteNormalTitle,
-                backgroundColor: ThemeColor.clr_CE6161,
+                style: TextStyle(
+                    color: ThemeColor.clr_FFFFFF,
+                    fontFamily: TextConstants.fontRubik,
+                    fontSize: fontSize_16,
+                    fontWeight: FontWeight.w500),
+                backgroundColor: _bloc.isClick == true
+                    ? ThemeColor.clr_CE6161
+                    : ThemeColor.clr_A7A5A5,
               ),
             )
           ],
@@ -206,8 +218,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
         padding: EdgeInsets.symmetric(horizontal: width_20),
         decoration: BoxDecoration(
             color: _bloc.listProjectByDate.length > 0
-                ? Color(
-                    int.parse("0xFF" + _bloc.listProjectByDate[index].background!))
+                ? Color(int.parse(
+                    "0xFF" + _bloc.listProjectByDate[index].background!))
                 : _bloc.listProjectData[index].stringNameSelectProject !=
                             null &&
                         _bloc.listProjectData[index].stringNameSelectProject !=
@@ -232,8 +244,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                 urlImage: _bloc.listProjectByDate.length > 0
                     ? _bloc.listProjectByDate[index].avatarUrl
                     : _bloc.listProjectData[index].avatar,
-                width: width_24,
-                height: width_24,
+                width: width_35,
+                height: width_35,
               ),
             ),
             Text(
@@ -246,18 +258,16 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                   color: _bloc.listProjectByDate.length > 0 &&
                           _bloc.listProjectByDate[index].name != null
                       ? ThemeColor.clr_FFFFFF
-                      : _bloc.listProjectData != [] &&
-                                  _bloc.listProjectData[index]
-                                          .stringNameSelectProject !=
-                                      null ||
-                              _bloc.listProjectData[index]
+                      : _bloc.listProjectData != []
+                          ? ThemeColor.clr_D6D9E0
+                          : _bloc.listProjectData[index]
                                       .stringNameSelectProject !=
                                   _bloc.listProjectData[index].stringNameDefault
-                          ? ThemeColor.clr_D6D9E0
-                          : ThemeColor.clr_FFFFFF,
+                              ? ThemeColor.clr_FFFFFF
+                              : ThemeColor.clr_D6D9E0,
                   fontSize: fontSize_16,
                   fontFamily: TextConstants.fontRubik,
-                  fontWeight: FontWeight.normal),
+                  fontWeight: FontWeight.w500),
             ),
             GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -315,19 +325,23 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                       Container(
                         margin: EdgeInsets.only(top: height_20),
                         child: Text(
-                          "Select 01 subject",
+                          "Select 01 project",
                           style: TextStyle(
                               fontSize: fontSize_20,
                               color: ThemeColor.clr_4C5980,
-                              fontWeight: FontWeight.w500),
+                              fontFamily: TextConstants.fontRubik,
+                              fontWeight: FontWeight.bold),
                         ),
+                      ),
+                      SizedBox(
+                        height: height_10,
                       ),
                       Expanded(
                         child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             physics: BouncingScrollPhysics(),
-                            itemCount: _bloc.listProjectDefault.length,
+                            itemCount: _bloc.listProjectHistory.length,
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                   onTap: () {
@@ -348,12 +362,16 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                               _bloc.add(FillNameProjectEvent(
                                   index: indexSettingBloc,
                                   nameProject: _bloc
-                                      .listProjectDefault[_bloc.intSelectData!].name,
+                                      .listProjectHistory[_bloc.intSelectData!]
+                                      .name,
                                   projectId: _bloc
-                                      .listProjectDefault[_bloc.intSelectData!].id,
+                                      .listProjectHistory[_bloc.intSelectData!]
+                                      .id,
                                   avatar: _bloc
-                                      .listProjectDefault[_bloc.intSelectData!].avatarUrl,
-                                  color: _bloc.listProjectDefault[_bloc.intSelectData!]
+                                      .listProjectHistory[_bloc.intSelectData!]
+                                      .avatarUrl,
+                                  color: _bloc
+                                      .listProjectHistory[_bloc.intSelectData!]
                                       .background));
                               Navigator.pop(context);
                             }
@@ -515,7 +533,10 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
       height: height_45,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(radius_20)),
-          color: ThemeColor.clr_FFEBEB),
+          color: _bloc.selectedIndex == index
+              ? Color(int.parse(
+                  "0xFF" + _bloc.listProjectHistory[index].background!))
+              : ThemeColor.clr_FFEBEB),
       child: Container(
         margin: EdgeInsets.only(left: width_20),
         child: Row(
@@ -530,12 +551,15 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             Container(
               margin: EdgeInsets.only(left: width_8),
               child: Text(
-                _bloc.listProjectDefault[index].name!,
+                _bloc.listProjectHistory[index].name!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    color: ThemeColor.clr_4C5980,
+                    color: _bloc.selectedIndex == index
+                        ? ThemeColor.clr_FFFFFF
+                        : ThemeColor.clr_4C5980,
                     fontSize: fontSize_16,
+                    fontFamily: TextConstants.fontRubik,
                     fontWeight: FontWeight.w500),
               ),
             )

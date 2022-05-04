@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/home/home_bloc.dart';
+import 'package:toprate_hrm/common/config/nav_key.dart';
 import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
@@ -15,6 +16,7 @@ import 'package:toprate_hrm/common/resource/theme_color.dart';
 import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:toprate_hrm/datasource/data/local_user_data.dart';
 import 'package:toprate_hrm/datasource/data/model/user_information.dart';
+import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
 import 'package:toprate_hrm/ui/home/conponent/card_item.dart';
 
 import '../../common/resource/strings.dart';
@@ -148,7 +150,8 @@ class _HomeScreensState extends State<HomeScreens> {
                                     children: [
                                         GestureDetector(
                                             onTap: (){
-                                              Navigator.pushNamed(context, RouteName.dailyCheckInScreen);
+                                              Navigator.of(NavKey.navKey.currentContext!).pushAndRemoveUntil(
+                                                  MaterialPageRoute(builder: (context) => DashboardScreen(index: 1)),(Route<dynamic> route) => false);
                                             },
                                             child: HomeCardItem(text: TextConstants.textCheckin, url: svg_ic_checkin_now, textStyle:  TextStyleCommon.textTopCardItem)),
                                         GestureDetector(

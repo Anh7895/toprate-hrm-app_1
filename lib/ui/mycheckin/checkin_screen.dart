@@ -75,12 +75,14 @@ class _CheckinScreenState extends State<CheckinScreen> {
   }
 
   Widget _buildMainBody(BuildContext context) {
-    return Column(
-      children: [
-        _topNavigation(),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: height_25),
+      child: Column(
+        children: [
+          SizedBox(height: height_15),
+          _topNavigation(),
+          SizedBox(height: height_15),
+          Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -120,32 +122,40 @@ class _CheckinScreenState extends State<CheckinScreen> {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _topNavigation() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: height_28,
-        ),
-        Text(
-          "My Checkin",
-          style: TextStyle(
-            color: ThemeColor.clr_CE6161,
-            fontFamily: TextConstants.textRubik,
-            fontWeight: FontWeight.w700,
-            fontStyle: FontStyle.normal,
-            fontSize: fontSize_32,
+    return Container(
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios,
+              size: 24,
+              color: ThemeColor.clr_CE6161,
+            ),
           ),
-        ),
-        SizedBox(
-          width: height_16,
-        ),
-      ],
+          Spacer(),
+          Text(
+            'My Checkin',
+            style: TextStyle(
+                color: ThemeColor.clr_CE6161,
+                fontSize: fontSize_32,
+                fontFamily: TextConstants.fontRubik,
+                fontWeight: FontWeight.w500),
+          ),
+          Spacer(),
+          SizedBox(
+            width: width_24,
+          )
+        ],
+      ),
     );
   }
 
@@ -178,7 +188,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
                     children: [
                       Text(
                         'Tháng ${_bloc.stringData}',
-                        style: TextStyleCommon.textStyleColor136849Size14,
+                        style: TextStyleCommon.textStyleColor2D3142Size16,
                       ),
                       Container(
                         padding: EdgeInsets.only(left: height_11) ,

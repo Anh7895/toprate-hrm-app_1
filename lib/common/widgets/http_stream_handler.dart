@@ -158,11 +158,11 @@ class _HttpStreamHandler<B extends Bloc<dynamic, S>, S extends BaseState>
           message: '${errorMessage}',
           icon: ic_error);
     } else {
-      // showAlertBottomSheetDialog(context,
-      //     onConfirm: () {},
-      //     title: TextConstants.textFailed,
-      //     message: '${errorMessage}',
-      //     icon: ic_error);
+      showAlertBottomSheetDialog(context,
+          onConfirm: () {},
+          title: TextConstants.textFailed,
+          message: '${errorMessage}',
+          icon: ic_error);
     }
   }
 }

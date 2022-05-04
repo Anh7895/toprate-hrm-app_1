@@ -86,7 +86,7 @@ showAlertBottomSheetDialog(BuildContext context,
                     bottom: height_24, left: width_8, right: width_8),
                 height: height_52,
                 style: TextStyleCommon.textStyleWhiteSmallTitle,
-                backgroundColor: ThemeColor.clr_136849,
+                backgroundColor: ThemeColor.clr_CE6161,
                 title: "Đóng",
                 width: MediaQuery.of(context).size.width,
               )

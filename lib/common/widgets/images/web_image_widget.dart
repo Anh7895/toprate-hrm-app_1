@@ -28,7 +28,6 @@ class WebImageWidget extends StatelessWidget {
         height: height?? MediaQuery.of(context).size.height,
         width: width?? MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: width_4),
           borderRadius:
               borderRadius != null ? borderRadius : BorderRadius.circular(10),
           image: DecorationImage(

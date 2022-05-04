@@ -318,10 +318,11 @@ class TextStyleCommon {
       fontSize: fontSize_14,
       fontWeight: FontWeight.normal);
 
-  static TextStyle textStyleColor136849Size14 = TextStyle(
-      color: ThemeColor.clr_136849,
-      fontSize: fontSize_14,
-      fontWeight: FontWeight.w700);
+  static TextStyle textStyleColor2D3142Size16 = TextStyle(
+      color: ThemeColor.clr_2D3142,
+      fontSize: fontSize_16,
+      fontFamily: TextConstants.fontRubik,
+      fontWeight: FontWeight.w500);
   static TextStyle textStyleColorBlackSize12 = TextStyle(
       color: Colors.black,
       fontSize: fontSize_12,
@@ -464,5 +465,12 @@ class TextStyleCommon {
       fontFamily:  TextConstants.fontRubik
   );
 
+
+  static TextStyle textStyleColor979797Size14 = TextStyle(
+          fontSize: fontSize_14,
+          color: ThemeColor.clr_979797,
+          fontWeight: FontWeight.w400,
+          fontFamily:  TextConstants.fontRubik
+  );
 }
 
