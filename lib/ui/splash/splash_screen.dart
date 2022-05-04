@@ -127,35 +127,47 @@ class _SplashScreenState extends State<SplashScreen> {
 
         },
         builder: (context, state) {
-          return Scaffold(
-            body:
-            Padding(
-            padding: EdgeInsets.only(top: height_120),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height:  MediaQuery.of(context).size.height,
-              color: ThemeColor.clr_FFFFFF,
-              child:  Column(
-                children: [
-                  Row(
+          return
+            Scaffold(
+              body: Container(color: ThemeColor.clr_FFFFFF,
+                // margin: EdgeInsets.only(top: height_200),
+                width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height ,
+                child:  Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(TextConstants.textTopRate, style: TextStyleCommon.textStyleTopRate,),
-                      SizedBox(width: 5,),
-                      Text(TextConstants.textApp, style:  TextStyleCommon.textStyleWelcome,),
+                      Container(
+                        width: width_70,
+                        height: height_72,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(png_ic_logo),
+                          )
+                        ),
+                      ),
+                      SizedBox(height: height_10,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(TextConstants.textTopRate, style: TextStyleCommon.textStyleTopRate,),
+                          SizedBox(width: 5,),
+                          Text(TextConstants.textApp, style:  TextStyleCommon.textStyleWelcome,),
+                        ],
+                      ),
+                      SizedBox(height: height_16),
+                      Text(
+                        TextConstants.textInfo,
+                        style:TextStyleCommon.textStyleDetailWelcome,
+                        textAlign: TextAlign.center,
+                      ),
                     ],
                   ),
-                  SizedBox(height: height_16),
-                  Text(
-                    TextConstants.textInfo,
-                    style:TextStyleCommon.textStyleDetailWelcome,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              )
-            ),
-            )
-          );
+                )
+              ),
+            );
+
         }
       ),
     );
