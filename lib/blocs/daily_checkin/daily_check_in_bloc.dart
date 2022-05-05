@@ -10,7 +10,6 @@ import 'package:openapi/openapi.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
-import 'package:toprate_hrm/common/resource/theme_color.dart';
 import 'package:toprate_hrm/common/utils/extensions.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/project_data.dart';
 import 'package:toprate_hrm/datasource/repository/daily_checkin_repository.dart';
@@ -189,6 +188,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         print("Error: data is null");
       } else {
         isClick = true;
+        listSettingBloc.clear();
         listProjectByDate.clear();
         listProjectData.clear();
         final listModel = response?['data']
@@ -284,23 +284,30 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         emit(showAlertBottomSheetDialogState());
       }
     } on DioError catch (e) {
-      List<String> err = [];
       print("Res ${e.response?.statusCode}");
       if (e.response?.statusCode == 400) {
-        if (e.response?.data['data.0.project_id'] != null) {
-          if (e.response?.data['messages']['data.0.project_id'] != null) {
-            err = List<String>.from(e.response?.data['messages']['data.0.project_id']);
+        if (e.response?.data['messages'] != null) {
+          if (e.response?.data['messages']["data.0.project_id"] != null) {
+            emit(ApiErrorState(
+                error: e,
+                errorMessage: e.response?.data['messages']["data.0.project_id"]
+                    .toString()));
+            return;
           }
         }
         if (e.response?.data['data.0.coefficient_pay_id'] != null) {
-          if (e.response?.data['messages']['data.0.coefficient_pay_id'] != null) {
-            err = List<String>.from(e.response?.data['messages']['data.0.coefficient_pay_id']);
+          if (e.response?.data['messages']["data.0.coefficient_pay_id"] !=
+              null) {
+            emit(ApiErrorState(
+                error: e,
+                errorMessage: e
+                    .response?.data['messages']["data.0.coefficient_pay_id"]
+                    .toString()));
+            return;
           }
         }
       }
-      emit(ApiErrorState(
-          error: e,
-          errorMessage: e.response?.data['message'] ?? err.toString()));
+      emit(ApiErrorState(error: e, errorMessage: e.response?.data['message']));
     } catch (e) {
       emit(ApiErrorState(errorMessage: TextConstants.text101Err));
     }
