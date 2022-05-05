@@ -8,6 +8,7 @@ class TextConstants {
   // static const fontInter = 'Roboto';
   static const fontInter = 'Inter';
   static const fontRubik = 'Rubik';
+  static const fontMontserrat = 'Montserrat';
 
   // static const fontLato = 'Lato';
 

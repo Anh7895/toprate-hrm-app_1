@@ -116,7 +116,7 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
           widget.callBackGoogle != null
               ? SocialLoginButton(
                   loginName: "Login",
-                  styleName: TextStyleCommon.textStyleButtonWelcome,
+                  styleName: TextStyleCommon.textButtonStyle(context),
                   imageAssetsPng: png_ic_google,
                   doLogin: () async{
                     print("Login");

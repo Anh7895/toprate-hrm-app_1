@@ -148,15 +148,15 @@ class _SplashScreenState extends State<SplashScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(S.of(context).translate("textTopRate"), style: TextStyleCommon.textStyleTopRate,),
+                          Text(S.of(context).translate("textTopRate"), style: TextStyleCommon.textHeaderInLoginStyle(context),),
                           SizedBox(width: 5,),
-                          Text(S.of(context).translate("textApp"), style:  TextStyleCommon.textStyleWelcome,),
+                          Text(S.of(context).translate("textApp"), style:  TextStyleCommon.textHeaderInLoginStyle(context, color: ThemeColor.clr_CE6161,)),
                         ],
                       ),
                       SizedBox(height: height_16),
                       Text(
                         S.of(context).translate("textInfo"),
-                        style:TextStyleCommon.textStyleDetailWelcome,
+                        style:TextStyleCommon.textTitleInLoginStyle(context),
                         textAlign: TextAlign.center,
                       ),
                     ],

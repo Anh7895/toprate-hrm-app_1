@@ -57,9 +57,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: height_22,),
-                        Text(S.of(context).translate("textTopRateApp"),style: TextStyleCommon.textStyleTopRateApp),
+                        Text(S.of(context).translate("textTopRateApp"),style: TextStyleCommon.textTitleStyle),
                         SizedBox(height: height_5,),
-                        Text(S.of(context).translate("textDetailNotification"), style: TextStyleCommon.textStyleDetailNotification,),
+                        Text(S.of(context).translate("textDetailNotification"), style: TextStyleCommon.textTitleStyle,),
                       ],
 
                     )

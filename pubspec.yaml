@@ -111,6 +111,16 @@ flutter:
 
   #font
   fonts:
+
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/montserrat/Montserrat-Black.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Bold.ttf
+        - asset: assets/fonts/montserrat/Montserrat-BoldItalic.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Italic.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Medium.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Regular.ttf
+
     - family: Roboto
       fonts:
         - asset: assets/fonts/roboto/Roboto-Regular.ttf

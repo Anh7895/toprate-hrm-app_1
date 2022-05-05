@@ -41,7 +41,7 @@ class BaseButton extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(height_16))),
         child: Text(
           "$title",
-          style: style ?? TextStyleCommon.textStyleWhiteSmallTitle,
+          style: style ?? TextStyleCommon.textButtonStyle(context),
         ),
       ),
     );

@@ -75,7 +75,7 @@ class _UserScreenState extends State<UserScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  child:Text(S.of(context).translate("vn"),style:TextStyleCommon.textStyleAppBar),
+                                  child:Text(S.of(context).translate("vn"),style:TextStyleCommon.textTitleStyle),
                                 ),
                                 GestureDetector(
                                   onTap: (){
@@ -84,7 +84,7 @@ class _UserScreenState extends State<UserScreen> {
                                   child: Row(
                                     children: [
                                       Icon(Icons.logout,color: ThemeColor.clr_CE6161,),
-                                      Text(S.of(context).translate("textButtonLogout"),style: TextStyleCommon.textStyleAppBar),
+                                      Text(S.of(context).translate("textButtonLogout"),style: TextStyleCommon.textTitleStyle),
                                     ],
                                   ),
                                 ),
@@ -112,7 +112,7 @@ class _UserScreenState extends State<UserScreen> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(S.of(context).translate("textCompany"),style: TextStyleCommon.textUserNameHeader,),
+                                              Text(S.of(context).translate("textCompany"),style: TextStyleCommon.textAppBarStyle,),
                                               Container(
                                                 width: width_50,
                                                 height: height_50,
@@ -140,8 +140,8 @@ class _UserScreenState extends State<UserScreen> {
                                                 margin: EdgeInsets.only(left: width_10),
                                                 child: Column(
                                                   children: [
-                                                    Text("${LocalUserData.getInstance.user?.lastName} ${LocalUserData.getInstance.user?.firstName}",style: TextStyleCommon.textStyleAppBar,),
-                                                    Text("${LocalUserData.getInstance.user?.email}"),
+                                                    Text("${LocalUserData.getInstance.user?.lastName} ${LocalUserData.getInstance.user?.firstName}",style: TextStyleCommon.textTitleStyle,),
+                                                    Text("${LocalUserData.getInstance.user?.email}",style: TextStyleCommon.textTitleStyle),
                                                   ],
                                                 ),
                                               ),
@@ -170,7 +170,7 @@ class _UserScreenState extends State<UserScreen> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(S.of(context).translate("textUserInfo"),style: TextStyleCommon.textStyleExpandBar,),
+                                              Text(S.of(context).translate("textUserInfo"),style: TextStyleCommon.textTitleStyle,),
                                               GestureDetector(
                                                 onTap: (){
                                                   _bloc.add(SelectedEditEvent(_bloc.edit));
@@ -178,7 +178,7 @@ class _UserScreenState extends State<UserScreen> {
                                                 child: Row(
                                                   children: [
                                                     Icon(_bloc.edit?Icons.edit:Icons.cancel_outlined),
-                                                    Text(_bloc.edit?S.of(context).translate("textEdit"):S.of(context).translate("textCancel"),style:  TextStyleCommon.textStyleExpandBar,),
+                                                    Text(_bloc.edit?S.of(context).translate("textEdit"):S.of(context).translate("textCancel"),style:  TextStyleCommon.textTitleStyle,),
                                                   ],
                                                 ),
                                               ),
@@ -199,18 +199,14 @@ class _UserScreenState extends State<UserScreen> {
                                                           children: [
                                                             Container(
                                                                 width:width/2,
-                                                                child: Text(S.of(context).translate("textLastName"),textAlign: TextAlign.left,style: TextStyleCommon.textField)),
+                                                                child: Text(S.of(context).translate("textLastName"),textAlign: TextAlign.left,style: TextStyleCommon.textNormalStyle)),
                                                             SizedBox(height: height_7,),
                                                             OutlineBorderTextField(
                                                               textEditingController: _bloc.textLastNameController,
                                                               focusNode: _bloc.focusNodeLastName,
                                                               cursorColor: ThemeColor.clr_000000,
                                                               hintText: LocalUserData.getInstance.user.lastName,
-                                                              hintStyle: TextStyle(
-                                                                color: ThemeColor.clr_000000,
-                                                                fontSize: fontSize_12,
-                                                                fontStyle: FontStyle.normal,
-                                                              ),
+                                                              hintStyle: TextStyleCommon.textHintStyle,
                                                               maxLines: 1,
                                                               enabled: _bloc.edit?false:true,
                                                               fillColor: _bloc.edit?ThemeColor.clr_E0E0E1:ThemeColor.clr_FFFFFF,
@@ -239,18 +235,14 @@ class _UserScreenState extends State<UserScreen> {
                                                           children: [
                                                             Container(
                                                                 width: width/2,
-                                                                child: Text(S.of(context).translate("textFirstName"),textAlign: TextAlign.left,style: TextStyleCommon.textField)),
+                                                                child: Text(S.of(context).translate("textFirstName"),textAlign: TextAlign.left,style: TextStyleCommon.textNormalStyle)),
                                                             SizedBox(height: height_7,),
                                                             OutlineBorderTextField(
                                                               textEditingController: _bloc.textFirstNameController,
                                                               focusNode: _bloc.focusNodeFirstName,
                                                               cursorColor: ThemeColor.clr_000000,
                                                               hintText: LocalUserData.getInstance.user.firstName,
-                                                              hintStyle: TextStyle(
-                                                                color: ThemeColor.clr_000000,
-                                                                fontSize: fontSize_12,
-                                                                fontStyle: FontStyle.normal,
-                                                              ),
+                                                              hintStyle: TextStyleCommon.textHintStyle,
                                                               maxLines: 1,
                                                               enabled: _bloc.edit?false:true,
                                                               fillColor: _bloc.edit?ThemeColor.clr_E0E0E1:ThemeColor.clr_FFFFFF,
@@ -279,18 +271,14 @@ class _UserScreenState extends State<UserScreen> {
                                                   children: [
                                                     Container(
                                                         width:width,
-                                                        child: Text(S.of(context).translate("textEmail"),textAlign: TextAlign.left,style: TextStyleCommon.textField)),
+                                                        child: Text(S.of(context).translate("textEmail"),textAlign: TextAlign.left,style: TextStyleCommon.textNormalStyle)),
                                                     SizedBox(height: height_7,),
                                                     OutlineBorderTextField(
                                                       textEditingController: _bloc.textEmailController,
                                                       focusNode: _bloc.focusNodeEmail,
                                                       cursorColor: ThemeColor.clr_000000,
                                                       hintText: LocalUserData.getInstance.user.email,
-                                                      hintStyle: TextStyle(
-                                                        color: ThemeColor.clr_000000,
-                                                        fontSize: fontSize_12,
-                                                        fontStyle: FontStyle.normal,
-                                                      ),
+                                                      hintStyle: TextStyleCommon.textHintStyle,
                                                       maxLines: 1,
                                                       enabled: _bloc.edit?false:true,
                                                       fillColor: _bloc.edit?ThemeColor.clr_E0E0E1:ThemeColor.clr_FFFFFF,
@@ -317,18 +305,14 @@ class _UserScreenState extends State<UserScreen> {
                                                   children: [
                                                     Container(
                                                         width:width,
-                                                        child: Text(S.of(context).translate("textPhoneNumber"),textAlign: TextAlign.left,style: TextStyleCommon.textField)),
+                                                        child: Text(S.of(context).translate("textPhoneNumber"),textAlign: TextAlign.left,style: TextStyleCommon.textNormalStyle)),
                                                     SizedBox(height: height_7,),
                                                     OutlineBorderTextField(
                                                       textEditingController: _bloc.textPhoneController,
                                                       focusNode: _bloc.focusNodePhone,
                                                       cursorColor: ThemeColor.clr_000000,
                                                       hintText: "038 800 1410",
-                                                      hintStyle: TextStyle(
-                                                        color: ThemeColor.clr_000000,
-                                                        fontSize: fontSize_12,
-                                                        fontStyle: FontStyle.normal,
-                                                      ),
+                                                      hintStyle: TextStyleCommon.textHintStyle,
                                                       maxLines: 1,
                                                       enabled: _bloc.edit?false:true,
                                                       fillColor: _bloc.edit?ThemeColor.clr_E0E0E1:ThemeColor.clr_FFFFFF,
@@ -358,7 +342,8 @@ class _UserScreenState extends State<UserScreen> {
                                                           children: [
                                                             Container(
                                                                 width:width,
-                                                                child: Text(S.of(context).translate("textDateOfBirth"),textAlign: TextAlign.left,style: TextStyleCommon.textField)),
+                                                                child: Text(S.of(context).translate("textDateOfBirth"),textAlign: TextAlign.left,style: TextStyleCommon.textNormalStyle
+                                                                )),
                                                             SizedBox(height: height_7,),
                                                             GestureDetector(
                                                               onTap: (){
@@ -421,18 +406,14 @@ class _UserScreenState extends State<UserScreen> {
                                                   children: [
                                                     Container(
                                                         width:width,
-                                                        child: Text(S.of(context).translate("textAddress"),textAlign: TextAlign.left,style: TextStyleCommon.textField)),
+                                                        child: Text(S.of(context).translate("textAddress"),textAlign: TextAlign.left,style: TextStyleCommon.textNormalStyle)),
                                                     SizedBox(height: height_7,),
                                                     OutlineBorderTextField(
                                                       textEditingController: _bloc.textAddressController,
                                                       focusNode: _bloc.focusNodeAddress,
                                                       cursorColor: ThemeColor.clr_000000,
                                                       hintText: "Viet Nam",
-                                                      hintStyle: TextStyle(
-                                                        color: ThemeColor.clr_000000,
-                                                        fontSize: fontSize_12,
-                                                        fontStyle: FontStyle.normal,
-                                                      ),
+                                                      hintStyle: TextStyleCommon.textHintStyle,
                                                       maxLines: 1,
                                                       enabled: _bloc.edit?false:true,
                                                       fillColor: _bloc.edit?ThemeColor.clr_E0E0E1:ThemeColor.clr_FFFFFF,
@@ -465,7 +446,7 @@ class _UserScreenState extends State<UserScreen> {
                                           height: height_45,
                                           width: width_200,
                                           title: S.of(context).translate("submit"),
-                                          style: TextStyleCommon.textStyleWhiteNormalTitle,
+                                          style: TextStyleCommon.textButtonStyle(context),
                                           backgroundColor: ThemeColor.clr_000000,
                                         ),
                                         SizedBox(height:height_20),
@@ -505,7 +486,7 @@ class _UserScreenState extends State<UserScreen> {
                                 SizedBox(height: height_30,),
                                 Container(
                                   width:width,
-                                    child: Text(S.of(context).translate("yourWorkingToday"),textAlign: TextAlign.left,style: TextStyleCommon.textStyleAppBar)),
+                                    child: Text(S.of(context).translate("yourWorkingToday"),textAlign: TextAlign.left,style: TextStyleCommon.textTitleStyle)),
                                 SizedBox(height: height_10,),
                                 Container(
                                   width: width,
@@ -528,7 +509,7 @@ class _UserScreenState extends State<UserScreen> {
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
-                                            Text(S.of(context).translate("textWorkingMode"), style: TextStyleCommon.textUserChoose,),
+                                            Text(S.of(context).translate("textWorkingMode"), style: TextStyleCommon.textNormalStyle,),
 
                                             Container(
                                               margin: EdgeInsets.only(right: width_10),
@@ -554,7 +535,7 @@ class _UserScreenState extends State<UserScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(S.of(context).translate("textProjectTimeYesterday"),style: TextStyleCommon.textStyleAppBar),
+                                Text(S.of(context).translate("textProjectTimeYesterday"),style: TextStyleCommon.textTitleStyle),
                                 Container(
                                     width: width,
                                     child: SfCartesianChart(
@@ -644,7 +625,7 @@ class _UserScreenState extends State<UserScreen> {
                         margin: EdgeInsets.only(top: height_20),
                         child: Text(
                           TextConstants.textWorkingMode,
-                          style: TextStyleCommon.textStyleTitleDialog,
+                          style: TextStyleCommon.textTitleStyle,
                         ),
                       ),
                       Expanded(
@@ -674,7 +655,7 @@ class _UserScreenState extends State<UserScreen> {
                             height: height_45,
                             width: width_200,
                             title: TextConstants.textOk,
-                            style: TextStyleCommon.textStyleWhiteNormalTitle,
+                            style: TextStyleCommon.textButtonStyle(context),
                             backgroundColor: ThemeColor.clr_CE6161,
                           ),
                         ),

@@ -262,215 +262,127 @@ class TextStyleCommon {
         );
   }
 
-  static TextStyle textStyleNormalTitle = TextStyle(
-      color: ThemeColor.clr_136849,
-      fontSize: fontSize_16,
-      fontWeight: FontWeight.w700);
 
-  static TextStyle textStyleWhiteNormalTitle = TextStyle(
-      color: Colors.white,
-      fontSize: fontSize_16,
-      fontWeight: FontWeight.w700);
+///Card Style
+  static TextStyle textCustomCardStyle(BuildContext context,
+      {Color? color, FontWeight? fontWeight, double? fontSize}) {
+    return Theme.of(context).textTheme.headline1!.copyWith(
+      fontSize: fontSize ?? 14,
+      fontWeight: fontWeight ?? FontWeight.w400,
+      color: color ?? ThemeColor.clr_4C5980,
+      fontFamily: TextConstants.fontMontserrat,
+    );
+  }
 
-  static TextStyle textStyleSmallTitle = TextStyle(
-      color: ThemeColor.clr_136849,
-      fontSize: fontSize_14,
-      fontWeight: FontWeight.w700);
+  ///TextListView
+  static TextStyle textHeaderListViewStyle = TextStyle(
+    color: ThemeColor.clr_4C5980,
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    fontFamily: TextConstants.fontMontserrat,
+  );
 
-  static TextStyle textStyleWhiteSmallTitle = TextStyle(
-      color: Colors.white,
-      fontSize: fontSize_14,
-      fontWeight: FontWeight.w700);
-
-  static TextStyle textStyle136849SmallTitle = TextStyle(
-      color: ThemeColor.clr_136849,
-      fontSize: fontSize_14,
-      fontWeight: FontWeight.w700);
-
-
-  static TextStyle textStyle136849Normal = TextStyle(
-      color: ThemeColor.clr_136849,
-      fontSize: fontSize_14,
-      fontWeight: FontWeight.w500);
-
-  static TextStyle textStyleWhiteSize12 = TextStyle(
-      color: Colors.white,
-      fontSize: fontSize_12,
-      fontWeight: FontWeight.w700);
-
-  static TextStyle textStyleWhiteSize12Normal = TextStyle(
-      color: Colors.white,
-      fontSize: fontSize_12,
-      fontWeight: FontWeight.normal);
-
-  static TextStyle textStyleWhiteSize11Normal = TextStyle(
-      color: Colors.white,
-      fontSize: fontSize_11,
-      fontWeight: FontWeight.normal);
-
-  static TextStyle textStyleWhiteSmallContent = TextStyle(
-      color: Colors.white,
-      fontSize: fontSize_14,
-      fontWeight: FontWeight.normal);
-
-  static TextStyle textStyleSmallContent = TextStyle(
-      color: ThemeColor.clr_136849,
-      fontSize: fontSize_14,
-      fontWeight: FontWeight.normal);
-
-  static TextStyle textStyleColor2D3142Size16 = TextStyle(
-      color: ThemeColor.clr_2D3142,
-      fontSize: fontSize_16,
-      fontFamily: TextConstants.fontRubik,
-      fontWeight: FontWeight.w500);
-  static TextStyle textStyleColorBlackSize12 = TextStyle(
-      color: Colors.black,
-      fontSize: fontSize_12,
-      fontWeight: FontWeight.w700);
-
-  static TextStyle textStyleColor002113Size12 = TextStyle(
-      color: ThemeColor.clr_002113,
-      fontSize: fontSize_12,
-      fontWeight: FontWeight.w700);
-
-  static TextStyle textStyleColor002113Size14 = TextStyle(
-      color: ThemeColor.clr_002113,
-      fontSize: fontSize_14,
-      fontWeight: FontWeight.w700);
-
-  static TextStyle textStyleBlackSmallContent = TextStyle(
-      color: Colors.black,
-      fontSize: fontSize_12,
-      fontWeight: FontWeight.normal);
-
-  //login
-  static TextStyle textStyleWelcome = TextStyle(
-      color: ThemeColor.clr_2D3142,
-      fontSize: fontSize_28,
-      fontWeight: FontWeight.w500,
-      fontFamily: TextConstants.fontRubik);
-
-  static TextStyle textStyleTopRate = TextStyle(
-      color: ThemeColor.clr_CE6161,
-      fontSize: fontSize_28,
-      fontWeight: FontWeight.w500,
-      fontFamily: TextConstants.fontRubik);
-
-  static TextStyle textStyleDetailWelcome = TextStyle(
-      color: ThemeColor.clr_4C5980,
-      fontSize: fontSize_16,
-      fontWeight: FontWeight.w400,
-      fontFamily: TextConstants.fontRubik);
-
-  static TextStyle textStyleButtonWelcome = TextStyle(
-      color: ThemeColor.clr_FFFFFF,
-      fontSize: fontSize_16,
-      fontWeight: FontWeight.w500,
-      fontFamily: TextConstants.fontRubik);
-
-  //notification
-  static TextStyle textStyleTopRateApp = TextStyle(
-      color: ThemeColor.clr_2D3142,
-      fontSize: fontSize_18,
-      fontWeight: FontWeight.w500,
-      fontFamily: TextConstants.fontRubik);
-
-  static TextStyle textStyleDetailNotification = TextStyle(
-      color: ThemeColor.clr_2D3142,
-      fontSize: fontSize_12,
-      fontWeight: FontWeight.w400,
-      fontFamily: TextConstants.fontRubik);
-
-  //Home
-  static TextStyle textHiName = TextStyle(
+  static TextStyle textListViewItemStyle(BuildContext context,
+      {Color? color, FontWeight? fontWeight, double? fontSize}) {
+    return Theme.of(context).textTheme.headline1!.copyWith(
+      fontSize: fontSize ?? 16,
+      fontWeight: fontWeight ?? FontWeight.w600,
+      color: color ?? ThemeColor.clr_FFFFFF,
+      fontFamily: TextConstants.fontMontserrat,
+    );
+  }
+  ///Base Style
+  static TextStyle textCustomNormalStyle(BuildContext context,
+      {Color? color, FontWeight? fontWeight, double? fontSize}) {
+    return Theme.of(context).textTheme.headline1!.copyWith(
+      fontSize: fontSize ?? 12,
+      fontWeight: fontWeight ?? FontWeight.w600,
+      color: color ?? ThemeColor.clr_CE6161,
+      fontFamily: TextConstants.fontMontserrat,
+    );
+  }
+  static TextStyle textCustomAppBarStyle(BuildContext context,
+      {Color? color, FontWeight? fontWeight, double? fontSize}) {
+    return Theme.of(context).textTheme.headline1!.copyWith(
+      fontSize: fontSize ?? 32,
+      fontWeight: fontWeight ?? FontWeight.w600,
+      color: color ?? ThemeColor.clr_2D3142,
+      fontFamily: TextConstants.fontMontserrat,
+    );
+  }
+  static TextStyle textAppBarStyle = TextStyle(
+    color: ThemeColor.clr_CE6161,
+    fontSize: 32,
+    fontWeight: FontWeight.w600,
+    fontFamily: TextConstants.fontMontserrat,
+  );
+  static TextStyle textTitleStyle = TextStyle(
     color: ThemeColor.clr_2D3142,
-    fontSize: fontSize_27,
-    fontWeight: FontWeight.w500,
-      fontFamily: TextConstants.fontRubik
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    fontFamily: TextConstants.fontMontserrat,
+  );
+  static TextStyle textNormalStyle = TextStyle(
+    color: ThemeColor.clr_2D3142,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    fontFamily: TextConstants.fontMontserrat,
+  );
+  static TextStyle textHintStyle = TextStyle(
+    color: ThemeColor.clr_979797,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    fontFamily: TextConstants.fontMontserrat,
+  );
+  static TextStyle textButtonStyle(BuildContext context,
+      {Color? color, FontWeight? fontWeight, double? fontSize}) {
+    return Theme.of(context).textTheme.headline1!.copyWith(
+      fontSize: fontSize ?? 16,
+      fontWeight: fontWeight ?? FontWeight.w600,
+      color: color ?? ThemeColor.clr_FFFFFF,
+      fontFamily: TextConstants.fontMontserrat,
+    );
+  }
+
+
+  ///Dialog Style
+  static TextStyle textMessageDialogStyle = TextStyle(
+    color: ThemeColor.clr_2D3142,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    fontFamily: TextConstants.fontMontserrat,
   );
 
-  static TextStyle textDate =  TextStyle(
-    color: ThemeColor.clr_CE6161,
-    fontSize: fontSize_12,
-    fontWeight: FontWeight.w500,
-      fontFamily: TextConstants.fontRubik
-  );
-
-  static TextStyle textHomeTitle = TextStyle(
-    color:  ThemeColor.clr_2D3142,
-    fontSize: fontSize_18,
-    fontWeight: FontWeight.w500,
-      fontFamily: TextConstants.fontRubik
-  );
-
-  static TextStyle textTopCardItem = TextStyle(
-      color: ThemeColor.clr_4C5980,
-      fontSize: fontSize_14,
-      fontWeight: FontWeight.w400,
-      fontFamily: TextConstants.fontRubik,
-      );
-
-  static TextStyle textBottomCardItem = TextStyle(
-      color: ThemeColor.clr_9C9EB9,
-      fontSize: fontSize_14,
-      fontWeight: FontWeight.w400,
-      fontFamily: TextConstants.fontRubik,
-      );
-
-  static TextStyle textUserNameHeader =  TextStyle(
-    color: ThemeColor.clr_CE6161,
-    fontSize: fontSize_32,
-    fontWeight: FontWeight.w500,
-      fontFamily: TextConstants.fontRubik,
-  );
-
-  static TextStyle textUserChoose = TextStyle(
-    color: ThemeColor.clr_D6D9E0,
-    fontSize: fontSize_16,
-    fontWeight:  FontWeight.w400,
-      fontFamily: TextConstants.fontRubik
-  );
-
-  static TextStyle textStyleUserButtonSubmit = TextStyle(
-    color: ThemeColor.clr_FFFFFF,
-    fontSize: fontSize_16,
-    fontWeight:  FontWeight.w500,
-    fontFamily: TextConstants.fontRubik
-  );
-
-  static TextStyle textStyleTitleDialog = TextStyle(
-          fontSize: fontSize_20,
-          color: ThemeColor.clr_4C5980,
-          fontWeight: FontWeight.w500,
-          fontFamily:  TextConstants.fontRubik
-  );
-
-  static TextStyle textStyleAppBar = TextStyle(
-      fontSize: fontSize_18,
-      color: ThemeColor.clr_4C5980,
-      fontWeight: FontWeight.w500,
-      fontFamily:  TextConstants.fontRubik
-  );
-  static TextStyle textStyleExpandBar = TextStyle(
-      fontSize: fontSize_18,
-      color: ThemeColor.clr_FFFFFF,
-      fontWeight: FontWeight.w500,
-      fontFamily:  TextConstants.fontRubik
-  );
-
-  static TextStyle textField = TextStyle(
-      fontSize: fontSize_14,
-      color: ThemeColor.clr_000000,
-    //  fontWeight: FontWeight.w500,
-      fontFamily:  TextConstants.fontRubik
-  );
+  static TextStyle textHeaderDialogStyle(BuildContext context,
+      {Color? color, FontWeight? fontWeight, double? fontSize}) {
+    return Theme.of(context).textTheme.headline1!.copyWith(
+      fontSize: fontSize ?? 20,
+      fontWeight: fontWeight ?? FontWeight.w600,
+      color: color ?? ThemeColor.clr_4C5980,
+      fontFamily: TextConstants.fontMontserrat,
+    );
+  }
+  ///Style in Extra Screens
+  //Home
+  static TextStyle textHeaderInLoginStyle(BuildContext context,
+      {Color? color, FontWeight? fontWeight, double? fontSize}) {
+    return Theme.of(context).textTheme.headline1!.copyWith(
+      fontSize: fontSize ?? 28,
+      fontWeight: fontWeight ?? FontWeight.w600,
+      color: color ?? ThemeColor.clr_2D3142,
+      fontFamily: TextConstants.fontMontserrat,
+    );
+  }
+  static TextStyle textTitleInLoginStyle(BuildContext context,
+      {Color? color, FontWeight? fontWeight, double? fontSize}) {
+    return Theme.of(context).textTheme.headline1!.copyWith(
+      fontSize: fontSize ?? 16,
+      fontWeight: fontWeight ?? FontWeight.w600,
+      color: color ?? ThemeColor.clr_4C5980,
+      fontFamily: TextConstants.fontMontserrat,
+    );
+  }
 
 
-  static TextStyle textStyleColor979797Size14 = TextStyle(
-          fontSize: fontSize_14,
-          color: ThemeColor.clr_979797,
-          fontWeight: FontWeight.w400,
-          fontFamily:  TextConstants.fontRubik
-  );
 }
 

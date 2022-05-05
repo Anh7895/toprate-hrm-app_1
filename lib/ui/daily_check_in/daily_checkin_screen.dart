@@ -382,7 +382,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                             height: height_45,
                             width: width_200,
                             title: TextConstants.textOk,
-                            style: TextStyleCommon.textStyleWhiteNormalTitle,
+                            style: TextStyleCommon.textButtonStyle(context),
                             backgroundColor: ThemeColor.clr_CE6161,
                           ),
                         ),
@@ -504,7 +504,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                                   height: height_56,
                                   title: S.of(context).translate("textCancel"),
                                   style:
-                                  TextStyleCommon.textStyleWhiteNormalTitle,
+                                  TextStyleCommon.textButtonStyle(context),
                                   backgroundColor: ThemeColor.clr_4C5980,
                                 ),
                               ),
@@ -514,7 +514,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                                 height: height_56,
                                 title: S.of(context).translate("textContinue"),
                                 style:
-                                    TextStyleCommon.textStyleWhiteNormalTitle,
+                                    TextStyleCommon.textButtonStyle(context),
                                 backgroundColor: ThemeColor.clr_CE6161,
                                 onPressed: () {
                                   _bloc.add(ClickSubmitEvent());

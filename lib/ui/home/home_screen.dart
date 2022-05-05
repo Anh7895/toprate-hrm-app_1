@@ -72,10 +72,10 @@ class _HomeScreensState extends State<HomeScreens> {
                                           children: [
                                             Icon(Icons.wb_sunny_sharp, color: ThemeColor.clr_CE6161, size: 16,),
                                             SizedBox(width: width_10,),
-                                            Text(dateFormatter(DateTime.now()),style: TextStyleCommon.textDate,),
+                                            Text(dateFormatter(DateTime.now()),style: TextStyleCommon.textCustomNormalStyle(context),),
                                           ],
                                         ),
-                                        Text("${S.of(context).translate("Hi")}, ${LocalUserData.getInstance.user?.firstName}",style: TextStyleCommon.textHiName,),
+                                        Text("${S.of(context).translate("Hi")}, ${LocalUserData.getInstance.user?.firstName}",style: TextStyleCommon.textCustomAppBarStyle(context),),
                                       ],
                                     )
                                 ),
@@ -123,8 +123,8 @@ class _HomeScreensState extends State<HomeScreens> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(S.of(context).translate("textRemindTop"),style: TextStyleCommon.textHomeTitle),
-                                      Text(S.of(context).translate("textRemindBottom"), style: TextStyleCommon.textHomeTitle,),
+                                      Text(S.of(context).translate("textRemindTop"),style: TextStyleCommon.textTitleStyle),
+                                      Text(S.of(context).translate("textRemindBottom"), style: TextStyleCommon.textTitleStyle,),
                                     ]
                                   ),
                                   GestureDetector(
@@ -139,7 +139,7 @@ class _HomeScreensState extends State<HomeScreens> {
                             SizedBox(height: height_14,),
                             Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text(S.of(context).translate("textTitle"), style: TextStyleCommon.textHomeTitle)),
+                                child: Text(S.of(context).translate("textTitle"), style: TextStyleCommon.textTitleStyle)),
                              Stack(
                                alignment: Alignment.bottomRight,
                               children: [
@@ -153,27 +153,27 @@ class _HomeScreensState extends State<HomeScreens> {
                                               Navigator.of(NavKey.navKey.currentContext!).pushAndRemoveUntil(
                                                   MaterialPageRoute(builder: (context) => DashboardScreen(index: 1)),(Route<dynamic> route) => false);
                                             },
-                                            child: HomeCardItem(text: S.of(context).translate("textCheckin"), url: svg_ic_checkin_now, textStyle:  TextStyleCommon.textTopCardItem)),
+                                            child: HomeCardItem(text: S.of(context).translate("textCheckin"), url: svg_ic_checkin_now, textStyle:  TextStyleCommon.textCustomCardStyle(context, color: ThemeColor.clr_4C5980))),
                                         GestureDetector(
                                             onTap: (){
                                               Navigator.pushNamed(context,RouteName.checkinScreen);
                                             },
-                                            child: HomeCardItem(text: S.of(context).translate("textMyCheckin"), url: svg_ic_my_checkin, textStyle: TextStyleCommon.textTopCardItem)),
+                                            child: HomeCardItem(text: S.of(context).translate("textMyCheckin"), url: svg_ic_my_checkin, textStyle: TextStyleCommon.textCustomCardStyle(context, color: ThemeColor.clr_4C5980))),
                                         GestureDetector(
                                             onTap: (){
                                               Navigator.pushNamed(context,RouteName.dayOffScreen);
                                             },
-                                            child: HomeCardItem(text: S.of(context).translate("textDayOff"), url:  svg_ic_day_off, textStyle: TextStyleCommon.textTopCardItem,)),
+                                            child: HomeCardItem(text: S.of(context).translate("textDayOff"), url:  svg_ic_day_off, textStyle: TextStyleCommon.textCustomCardStyle(context, color: ThemeColor.clr_4C5980),)),
                                         GestureDetector(
                                             onTap:(){
                                               Navigator.pushNamed(context,RouteName.notification);
                                             },
-                                            child: HomeCardItem(text: S.of(context).translate("textNews"), url: svg_ic_news, textStyle: TextStyleCommon.textBottomCardItem)),
+                                            child: HomeCardItem(text: S.of(context).translate("textNews"), url: svg_ic_news, textStyle: TextStyleCommon.textCustomCardStyle(context, color: ThemeColor.clr_9C9EB9))),
                                         GestureDetector(
                                             onTap: (){
 
                                             },
-                                            child: HomeCardItem(text: S.of(context).translate("textSurvey"), url: svg_ic_survey, textStyle: TextStyleCommon.textBottomCardItem)),
+                                            child: HomeCardItem(text: S.of(context).translate("textSurvey"), url: svg_ic_survey, textStyle: TextStyleCommon.textCustomCardStyle(context, color: ThemeColor.clr_9C9EB9))),
                                       ],),
                                 ),
                                 Column(

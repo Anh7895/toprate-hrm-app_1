@@ -89,7 +89,7 @@ showAlertBottomSheetDialogNew(BuildContext context,
                 margin: EdgeInsets.only(
                     bottom: height_24, left: width_50, right: width_50),
                 height: height_52,
-                style: TextStyleCommon.textStyleWhiteSmallTitle,
+                style: TextStyleCommon.textButtonStyle(context),
                 backgroundColor: ThemeColor.clr_CE6161,
                 title: S.of(context).translate("close"),
                 width: MediaQuery.of(context).size.width,
