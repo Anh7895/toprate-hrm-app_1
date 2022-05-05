@@ -526,12 +526,9 @@ class _UserScreenState extends State<UserScreen> {
 
                                         ),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
-                                            Padding(
-                                              padding:  EdgeInsets.only(left: width_60),
-                                              child: Text(S.of(context).translate("textWorkingMode"), style: TextStyleCommon.textUserChoose,),
-                                            ),
+                                            Text(S.of(context).translate("textWorkingMode"), style: TextStyleCommon.textUserChoose,),
 
                                             Container(
                                               margin: EdgeInsets.only(right: width_10),
@@ -639,8 +636,9 @@ class _UserScreenState extends State<UserScreen> {
                 ),
                 child: Container(
                   height: height_344,
-                  width: width_336,
+                  width:  MediaQuery.of(context).size.width,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         margin: EdgeInsets.only(top: height_20),

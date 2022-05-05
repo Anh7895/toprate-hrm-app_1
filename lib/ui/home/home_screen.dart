@@ -101,7 +101,7 @@ class _HomeScreensState extends State<HomeScreens> {
                             SizedBox(height: height_13,),
                             Container(
                               width: width,
-                              height: height_94,
+                              height: height_120,
                               margin: EdgeInsets.symmetric(horizontal: width_5),
                               decoration: BoxDecoration(color: ThemeColor.clr_FFEBEB,
                               borderRadius: BorderRadius.circular(radius_20),
@@ -120,10 +120,9 @@ class _HomeScreensState extends State<HomeScreens> {
                                   ),
 
                                   Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: height_22,),
                                       Text(S.of(context).translate("textRemindTop"),style: TextStyleCommon.textHomeTitle),
                                       Text(S.of(context).translate("textRemindBottom"), style: TextStyleCommon.textHomeTitle,),
                                     ]

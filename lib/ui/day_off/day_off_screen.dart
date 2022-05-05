@@ -32,7 +32,6 @@ class _DayOffScreenState extends State<DayOffScreen> {
     showDialogDate(CupertinoDatePicker(
       mode: CupertinoDatePickerMode.date,
       initialDateTime: DateTime.now(),
-      maximumDate: DateTime.now(),
       use24hFormat: true,
       // This is called when the user changes the dateTime.
       onDateTimeChanged: (DateTime newDateTime) {
@@ -48,7 +47,6 @@ class _DayOffScreenState extends State<DayOffScreen> {
     showDialogDate(CupertinoDatePicker(
       mode: CupertinoDatePickerMode.date,
       initialDateTime: DateTime.now(),
-      maximumDate: DateTime.now(),
       use24hFormat: true,
       // This is called when the user changes the dateTime.
       onDateTimeChanged: (DateTime newDateTime) {

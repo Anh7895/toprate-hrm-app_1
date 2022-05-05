@@ -276,7 +276,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
               onTap: () {
                 if (_bloc.isClick == true) {
                   if (_bloc.listProjectData != [] &&
-                      _bloc.listProjectData[index].stringNameSelectProject !=
+                      _bloc.listProjectData[index].projectId !=
                           null) {
                     _bloc.add(RemoveProjectEvent(indexSelect: index));
                   } else {
