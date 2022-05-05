@@ -134,8 +134,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 HomeScreens(),
                 DailyCheckInScreen(),
-                UserScreen(),
-                ReportScreen(),
+               // UserScreen(),
+               // ReportScreen(),
               ],
               controller: _bloc.controller,
             ));
@@ -164,16 +164,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
           icon: SvgPicture.asset(ic_checkin),
           label: S.of(context).translate("checkIn"),
         ),
-        BottomNavigationBarItem(
-          activeIcon: SvgPicture.asset(ic_personal, color: ThemeColor.clr_CE6161),
-          icon: SvgPicture.asset(ic_personal),
-          label: S.of(context).translate("personal"),
-        ),
-        BottomNavigationBarItem(
-          activeIcon: SvgPicture.asset(ic_chart, color: ThemeColor.clr_CE6161),
-          icon: SvgPicture.asset(ic_chart),
-          label: S.of(context).translate("chart"),
-        ),
+        // BottomNavigationBarItem(
+        //   activeIcon: SvgPicture.asset(ic_personal, color: ThemeColor.clr_CE6161),
+        //   icon: SvgPicture.asset(ic_personal),
+        //   label: S.of(context).translate("personal"),
+        // ),
+        // BottomNavigationBarItem(
+        //   activeIcon: SvgPicture.asset(ic_chart, color: ThemeColor.clr_CE6161),
+        //   icon: SvgPicture.asset(ic_chart),
+        //   label: S.of(context).translate("chart"),
+        // ),
       ],
     );
   }

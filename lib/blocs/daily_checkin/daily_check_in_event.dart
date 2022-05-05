@@ -68,10 +68,6 @@ class ClickSubmitEvent extends DailyCheckInEvent {
   ClickSubmitEvent();
 }
 
-class SubmitFailEvent extends DailyCheckInEvent {
-  SubmitFailEvent();
-}
-
 class CheckInEvent extends DailyCheckInEvent {
   final CheckIn? checkIn;
   CheckInEvent({this.checkIn});

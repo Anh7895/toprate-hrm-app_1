@@ -33,7 +33,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
       mode: CupertinoDatePickerMode.date,
       initialDateTime: DateTime.now(),
       use24hFormat: true,
-      // This is called when the user changes the dateTime.
+      // This is called when t      maximumDate: DateTime.now(),he user changes the dateTime.
       onDateTimeChanged: (DateTime newDateTime) {
         _bloc.add(SetSelectedFromDateEvent(
             setSelectedFromDate:
