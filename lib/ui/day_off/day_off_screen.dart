@@ -16,6 +16,8 @@ import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:toprate_hrm/common/widgets/images/svg_image_widget.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/enumMode.dart';
 
+import '../../common/multi_language/internationalization.dart';
+
 class DayOffScreen extends StatefulWidget {
   const DayOffScreen({Key? key}) : super(key: key);
 
@@ -134,8 +136,8 @@ class _DayOffScreenState extends State<DayOffScreen> {
         onTap: () {
           showAlertBottomSheetDialogNew(context,
               icon: ic_like,
-              title: TextConstants.textSuccess,
-              message: "Get a good working day, thank you for your effort!");
+              title: S.of(context).translate("success"),
+              message: S.of(context).translate("textMessageThank"));
         },
         child: Column(
           children: [
@@ -144,7 +146,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                   height_50, height_zero, height_50, height_24),
               child: BaseButton(
                 height: height_56,
-                title: TextConstants.textSubmit,
+                title: S.of(context).translate("submit"),
                 style: TextStyleCommon.textStyleWhiteNormalTitle,
                 backgroundColor: ThemeColor.clr_CE6161,
               ),
@@ -190,7 +192,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
           ),
           Spacer(),
           Text(
-            'Day off',
+            S.of(context).translate("textDayOff"),
             style: TextStyle(
                 color: ThemeColor.clr_CE6161,
                 fontSize: fontSize_32,
@@ -211,7 +213,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Duration',
+            S.of(context).translate("duration"),
             style: TextStyleCommon.textStyleTopRateApp,
           ),
         ),
@@ -231,7 +233,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                     },
                   ),
                 ),
-                Text('One day',style: TextStyleCommon.textStyleColor979797Size14,)
+                Text(S.of(context).translate("oneDay"),style: TextStyleCommon.textStyleColor979797Size14,)
               ],
             ),
             SizedBox(
@@ -251,7 +253,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                     },
                   ),
                 ),
-                Text('Many Day',style: TextStyleCommon.textStyleColor979797Size14)
+                Text(S.of(context).translate("manyDay"),style: TextStyleCommon.textStyleColor979797Size14)
               ],
             ),
           ],
@@ -266,7 +268,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
       children: [
         SizedBox(height: height_15),
         Text(
-          'Time',
+          S.of(context).translate("time"),
           style: TextStyleCommon.textStyleTopRateApp,
         ),
         SizedBox(
@@ -364,7 +366,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                           },
                         ),
                       ),
-                      Text('All day',style: TextStyleCommon.textStyleColor979797Size14)
+                      Text(S.of(context).translate("allDay"),style: TextStyleCommon.textStyleColor979797Size14)
                     ],
                   ),
                 ),
@@ -382,7 +384,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                           },
                         ),
                       ),
-                      Text('Morning',style: TextStyleCommon.textStyleColor979797Size14)
+                      Text(S.of(context).translate("morning"),style: TextStyleCommon.textStyleColor979797Size14)
                     ],
                   ),
                 ),
@@ -400,7 +402,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                           },
                         ),
                       ),
-                      Text('Afternoon',style: TextStyleCommon.textStyleColor979797Size14)
+                      Text(S.of(context).translate("afternoon"),style: TextStyleCommon.textStyleColor979797Size14)
                     ],
                   ),
                 )
@@ -416,7 +418,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Reason', style: TextStyleCommon.textStyleTopRateApp),
+        Text(S.of(context).translate("reason"), style: TextStyleCommon.textStyleTopRateApp),
         DropdownButton<String>(
           value: _bloc.defaultReason,
           icon: const Icon(
@@ -456,7 +458,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
             height: height_20,
           ),
           Text(
-            'Approver',
+            S.of(context).translate("approver"),
             style: TextStyleCommon.textStyleTopRateApp
           ),
           SizedBox(
@@ -556,7 +558,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                         Container(
                           margin: EdgeInsets.only(top: height_20),
                           child: Text(
-                            "Select more people",
+                            S.of(context).translate("textSelectMorePeople"),
                             style: TextStyle(
                                 fontSize: fontSize_20,
                                 color: ThemeColor.clr_4C5980,
@@ -609,7 +611,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                             },
                             child: BaseButton(
                               height: height_56,
-                              title: TextConstants.textSubmit,
+                              title: S.of(context).translate("submit"),
                               style: TextStyleCommon.textStyleWhiteNormalTitle,
                               backgroundColor: ThemeColor.clr_CE6161,
                             ),

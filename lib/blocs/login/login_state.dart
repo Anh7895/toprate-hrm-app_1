@@ -8,7 +8,9 @@ class InitLoginState extends LoginState {
   InitLoginState();
 }
 
-class LoginSuccessState extends ApiSuccessState {}
+class LoginSuccessState extends ApiSuccessState {
+  LoginSuccessState();
+}
 
 class LoginFailState extends ApiSuccessState {
   LoginFailState();

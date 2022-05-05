@@ -16,6 +16,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../common/multi_language/internationalization.dart';
 //
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -215,7 +217,7 @@ class _BaseAppState extends State<BaseApp> {
                   visualDensity: VisualDensity.adaptivePlatformDensity),
               locale: _locale,
               localizationsDelegates: [
-                // SLocalizationsDelegate(),
+                SLocalizationsDelegate(),
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
@@ -234,8 +236,9 @@ class _BaseAppState extends State<BaseApp> {
                 return supportedLocales.first;
               },
               supportedLocales: const [
-                Locale(LanguageConstants.vietnamese, 'VI'),
                 Locale(LanguageConstants.english, 'EN'),
+                Locale(LanguageConstants.vietnamese, 'VI'),
+
               ],
             ),
           ),

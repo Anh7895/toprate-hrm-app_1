@@ -19,6 +19,7 @@ import 'package:toprate_hrm/datasource/data/model/user_information.dart';
 import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
 import 'package:toprate_hrm/ui/home/conponent/card_item.dart';
 
+import '../../common/multi_language/internationalization.dart';
 import '../../common/resource/strings.dart';
 import '../../common/utils/time_utils.dart';
 import '../../common/widgets/images/svg_image_widget.dart';
@@ -74,7 +75,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                             Text(dateFormatter(DateTime.now()),style: TextStyleCommon.textDate,),
                                           ],
                                         ),
-                                        Text("Hi, ${LocalUserData.getInstance.user?.firstName}",style: TextStyleCommon.textHiName,),
+                                        Text("${S.of(context).translate("Hi")}, ${LocalUserData.getInstance.user?.firstName}",style: TextStyleCommon.textHiName,),
                                       ],
                                     )
                                 ),
@@ -123,8 +124,8 @@ class _HomeScreensState extends State<HomeScreens> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(height: height_22,),
-                                      Text(TextConstants.textRemindTop,style: TextStyleCommon.textHomeTitle),
-                                      Text(TextConstants.textRemindBottom, style: TextStyleCommon.textHomeTitle,),
+                                      Text(S.of(context).translate("textRemindTop"),style: TextStyleCommon.textHomeTitle),
+                                      Text(S.of(context).translate("textRemindBottom"), style: TextStyleCommon.textHomeTitle,),
                                     ]
                                   ),
                                   GestureDetector(
@@ -139,7 +140,7 @@ class _HomeScreensState extends State<HomeScreens> {
                             SizedBox(height: height_14,),
                             Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text(TextConstants.textTitle, style: TextStyleCommon.textHomeTitle)),
+                                child: Text(S.of(context).translate("textTitle"), style: TextStyleCommon.textHomeTitle)),
                              Stack(
                                alignment: Alignment.bottomRight,
                               children: [
@@ -153,27 +154,27 @@ class _HomeScreensState extends State<HomeScreens> {
                                               Navigator.of(NavKey.navKey.currentContext!).pushAndRemoveUntil(
                                                   MaterialPageRoute(builder: (context) => DashboardScreen(index: 1)),(Route<dynamic> route) => false);
                                             },
-                                            child: HomeCardItem(text: TextConstants.textCheckin, url: svg_ic_checkin_now, textStyle:  TextStyleCommon.textTopCardItem)),
+                                            child: HomeCardItem(text: S.of(context).translate("textCheckin"), url: svg_ic_checkin_now, textStyle:  TextStyleCommon.textTopCardItem)),
                                         GestureDetector(
                                             onTap: (){
                                               Navigator.pushNamed(context,RouteName.checkinScreen);
                                             },
-                                            child: HomeCardItem(text: TextConstants.textMyCheckin, url: svg_ic_my_checkin, textStyle: TextStyleCommon.textTopCardItem)),
+                                            child: HomeCardItem(text: S.of(context).translate("textMyCheckin"), url: svg_ic_my_checkin, textStyle: TextStyleCommon.textTopCardItem)),
                                         GestureDetector(
                                             onTap: (){
                                               Navigator.pushNamed(context,RouteName.dayOffScreen);
                                             },
-                                            child: HomeCardItem(text: TextConstants.textDayOff, url:  svg_ic_day_off, textStyle: TextStyleCommon.textTopCardItem,)),
+                                            child: HomeCardItem(text: S.of(context).translate("textDayOff"), url:  svg_ic_day_off, textStyle: TextStyleCommon.textTopCardItem,)),
                                         GestureDetector(
                                             onTap:(){
                                               Navigator.pushNamed(context,RouteName.notification);
                                             },
-                                            child: HomeCardItem(text: TextConstants.textNews, url: svg_ic_news, textStyle: TextStyleCommon.textBottomCardItem)),
+                                            child: HomeCardItem(text: S.of(context).translate("textNews"), url: svg_ic_news, textStyle: TextStyleCommon.textBottomCardItem)),
                                         GestureDetector(
                                             onTap: (){
 
                                             },
-                                            child: HomeCardItem(text: TextConstants.textSurvey, url: svg_ic_survey, textStyle: TextStyleCommon.textBottomCardItem)),
+                                            child: HomeCardItem(text: S.of(context).translate("textSurvey"), url: svg_ic_survey, textStyle: TextStyleCommon.textBottomCardItem)),
                                       ],),
                                 ),
                                 Column(

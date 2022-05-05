@@ -14,6 +14,7 @@ import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:toprate_hrm/common/widgets/loading_widget.dart';
 import 'package:toprate_hrm/ui/mycheckin/event_data.dart';
 
+import '../../common/multi_language/internationalization.dart';
 import 'component/status_view.dart';
 
 class CheckinScreen extends StatefulWidget {
@@ -143,7 +144,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
           ),
           Spacer(),
           Text(
-            'My Checkin',
+            S.of(context).translate("textMyCheckin"),
             style: TextStyle(
                 color: ThemeColor.clr_CE6161,
                 fontSize: fontSize_32,
@@ -187,7 +188,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
                   child: Row(
                     children: [
                       Text(
-                        'Tháng ${_bloc.stringData}',
+                        '${S.of(context).translate("month")} ${_bloc.stringData}',
                         style: TextStyleCommon.textStyleColor2D3142Size16,
                       ),
                       Container(

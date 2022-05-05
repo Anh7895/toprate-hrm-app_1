@@ -49,15 +49,7 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
 
   /// Init google listener
   ///
-  doLoginGoogle() {
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
 
-      account?.authentication.then((au) {
-        widget.callBackGoogle!([au.accessToken!, account.email,au]);
-
-      }).catchError((error, stackTrace) {});
-    });
-  }
 
   ///Handle do login facebook
   // Future<Null> handleLoginFacebook() async {
@@ -94,7 +86,10 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
   Future<void> handleLoginGoogle() async {
     _googleSignIn.signOut();
       try {
-        await _googleSignIn.signIn();
+        await _googleSignIn.signIn().then((value) =>{
+          value?.authentication.then((au) =>   widget.callBackGoogle!([au.accessToken!,value.email,au])
+             )
+        } );
       } catch (error) {
         _googleSignIn.signInSilently();
         print(error);
@@ -125,7 +120,6 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
                   imageAssetsPng: png_ic_google,
                   doLogin: () async{
                     print("Login");
-                    doLoginGoogle();
                     handleLoginGoogle();
                   },
                 )

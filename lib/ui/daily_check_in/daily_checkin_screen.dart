@@ -16,6 +16,8 @@ import 'package:toprate_hrm/common/widgets/images/svg_image_widget.dart';
 import 'package:toprate_hrm/common/widgets/images/web_image_widget.dart';
 import 'package:toprate_hrm/common/widgets/loading_widget.dart';
 
+import '../../common/multi_language/internationalization.dart';
+
 class DailyCheckInScreen extends StatefulWidget {
   const DailyCheckInScreen({Key? key}) : super(key: key);
 
@@ -62,12 +64,12 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                     isDismissible: true,
                     icon: ic_like,
                     message:
-                        "Get a good working day, \nthank you for your effort!");
+                        S.of(context).translate("textMessageThank"));
               }
               if (state is SubmitFailState) {
 
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Thông tin không được để trống."),
+                  content: Text(S.of(context).translate("textDialog")),
                 ));
               }
             },
@@ -111,7 +113,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                   height_50, height_zero, height_50, height_24),
               child: BaseButton(
                 height: height_56,
-                title: TextConstants.textSubmit,
+                title: S.of(context).translate("submit"),
                 style: TextStyle(
                     color: ThemeColor.clr_FFFFFF,
                     fontFamily: TextConstants.fontRubik,
@@ -325,7 +327,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                       Container(
                         margin: EdgeInsets.only(top: height_20),
                         child: Text(
-                          "Select 01 project",
+                          S.of(context).translate("textSelectProject"),
                           style: TextStyle(
                               fontSize: fontSize_20,
                               color: ThemeColor.clr_4C5980,
@@ -479,7 +481,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                         child: Container(
                           child: Center(
                             child: Text(
-                              "Are you sure you want to \nsend check-in information?",
+                            S.of(context).translate("messageSendInfo"),
                               style: TextStyle(
                                   fontSize: fontSize_18,
                                   color: ThemeColor.clr_4C5980,
@@ -500,7 +502,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                                 },
                                 child: BaseButton(
                                   height: height_56,
-                                  title: TextConstants.textCancel,
+                                  title: S.of(context).translate("textCancel"),
                                   style:
                                   TextStyleCommon.textStyleWhiteNormalTitle,
                                   backgroundColor: ThemeColor.clr_4C5980,
@@ -510,7 +512,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                             Expanded(
                               child: BaseButton(
                                 height: height_56,
-                                title: TextConstants.textContinue,
+                                title: S.of(context).translate("textContinue"),
                                 style:
                                     TextStyleCommon.textStyleWhiteNormalTitle,
                                 backgroundColor: ThemeColor.clr_CE6161,

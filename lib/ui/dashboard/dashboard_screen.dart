@@ -20,6 +20,7 @@ import 'package:toprate_hrm/ui/day_off/day_off_screen.dart';
 import 'package:toprate_hrm/ui/report/report_screen.dart';
 import 'package:toprate_hrm/ui/user/user_screen.dart';
 
+import '../../common/multi_language/internationalization.dart';
 import '../home/home_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -156,22 +157,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
         BottomNavigationBarItem(
           activeIcon:SvgPicture.asset(ic_home, color: ThemeColor.clr_CE6161),
           icon: SvgPicture.asset(ic_home),
-          label: "Home",
+          label: S.of(context).translate("home"),
         ),
         BottomNavigationBarItem(
           activeIcon:SvgPicture.asset(ic_checkin, color: ThemeColor.clr_CE6161),
           icon: SvgPicture.asset(ic_checkin),
-          label: "CheckIn",
+          label: S.of(context).translate("checkIn"),
         ),
         BottomNavigationBarItem(
           activeIcon: SvgPicture.asset(ic_personal, color: ThemeColor.clr_CE6161),
           icon: SvgPicture.asset(ic_personal),
-          label: "Personal",
+          label: S.of(context).translate("personal"),
         ),
         BottomNavigationBarItem(
           activeIcon: SvgPicture.asset(ic_chart, color: ThemeColor.clr_CE6161),
           icon: SvgPicture.asset(ic_chart),
-          label: "Chart",
+          label: S.of(context).translate("chart"),
         ),
       ],
     );

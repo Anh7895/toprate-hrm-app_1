@@ -47,9 +47,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
 
     ///Handle Login Google
     on<GoogleLoginEvent>((event, emit)async{
-      LocalUserData.getInstance.accessToken = event.assetToken!;
-      //print( "AccessTokenGoogleLogin ${localUserData.accessToken}");
-      email = event.email;
+
       await doLogin(event, emit);
 
     });
@@ -102,7 +100,8 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
 
   //handle login, check mail valid
   Future<void> doLogin(GoogleLoginEvent event, Emitter<BaseState> emit) async {
-    if(email!.endsWith("toprate.io")){
+    LocalUserData.getInstance.accessToken = event.assetToken!;
+    if(event.email!.endsWith("toprate.io")){
       emit(StartCallApiState());
       try {
         final rAuth= await loginRepository.socialLogin(LocalUserData.getInstance.accessToken);
@@ -111,7 +110,6 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
           await saveToken(rAuth.accessToken);
           LocalUserData.getInstance.refreshToken = rAuth.refreshToken??'';
           await saveRefreshToken(rAuth.refreshToken);
-
         add(GetUserInformationEvent());
         emit(LoginSuccessState());
       } on DioError catch (e) {
