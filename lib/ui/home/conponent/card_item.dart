@@ -22,7 +22,7 @@ class HomeCardItem extends StatelessWidget {
         SizedBox(height: height_5,),
         Container(width:width_120,
             child: Text(text, style:  textStyle,textAlign: TextAlign.center,)),
-        SizedBox(height: height_15,)
+        SizedBox(height: height_10,)
       ],
     );
   }

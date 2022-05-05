@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
+import 'package:toprate_hrm/common/resource/sizes.dart';
 import 'package:toprate_hrm/common/utils/preference_utils.dart';
+import 'package:toprate_hrm/common/widgets/base_button.dart';
+import 'package:toprate_hrm/common/widgets/images/svg_image_widget.dart';
 import 'package:toprate_hrm/datasource/data/local_user_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +21,7 @@ import 'package:toprate_hrm/common/resource/strings.dart';
 import 'package:toprate_hrm/common/resource/text_style.dart';
 import 'package:toprate_hrm/common/exceptions/network_connection_exception.dart';
 
+import '../multi_language/internationalization.dart';
 import 'base_screen.dart';
 
 ///
@@ -91,18 +95,10 @@ class _HttpStreamHandler<B extends Bloc<dynamic, S>, S extends BaseState>
         if (err is DioError) {
           if (err.response?.statusCode == HttpStatus.unauthorized ||
               err.response?.statusCode == HttpStatus.forbidden) {
-            showAlertBottomSheetDialog(context,
-                onConfirm: () {},
-                title: TextConstants.textFailed,
-                message: TextConstants.text106Err,
-                icon: ic_error);
+            showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error);
           } else if (err.response?.statusCode ==
               HttpStatus.internalServerError) {
-            showAlertBottomSheetDialog(context,
-                onConfirm: () {},
-                title: TextConstants.textFailed,
-                message: TextConstants.text100Err,
-                icon: ic_error);
+            showAlert(context, TextConstants.textFailed, TextConstants.text100Err, icon: ic_error);
           } else if (err.type == DioErrorType.connectTimeout ||
               err.type == DioErrorType.receiveTimeout) {
             _mappingError(
@@ -118,11 +114,7 @@ class _HttpStreamHandler<B extends Bloc<dynamic, S>, S extends BaseState>
         }
       }
     }, onError: (onError) {
-      showAlertBottomSheetDialog(context,
-          onConfirm: () {},
-          title: TextConstants.textFailed,
-          message: TextConstants.text100Err,
-          icon: ic_error);
+      showAlert(context, TextConstants.textFailed, TextConstants.text100Err, icon: ic_error);
     }, onDone: () {}, cancelOnError: true);
   }
 
@@ -143,26 +135,14 @@ class _HttpStreamHandler<B extends Bloc<dynamic, S>, S extends BaseState>
       _transformMessage = language.S
           .of(context)
           .translate(TextConstants.textSystemIsBusyPleaseTryAgainLater);
-      showAlertBottomSheetDialog(context,
-          onConfirm: () {},
-          title: TextConstants.textFailed,
-          message: '${errorMessage}',
-          icon: ic_error);
+      showAlert(context, TextConstants.textFailed, '${errorMessage}', icon: ic_error);
     } else if (errorMessage ==
         TextConstants.textNoConnectionPleaseCheckYourConnectionAndTryAgain) {
       _transformMessage = language.S.of(context).translate(
           TextConstants.textNoConnectionPleaseCheckYourConnectionAndTryAgain);
-      showAlertBottomSheetDialog(context,
-          onConfirm: () {},
-          title: TextConstants.textFailed,
-          message: '${errorMessage}',
-          icon: ic_error);
+      showAlert(context, TextConstants.textFailed, '${errorMessage}', icon: ic_error);
     } else {
-      showAlertBottomSheetDialog(context,
-          onConfirm: () {},
-          title: TextConstants.textFailed,
-          message: '${errorMessage}',
-          icon: ic_error);
+      showAlert(context, TextConstants.textFailed, '${errorMessage}', icon: ic_error);
     }
   }
 }
@@ -200,7 +180,7 @@ String handleResponseError(error) {
 }
 
 showAlert(BuildContext context, String title, String message,
-    {Function(BuildContext)? onDismiss, bool? dismissible, bool? canPop}) {
+    {Function(BuildContext)? onDismiss, bool? dismissible, bool? canPop, String? icon}) {
   final mediaData = MediaQuery.of(context);
   showDialog(
       barrierDismissible: dismissible ?? true,
@@ -220,19 +200,33 @@ showAlert(BuildContext context, String title, String message,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      icon!=''?SVGImageWidget(
+                        height: height_72,
+                        width: width_72,
+                        url: icon,
+                      ):Container(),
                       SizedBox(
-                        height: 20,
+                        height: height_20,
                       ),
                       Text(title,
-                          style: TextStyleCommon.dialogContentAlertLight(
-                            context,
-                          ),
+                          style: TextStyleCommon.textHeaderDialogStyle(context),
                           textAlign: TextAlign.center),
+                      SizedBox(
+                        height: height_20,
+                      ),
                       Text(
                         message,
-                        style: TextStyleCommon.dialogContentAlertLight(context),
+                        style: TextStyleCommon.textMessageDialogStyle,
                         textAlign: TextAlign.center,
                       ),
+                      SizedBox(height: height_20,),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width_16),
+                        child: BaseButton(
+                          backgroundColor: ThemeColor.clr_CE6161,
+                          title: S.of(context).translate("submit"),
+                        ),
+                      )
                     ],
                   ),
                 ),

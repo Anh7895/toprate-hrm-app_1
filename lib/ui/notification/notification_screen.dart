@@ -59,7 +59,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         SizedBox(height: height_22,),
                         Text(S.of(context).translate("textTopRateApp"),style: TextStyleCommon.textTitleStyle),
                         SizedBox(height: height_5,),
-                        Text(S.of(context).translate("textDetailNotification"), style: TextStyleCommon.textTitleStyle,),
+                        Text(S.of(context).translate("textDetailNotification"), style: TextStyleCommon.textNormalStyle,),
                       ],
 
                     )

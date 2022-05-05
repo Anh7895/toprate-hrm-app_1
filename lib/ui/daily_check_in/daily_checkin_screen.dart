@@ -3,6 +3,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/daily_checkin/daily_check_in_bloc.dart';
 import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils_new.dart';
+import 'package:toprate_hrm/common/dialog/dialog_custom.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
@@ -60,11 +61,11 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             bloc: _bloc,
             listener: (context, state) {
               if (state is showAlertBottomSheetDialogState) {
-                showAlertBottomSheetDialogNew(context,
-                    isDismissible: true,
-                    icon: ic_like,
-                    message:
-                        S.of(context).translate("textMessageThank"));
+                showAlert(context,
+                    TextConstants.textFailed,
+                    S.of(context).translate("textMessageThank"),
+                    icon: ic_like);
+
               }
               if (state is SubmitFailState) {
 

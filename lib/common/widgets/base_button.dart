@@ -31,13 +31,13 @@ class BaseButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: width,
-        height: height,
+        height: height??height_50,
         margin: margin ??
             EdgeInsets.symmetric(vertical: width_4, horizontal: width_8),
         padding: padding ?? EdgeInsets.all(height_8),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: backgroundColor ?? ThemeColor.clr_E7EFFF,
+            color: backgroundColor ?? ThemeColor.clr_CE6161,
             borderRadius: BorderRadius.all(Radius.circular(height_16))),
         child: Text(
           "$title",
