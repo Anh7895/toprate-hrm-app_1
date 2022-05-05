@@ -32,7 +32,6 @@ class _DayOffScreenState extends State<DayOffScreen> {
     showDialogDate(CupertinoDatePicker(
       mode: CupertinoDatePickerMode.date,
       initialDateTime: DateTime.now(),
-      maximumDate: DateTime.now(),
       use24hFormat: true,
       // This is called when the user changes the dateTime.
       onDateTimeChanged: (DateTime newDateTime) {
@@ -48,7 +47,6 @@ class _DayOffScreenState extends State<DayOffScreen> {
     showDialogDate(CupertinoDatePicker(
       mode: CupertinoDatePickerMode.date,
       initialDateTime: DateTime.now(),
-      maximumDate: DateTime.now(),
       use24hFormat: true,
       // This is called when the user changes the dateTime.
       onDateTimeChanged: (DateTime newDateTime) {
@@ -147,7 +145,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
               child: BaseButton(
                 height: height_56,
                 title: S.of(context).translate("submit"),
-                style: TextStyleCommon.textStyleWhiteNormalTitle,
+                style: TextStyleCommon.textButtonStyle(context),
                 backgroundColor: ThemeColor.clr_CE6161,
               ),
             )
@@ -214,7 +212,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
           alignment: Alignment.centerLeft,
           child: Text(
             S.of(context).translate("duration"),
-            style: TextStyleCommon.textStyleTopRateApp,
+            style: TextStyleCommon.textTitleStyle,
           ),
         ),
         Row(
@@ -233,7 +231,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                     },
                   ),
                 ),
-                Text(S.of(context).translate("oneDay"),style: TextStyleCommon.textStyleColor979797Size14,)
+                Text(S.of(context).translate("oneDay"),style: TextStyleCommon.textHintStyle,)
               ],
             ),
             SizedBox(
@@ -253,7 +251,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                     },
                   ),
                 ),
-                Text(S.of(context).translate("manyDay"),style: TextStyleCommon.textStyleColor979797Size14)
+                Text(S.of(context).translate("manyDay"),style: TextStyleCommon.textHintStyle)
               ],
             ),
           ],
@@ -269,7 +267,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
         SizedBox(height: height_15),
         Text(
           S.of(context).translate("time"),
-          style: TextStyleCommon.textStyleTopRateApp,
+          style: TextStyleCommon.textTitleStyle,
         ),
         SizedBox(
           height: height_8,
@@ -290,7 +288,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                         child: TextFormField(
                           readOnly: true,
                           controller: _bloc.fromController,
-                          style: TextStyleCommon.textStyleColor979797Size14,
+                          style: TextStyleCommon.textHintStyle,
                         ),
                       ),
                     ),
@@ -324,7 +322,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                         child: TextFormField(
                           readOnly: true,
                           controller: _bloc.toController,
-                          style: TextStyleCommon.textStyleColor979797Size14,
+                          style: TextStyleCommon.textHintStyle,
                         ),
                       ),
                     ),
@@ -366,7 +364,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                           },
                         ),
                       ),
-                      Text(S.of(context).translate("allDay"),style: TextStyleCommon.textStyleColor979797Size14)
+                      Text(S.of(context).translate("allDay"),style: TextStyleCommon.textHintStyle)
                     ],
                   ),
                 ),
@@ -384,7 +382,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                           },
                         ),
                       ),
-                      Text(S.of(context).translate("morning"),style: TextStyleCommon.textStyleColor979797Size14)
+                      Text(S.of(context).translate("morning"),style: TextStyleCommon.textHintStyle)
                     ],
                   ),
                 ),
@@ -402,7 +400,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                           },
                         ),
                       ),
-                      Text(S.of(context).translate("afternoon"),style: TextStyleCommon.textStyleColor979797Size14)
+                      Text(S.of(context).translate("afternoon"),style: TextStyleCommon.textHintStyle)
                     ],
                   ),
                 )
@@ -418,7 +416,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(S.of(context).translate("reason"), style: TextStyleCommon.textStyleTopRateApp),
+        Text(S.of(context).translate("reason"), style: TextStyleCommon.textTitleStyle),
         DropdownButton<String>(
           value: _bloc.defaultReason,
           icon: const Icon(
@@ -439,7 +437,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
           items: _bloc.reasons.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value,style: TextStyleCommon.textStyleColor979797Size14),
+              child: Text(value,style: TextStyleCommon.textHintStyle),
             );
           }).toList(),
         )
@@ -459,7 +457,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
           ),
           Text(
             S.of(context).translate("approver"),
-            style: TextStyleCommon.textStyleTopRateApp
+            style: TextStyleCommon.textHintStyle
           ),
           SizedBox(
             height: height_15,
@@ -612,7 +610,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                             child: BaseButton(
                               height: height_56,
                               title: S.of(context).translate("submit"),
-                              style: TextStyleCommon.textStyleWhiteNormalTitle,
+                              style: TextStyleCommon.textHintStyle,
                               backgroundColor: ThemeColor.clr_CE6161,
                             ),
                           ),

@@ -127,19 +127,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                   boxFit: BoxFit.fill,
                                 ),
                              SizedBox(height: height_26),
-                             Text(S.of(context).translate("textWelcome"), style:  TextStyleCommon.textStyleWelcome,),
+                             Text(S.of(context).translate("textWelcome"), style:  TextStyleCommon.textHeaderInLoginStyle(context),),
                              Row(
                                mainAxisAlignment: MainAxisAlignment.center,
                                children: [
-                                 Text(S.of(context).translate("textTopRate"), style: TextStyleCommon.textStyleTopRate,),
+                                 Text(S.of(context).translate("textTopRate"), style: TextStyleCommon.textHeaderInLoginStyle(context,color: ThemeColor.clr_CE6161),),
                                  SizedBox(width: 5,),
-                                 Text(S.of(context).translate("textApp"), style:  TextStyleCommon.textStyleWelcome,),
+                                 Text(S.of(context).translate("textApp"), style:  TextStyleCommon.textHeaderInLoginStyle(context),),
                                ],
                              ),
                                 SizedBox(height: height_16),
                                 Text(
                                   S.of(context).translate("textInfo"),
-                                  style:TextStyleCommon.textStyleDetailWelcome,
+                                  style:TextStyleCommon.textTitleInLoginStyle(context),
                                   textAlign: TextAlign.center,
                                 ),
                                 Image.asset(png_image_login),

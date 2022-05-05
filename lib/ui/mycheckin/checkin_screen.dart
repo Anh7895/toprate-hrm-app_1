@@ -111,7 +111,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
                     margin: EdgeInsets.only(left: height_62, right: height_62),
                     height: height_56,
                     title: TextConstants.textCheckin,
-                    style: TextStyleCommon.textStyleWhiteNormalTitle,
+                    style: TextStyleCommon.textButtonStyle(context),
                     backgroundColor: ThemeColor.clr_CE6161,
 
                   ),
@@ -189,7 +189,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
                     children: [
                       Text(
                         '${S.of(context).translate("month")} ${_bloc.stringData}',
-                        style: TextStyleCommon.textStyleColor2D3142Size16,
+                        style: TextStyleCommon.textTitleStyle,
                       ),
                       Container(
                         padding: EdgeInsets.only(left: height_11) ,
