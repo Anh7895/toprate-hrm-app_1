@@ -10,7 +10,6 @@ import 'package:openapi/openapi.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
-import 'package:toprate_hrm/common/resource/theme_color.dart';
 import 'package:toprate_hrm/common/utils/extensions.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/project_data.dart';
 import 'package:toprate_hrm/datasource/repository/daily_checkin_repository.dart';
@@ -33,7 +32,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<GetAllSettingBlockEvent>(
         (event, emit) => getAllSettingBlock(event, emit));
     on<GetAllProjectEvent>((event, emit) => getAllProject(event, emit));
-    on<SubmitFailEvent>((event, emit) => submitFail(event, emit));
     on<GetProjectByDateEvent>((event, emit) => GetProjectByDate(event, emit));
     on<CheckInEvent>((event, emit) => checkIn(event, emit));
     on<SelectDayEvent>((event, emit) => onDaySelect(event, emit));
@@ -83,14 +81,12 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       time =
       "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
       isCanGoToNextDay = true;
-      // add(GetTimekeepingByUserAndByDateEvent(date: DateFormat("dd-MM-yyyy").format(dateTime)));
       date = dateTime.convertDateTimeToString("dd-MM-yyyy");
     } else{
       selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day - 1);
       time =
       "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
       isCanGoToNextDay = true;
-      // add(GetTimekeepingByUserAndByDateEvent(date: DateFormat("dd-MM-yyyy").format(dateTime)));
       date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
     }
     print("selectedDay ${selectedDay}");
@@ -135,9 +131,8 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       final aDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
       if (today != aDate) {
         dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day + 1);
-        add(GetProjectByDateEvent(date: date));
       }
-
+      date = dateTime.convertDateTimeToString("dd-MM-yyyy");
       isCanGoToNextDay = dateTime == today ? false : true;
       time =
       "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
@@ -147,15 +142,16 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       final aDate = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
       if (today != aDate) {
         selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day + 1);
-        add(GetProjectByDateEvent(date: date));
+        listProjectByDate.clear();
       }
+      date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
       isCanGoToNextDay = selectedDay == today ? false : true;
       time =
       "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
       isCanGoToNextDay = true;
     }
 
-    date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
+    add(GetProjectByDateEvent(date: date));
     emit(NextDayState());
   }
 
@@ -194,6 +190,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         isClick = true;
         listSettingBloc.clear();
         listProjectByDate.clear();
+        listProjectData.clear();
         final listModel = response?['data']
             .map<SettingBlock>((e) =>
                 standardSerializers.deserializeWith<SettingBlock>(
@@ -204,8 +201,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         for (int i = 0; i < listSettingBloc.length; i++) {
           numberBloc = int.parse(listSettingBloc[i].number ?? "");
           for (int t = 0; t < numberBloc; t++) {
-            listProjectByDate.clear();
-            listProjectData.clear();
             listProjectData.add(ProjectData(
                 stringNameDefault: listSettingBloc[i].placeholder!,
                 stringNameSelectProject: null,
@@ -214,6 +209,8 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
                 projectId: null));
           }
         }
+        print("Error: letter is null ${listProjectData.length}");
+        print("Error: letter is null ${listSettingBloc.length}");
         emit(GetAllSettingBlockState());
       }
     } on DioError catch (e) {
@@ -246,11 +243,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     add(CheckInEvent(checkIn: buildCheckIn()));
     emit(ClickSubmitState());
   }
-
-  submitFail(SubmitFailEvent event, Emitter<BaseState> emit) async {
-    emit(SubmitFailState());
-  }
-
 
   GetProjectByDate(
       GetProjectByDateEvent event, Emitter<BaseState> emit) async {
@@ -292,23 +284,30 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         emit(showAlertBottomSheetDialogState());
       }
     } on DioError catch (e) {
-      List<String> err = [];
       print("Res ${e.response?.statusCode}");
       if (e.response?.statusCode == 400) {
-        if (e.response?.data['data.0.project_id'] != null) {
-          if (e.response?.data['messages']['data.0.project_id'] != null) {
-            err = List<String>.from(e.response?.data['messages']['data.0.project_id']);
+        if (e.response?.data['messages'] != null) {
+          if (e.response?.data['messages']["data.0.project_id"] != null) {
+            emit(ApiErrorState(
+                error: e,
+                errorMessage: e.response?.data['messages']["data.0.project_id"]
+                    .toString()));
+            return;
           }
         }
         if (e.response?.data['data.0.coefficient_pay_id'] != null) {
-          if (e.response?.data['messages']['data.0.coefficient_pay_id'] != null) {
-            err = List<String>.from(e.response?.data['messages']['data.0.coefficient_pay_id']);
+          if (e.response?.data['messages']["data.0.coefficient_pay_id"] !=
+              null) {
+            emit(ApiErrorState(
+                error: e,
+                errorMessage: e
+                    .response?.data['messages']["data.0.coefficient_pay_id"]
+                    .toString()));
+            return;
           }
         }
       }
-      emit(ApiErrorState(
-          error: e,
-          errorMessage: e.response?.data['message'] ?? err.toString()));
+      emit(ApiErrorState(error: e, errorMessage: e.response?.data['message']));
     } catch (e) {
       emit(ApiErrorState(errorMessage: TextConstants.text101Err));
     }
@@ -318,9 +317,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     var builder = CheckInBuilder();
     List<CheckInData> data = [];
     listProjectData.forEach((e) {
-      if(e.projectId == null){
-        add(SubmitFailEvent());
-      }
    if (e.projectId != null &&
           e.coefficientPayId != null &&
           e.time != null) {
