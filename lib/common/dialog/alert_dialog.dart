@@ -8,63 +8,53 @@ import '../resource/text_style.dart';
 import '../resource/theme_color.dart';
 import '../widgets/base_button.dart';
 import '../widgets/http_stream_handler.dart';
+import '../widgets/images/svg_image_widget.dart';
 
-_showDialogConfirm(BuildContext context) async {
+showDialogConfirm(BuildContext context,{String? icon, String? title, String? message}) async {
   return await showDialog<void>(
       context: context,
       barrierDismissible: true, // user must tap button!
       builder: (context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius_16),
-          ),
-          child: Container(
-            height: height_200,
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Container(
-                    child: Center(
-                      child: Text(
-                        S.of(context).translate("messageSendInfo"),
-                        style: TextStyleCommon.textHeaderDialogStyle(context),
-                      ),
-                    ),
-                  ),
+                icon!=''?SVGImageWidget(
+                  height: height_72,
+                  width: width_72,
+                  url: icon,
+                ):Container(),
+                SizedBox(
+                  height: height_20,
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: BaseButton(
-                            height: height_56,
-                            title: S.of(context).translate("textCancel"),
-                            style:
-                            TextStyleCommon.textButtonStyle(context),
-                            backgroundColor: ThemeColor.clr_4C5980,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: BaseButton(
-                          height: height_56,
-                          title: S.of(context).translate("textContinue"),
-                          style:
-                          TextStyleCommon.textButtonStyle(context),
-                          backgroundColor: ThemeColor.clr_CE6161,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                Text(title??"",
+                    style: TextStyleCommon.textHeaderDialogStyle(context),
+                    textAlign: TextAlign.center),
+                SizedBox(
+                  height: height_20,
                 ),
+                Text(
+                  message??"",
+                  style: TextStyleCommon.textMessageDialogStyle,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: height_20,),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width_16),
+                  child: BaseButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    backgroundColor: ThemeColor.clr_CE6161,
+                    title: S.of(context).translate("close"),
+                  ),
+                )
               ],
             ),
           ),

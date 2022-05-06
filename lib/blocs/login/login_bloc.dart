@@ -100,6 +100,7 @@ class LoginBloc extends Bloc<LoginEvent, BaseState> {
 
   //handle login, check mail valid
   Future<void> doLogin(GoogleLoginEvent event, Emitter<BaseState> emit) async {
+
     LocalUserData.getInstance.accessToken = event.assetToken!;
     if(event.email!.endsWith("toprate.io")){
       emit(StartCallApiState());

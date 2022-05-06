@@ -332,7 +332,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                           style: TextStyle(
                               fontSize: fontSize_20,
                               color: ThemeColor.clr_4C5980,
-                              fontFamily: TextConstants.fontRubik,
+                              fontFamily: TextConstants.fontMontserrat,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -486,7 +486,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                               style: TextStyle(
                                   fontSize: fontSize_18,
                                   color: ThemeColor.clr_4C5980,
-                                  fontFamily: TextConstants.fontRubik,
+                                  fontFamily: TextConstants.fontMontserrat,
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -567,7 +567,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                         ? ThemeColor.clr_FFFFFF
                         : ThemeColor.clr_4C5980,
                     fontSize: fontSize_16,
-                    fontFamily: TextConstants.fontRubik,
+                    fontFamily: TextConstants.fontMontserrat,
                     fontWeight: FontWeight.w500),
               ),
             )

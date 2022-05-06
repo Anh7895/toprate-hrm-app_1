@@ -10,7 +10,6 @@ import '../data/remote/login_datasource.dart';
 
 class LoginRepository {
   final NetworkInfoImpl networkInfo;
-
    final LoginDataSource loginDataSource;
 
   LoginRepository(this.networkInfo, this.loginDataSource);

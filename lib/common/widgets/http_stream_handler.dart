@@ -223,6 +223,9 @@ showAlert(BuildContext context, String title, String message,
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: width_16),
                         child: BaseButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
                           backgroundColor: ThemeColor.clr_CE6161,
                           title: S.of(context).translate("submit"),
                         ),
