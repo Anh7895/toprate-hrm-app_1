@@ -60,6 +60,8 @@
   "success": "Success",
   "fail": "Fail",
   "close": "Close",
+  "error": "Error",
   "validMail": "Request company email",
-  "error": "Error"
+  "textContent": "Content",
+  "textDescription": "Description of content"
 }

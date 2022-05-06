@@ -45,14 +45,17 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
   String selectedDOB = "";
   bool? isChecked = false;
   int? selectIndex;
+  List<String>  listChip = ["BOD","nghiphep@toprate.io"];
   DateTime dateTime = DateTime.now();
   DateTime selectedDate = DateTime.now();
+  TextEditingController textDescriptionController = TextEditingController();
+  FocusNode focusDescription = FocusNode();
 
   List<ManagerMailModel> managerMail = [
     ManagerMailModel(
         mail: "nghiphep@toprate.io",
         isChecked: true,
-        name: "DOB",
+        name: "BOD",
         canRemove: false),
     ManagerMailModel(
         mail: "nghiphep@toprate.io", isChecked: true, canRemove: false),

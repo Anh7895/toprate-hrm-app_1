@@ -164,11 +164,12 @@ class _DayOffScreenState extends State<DayOffScreen> {
           children: [
             _buildAppBar(),
             SizedBox(height: height_15),
-            _builDuration(),
-            _buildTimer(),
-            _buildRowTimer(),
-            _buildReason(),
-            _approve(),
+            _builDurationWidget(),
+            _buildTimerWidget(),
+            _buildRowTimerWidget(),
+            _buildReasonWidget(),
+            _buildDescriptionWidget(),
+            _approveWidget(),
           ],
         ),
       ),
@@ -206,7 +207,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
     );
   }
 
-  Widget _builDuration() {
+  Widget _builDurationWidget() {
     return Column(
       children: [
         Align(
@@ -261,7 +262,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
     );
   }
 
-  Widget _buildTimer() {
+  Widget _buildTimerWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -345,7 +346,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
     );
   }
 
-  Widget _buildRowTimer() {
+  Widget _buildRowTimerWidget() {
     return _bloc.isDayOffOneDay
         ? Container(
             margin: EdgeInsets.symmetric(vertical: height_20),
@@ -413,11 +414,12 @@ class _DayOffScreenState extends State<DayOffScreen> {
           );
   }
 
-  Widget _buildReason() {
+  Widget _buildReasonWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(S.of(context).translate("reason"), style: TextStyleCommon.textTitleStyle),
+        Text(S.of(context).translate("reason"),
+            style: TextStyleCommon.textTitleStyle),
         DropdownButton<String>(
           value: _bloc.defaultReason,
           icon: const Icon(
@@ -438,7 +440,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
           items: _bloc.reasons.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value,style: TextStyleCommon.textHintStyle),
+              child: Text(value, style: TextStyleCommon.textHintStyle),
             );
           }).toList(),
         )
@@ -446,7 +448,42 @@ class _DayOffScreenState extends State<DayOffScreen> {
     );
   }
 
-  Widget _approve() {
+  Widget _buildDescriptionWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: height_20,
+        ),
+        Text(S.of(context).translate("textContent"),
+            style: TextStyleCommon.textTitleStyle),
+        SizedBox(
+          height: height_12,
+        ),
+        TextField(
+          controller: _bloc.textDescriptionController,
+          minLines: 5,
+          maxLength: 255,
+          maxLines: null,
+          decoration: InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: ThemeColor.clr_DADADA,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: ThemeColor.clr_DADADA),
+            ),
+            hintText: S.of(context).translate("textDescription"),
+            hintStyle: TextStyleCommon.textHintStyle,
+          ),
+          focusNode: _bloc.focusDescription,
+        ),
+      ],
+    );
+  }
+
+  Widget _approveWidget() {
     return Container(
       width: double.infinity,
       child: Column(
@@ -456,10 +493,8 @@ class _DayOffScreenState extends State<DayOffScreen> {
           SizedBox(
             height: height_20,
           ),
-          Text(
-            S.of(context).translate("approver"),
-            style: TextStyleCommon.textHintStyle
-          ),
+          Text(S.of(context).translate("approver"),
+              style: TextStyleCommon.textTitleStyle),
           SizedBox(
             height: height_15,
           ),
@@ -476,7 +511,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                     itemBuilder: (int index) {
                       return _bloc.managerMail[index].isChecked
                           ? ItemTags(
-                              color: ThemeColor.clr_FEC0C1,
+                        color: ThemeColor.clr_FEC0C1,
                               active: false,
                               pressEnabled: false,
                               textColor: ThemeColor.clr_2D3142,
@@ -485,11 +520,12 @@ class _DayOffScreenState extends State<DayOffScreen> {
                               key: Key(index.toString()),
                               index: index,
                               // required
+                              padding: EdgeInsets.all(height_15),
                               title: _bloc.managerMail[index].name != ""
                                   ? _bloc.managerMail[index].name
                                   : _bloc.managerMail[index].mail!,
                               textStyle: TextStyle(
-                                fontSize: fontSize_18,
+                                fontSize: fontSize_12,
                               ),
                               combine: ItemTagsCombine.withTextBefore,
                               //
@@ -660,5 +696,40 @@ class _DayOffScreenState extends State<DayOffScreen> {
             ),
           )
         : SizedBox();
+  }
+
+  Widget _buildChipApproverWidget(List<String> strings) {
+    return Padding(
+      padding: EdgeInsets.only(left: height_16, right: height_16),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Wrap(
+          runSpacing: 1,
+          spacing: 9,
+          children: strings
+              .map((String data) => Chip(
+                    labelPadding: EdgeInsets.all(height_3),
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(radius_12))),
+                    label: Text(
+                      data,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      style: TextStyle(
+                        color: ThemeColor.clr_002113,
+                        fontSize: fontSize_12,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: TextConstants.textNotoSans,
+                      ),
+                    ),
+                    backgroundColor: ThemeColor.clr_EDEDED,
+                    padding: EdgeInsets.all(height_8),
+                  ))
+              .toList(),
+        ),
+      ),
+    );
   }
 }
