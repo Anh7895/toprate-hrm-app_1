@@ -35,7 +35,7 @@ class Routes {
           RouteSettings(name: RouteName.splashScreen));
       case RouteName.dailyCheckInScreen:
         return MaterialPageRoute(
-            builder: (_) => DailyCheckInScreen(),
+            builder: (_) => DailyCheckInScreen(data: settings.arguments,),
             settings:
             RouteSettings(name: RouteName.dailyCheckInScreen));
 

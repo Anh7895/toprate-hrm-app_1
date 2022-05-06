@@ -9,6 +9,10 @@ class InitDataState extends DailyCheckInState {
   InitDataState();
 }
 
+class InitDateState extends DailyCheckInState {
+  InitDateState();
+}
+
 class BackDayState extends DailyCheckInState {
   BackDayState();
 }

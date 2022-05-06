@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:openapi/openapi.dart';
@@ -19,6 +20,9 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
   DateTime dateToday = DateTime.now();
   // final CheckinRepository checkinRepository;
 //  CalendarTimekeeping? calendarTimekeeping;
+  CalendarFormat format = CalendarFormat.month;
+  DateTime selectedDay = DateTime.now();
+  DateTime focusedDay = DateTime.now();
 
   LinkedHashMap<DateTime, List<Event>> kEvents =
   LinkedHashMap<DateTime, List<Event>>(
@@ -30,7 +34,6 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
 
 
   List<Event> getEventsForDay(DateTime day) {
-    // Implementation example
     return kEvents[DateTime(day.day)] ?? [];
   }
 
@@ -38,39 +41,66 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
 
   CheckinBloc() : super(CheckinInitial()) {
     on<CheckinEvent>((event, emit) {
-      getMonthFilter();
-      add(GetDataTimeKeepingEvent(date: DateFormat("MM-yyyy").format(dateToday)));
+      // add(GetDataTimeKeepingEvent(date: DateFormat("MM-yyyy").format(dateToday)));
       emit(InitDataDateState(listDataDate));
     });
-
-    on<FillInformationEvent>((event, emit) {
-      stringData = event.date;
-      dateToday = DateFormat("MM/yyyy").parse(event.date!);
-      kEvents.clear();
-      listEvent.clear();
-      add(GetDataTimeKeepingEvent(date: "${stringData?.split('/').first}-${stringData?.split('/').last}"));
-      emit(FillInformationState(listDataDate[0].selectAnIndustrialRecruitment));
-    });
-
-    on<GetDataTimeKeepingEvent>((event, emit) => getTimeKeeping(event, emit));
+    on<SelectDayEvent>((event, emit) => onDaySelect(event, emit));
+    on<CantSeclectDayEvent>((event, emit) => cantSelectDay(event, emit));
+    on<FormatChangeEvent>((event, emit) => onFormatChange(event, emit));
+    on<DayPredicateEvent>((event, emit) => onDayPredicate(event, emit));
+  //   on<FillInformationEvent>((event, emit) {
+  //     stringData = event.date;
+  //     dateToday = DateFormat("MM/yyyy").parse(event.date!);
+  //     kEvents.clear();
+  //     listEvent.clear();
+  //     // add(GetDataTimeKeepingEvent(date: "${stringData?.split('/').first}-${stringData?.split('/').last}"));
+  //     emit(FillInformationState(listDataDate[0].selectAnIndustrialRecruitment));
+  //   });
+  //
+  //   on<GetDataTimeKeepingEvent>((event, emit) => getTimeKeeping(event, emit));
   }
 
-  getMonthFilter() {
-    DateFormat formatter = DateFormat('MM/yyyy');
-    stringData = formatter.format(dateToday);
-    for (int i = 0; i < 12; i++) {
-      print("I $i");
-      listDataDate.add(SelectAnIndustrialRecruitmentModel(
-          selectAnIndustrialRecruitment:
-          formatter.format(DateTime(dateToday.year, dateToday.month - i))));
-    }
+  onDaySelect(SelectDayEvent event, Emitter<BaseState> emit) async {
+    selectedDay = event.selectDay!;
+    focusedDay = event.focusDay!;
+    print("asfasfasfad ${selectedDay}");
+    emit(SelectDayState());
   }
 
-  getDateToday(){
-
+  cantSelectDay(CantSeclectDayEvent event, Emitter<BaseState> emit) async {
+    Fluttertoast.showToast(
+      msg: "Bạn không thể chọn ngày lớn hơn hiện tại",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+    );
+    emit(CantSelectDayState());
   }
 
-  getTimeKeeping(GetDataTimeKeepingEvent event, Emitter<BaseState> emit){}
+
+  onFormatChange(FormatChangeEvent event, Emitter<BaseState> emit) async {
+    format = event._format!;
+    emit(FormatChangeState());
+  }
+
+  onDayPredicate(DayPredicateEvent event, Emitter<BaseState> emit) async {
+    isSameDay(selectedDay, event.date);
+    emit(DayPredicateState());
+  }
+
+
+  // getMonthFilter() {
+  //   DateFormat formatter = DateFormat('MM/yyyy');
+  //   stringData = formatter.format(dateToday);
+  //   for (int i = 0; i < 12; i++) {
+  //     print("I $i");
+  //     listDataDate.add(SelectAnIndustrialRecruitmentModel(
+  //         selectAnIndustrialRecruitment:
+  //         formatter.format(DateTime(dateToday.year, dateToday.month - i))));
+  //   }
+  // }
+
+
+  // getTimeKeeping(GetDataTimeKeepingEvent event, Emitter<BaseState> emit){}
 
   // getTimeKeeping(
   //     GetDataTimeKeepingEvent event, Emitter<BaseState> emit) async {
