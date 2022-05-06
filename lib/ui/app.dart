@@ -212,7 +212,7 @@ class _BaseAppState extends State<BaseApp> {
                       caption: TextStyle(color: ThemeColor.clr_FFFFFF),
                     ),
                   ),
-                  fontFamily: 'Inter',
+                  fontFamily: 'Montserrat',
                   primarySwatch: Colors.blue,
                   visualDensity: VisualDensity.adaptivePlatformDensity),
               locale: _locale,

@@ -278,7 +278,7 @@ class TextStyleCommon {
   static TextStyle textHeaderListViewStyle = TextStyle(
     color: ThemeColor.clr_4C5980,
     fontSize: 20,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.bold,
     fontFamily: TextConstants.fontMontserrat,
   );
 
@@ -286,7 +286,7 @@ class TextStyleCommon {
       {Color? color, FontWeight? fontWeight, double? fontSize}) {
     return Theme.of(context).textTheme.headline1!.copyWith(
       fontSize: fontSize ?? 16,
-      fontWeight: fontWeight ?? FontWeight.w600,
+      fontWeight: fontWeight ?? FontWeight.bold,
       color: color ?? ThemeColor.clr_FFFFFF,
       fontFamily: TextConstants.fontMontserrat,
     );
@@ -296,7 +296,7 @@ class TextStyleCommon {
       {Color? color, FontWeight? fontWeight, double? fontSize}) {
     return Theme.of(context).textTheme.headline1!.copyWith(
       fontSize: fontSize ?? 12,
-      fontWeight: fontWeight ?? FontWeight.w600,
+      fontWeight: fontWeight ?? FontWeight.bold,
       color: color ?? ThemeColor.clr_CE6161,
       fontFamily: TextConstants.fontMontserrat,
     );
@@ -305,7 +305,7 @@ class TextStyleCommon {
       {Color? color, FontWeight? fontWeight, double? fontSize}) {
     return Theme.of(context).textTheme.headline1!.copyWith(
       fontSize: fontSize ?? 32,
-      fontWeight: fontWeight ?? FontWeight.w600,
+      fontWeight: fontWeight ?? FontWeight.bold,
       color: color ?? ThemeColor.clr_2D3142,
       fontFamily: TextConstants.fontMontserrat,
     );
@@ -313,13 +313,13 @@ class TextStyleCommon {
   static TextStyle textAppBarStyle = TextStyle(
     color: ThemeColor.clr_CE6161,
     fontSize: 32,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.bold,
     fontFamily: TextConstants.fontMontserrat,
   );
   static TextStyle textTitleStyle = TextStyle(
     color: ThemeColor.clr_2D3142,
     fontSize: 18,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.bold,
     fontFamily: TextConstants.fontMontserrat,
   );
   static TextStyle textNormalStyle = TextStyle(
@@ -338,7 +338,7 @@ class TextStyleCommon {
       {Color? color, FontWeight? fontWeight, double? fontSize}) {
     return Theme.of(context).textTheme.headline1!.copyWith(
       fontSize: fontSize ?? 16,
-      fontWeight: fontWeight ?? FontWeight.w600,
+      fontWeight: fontWeight ?? FontWeight.bold,
       color: color ?? ThemeColor.clr_FFFFFF,
       fontFamily: TextConstants.fontMontserrat,
     );
@@ -357,7 +357,7 @@ class TextStyleCommon {
       {Color? color, FontWeight? fontWeight, double? fontSize}) {
     return Theme.of(context).textTheme.headline1!.copyWith(
       fontSize: fontSize ?? 20,
-      fontWeight: fontWeight ?? FontWeight.w600,
+      fontWeight: fontWeight ?? FontWeight.bold,
       color: color ?? ThemeColor.clr_4C5980,
       fontFamily: TextConstants.fontMontserrat,
     );
@@ -368,7 +368,7 @@ class TextStyleCommon {
       {Color? color, FontWeight? fontWeight, double? fontSize}) {
     return Theme.of(context).textTheme.headline1!.copyWith(
       fontSize: fontSize ?? 28,
-      fontWeight: fontWeight ?? FontWeight.w600,
+      fontWeight: fontWeight ?? FontWeight.bold,
       color: color ?? ThemeColor.clr_2D3142,
       fontFamily: TextConstants.fontMontserrat,
     );
@@ -377,7 +377,7 @@ class TextStyleCommon {
       {Color? color, FontWeight? fontWeight, double? fontSize}) {
     return Theme.of(context).textTheme.headline1!.copyWith(
       fontSize: fontSize ?? 16,
-      fontWeight: fontWeight ?? FontWeight.w600,
+      fontWeight: fontWeight ?? FontWeight.bold,
       color: color ?? ThemeColor.clr_4C5980,
       fontFamily: TextConstants.fontMontserrat,
     );

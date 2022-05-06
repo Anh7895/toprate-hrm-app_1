@@ -3,6 +3,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/daily_checkin/daily_check_in_bloc.dart';
 import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils_new.dart';
+import 'package:toprate_hrm/common/dialog/dialog_custom.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
@@ -60,17 +61,17 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             bloc: _bloc,
             listener: (context, state) {
               if (state is showAlertBottomSheetDialogState) {
-                showAlertBottomSheetDialogNew(context,
-                    isDismissible: true,
-                    icon: ic_like,
-                    message:
-                        S.of(context).translate("textMessageThank"));
+                showAlert(context,
+                    S.of(context).translate("success"),
+                    S.of(context).translate("textMessageThank"),
+                    icon: ic_like);
+
               }
               if (state is SubmitFailState) {
-
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(S.of(context).translate("textDialog")),
-                ));
+                showAlert(context,
+                    S.of(context).translate("fail"),
+                    S.of(context).translate("textSystemIsBusyPleaseTryAgainLater"),
+                    icon: ic_error);
               }
             },
             builder: (context, state) {
@@ -165,11 +166,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             },
             child: Text(
               _bloc.time,
-              style: TextStyle(
-                  color: ThemeColor.clr_CE6161,
-                  fontFamily: TextConstants.fontRubik,
-                  fontSize: fontSize_32,
-                  fontWeight: FontWeight.w500),
+              style: TextStyleCommon.textAppBarStyle,
             ),
           ),
           IconButton(
@@ -268,8 +265,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                               ? ThemeColor.clr_FFFFFF
                               : ThemeColor.clr_D6D9E0,
                   fontSize: fontSize_16,
-                  fontFamily: TextConstants.fontRubik,
-                  fontWeight: FontWeight.w500),
+                  fontFamily: TextConstants.fontMontserrat,
+                  fontWeight: FontWeight.bold),
             ),
             GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -331,7 +328,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                           style: TextStyle(
                               fontSize: fontSize_20,
                               color: ThemeColor.clr_4C5980,
-                              fontFamily: TextConstants.fontRubik,
+                              fontFamily: TextConstants.fontMontserrat,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -485,8 +482,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                               style: TextStyle(
                                   fontSize: fontSize_18,
                                   color: ThemeColor.clr_4C5980,
-                                  fontFamily: TextConstants.fontRubik,
-                                  fontWeight: FontWeight.w500),
+                                  fontFamily: TextConstants.fontMontserrat,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -566,8 +563,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                         ? ThemeColor.clr_FFFFFF
                         : ThemeColor.clr_4C5980,
                     fontSize: fontSize_16,
-                    fontFamily: TextConstants.fontRubik,
-                    fontWeight: FontWeight.w500),
+                    fontFamily: TextConstants.fontMontserrat,
+                    fontWeight: FontWeight.bold),
               ),
             )
           ],

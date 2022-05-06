@@ -1,12 +1,17 @@
 import 'dart:io';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:toprate_hrm/common/resource/text_style.dart';
+import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
+import 'package:toprate_hrm/datasource/network/network_info.dart';
 
+import '../dialog/alert_dialog.dart';
+import '../multi_language/internationalization.dart';
 import 'social_login_button_widget.dart';
 
 class GroupSocialScreen extends StatefulWidget {
@@ -106,7 +111,6 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       alignment: widget.alignment ?? Alignment.bottomCenter,
       child: Wrap(
@@ -118,10 +122,19 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
                   loginName: "Login",
                   styleName: TextStyleCommon.textButtonStyle(context),
                   imageAssetsPng: png_ic_google,
-                  doLogin: () async{
-                    print("Login");
-                    handleLoginGoogle();
-                  },
+                  doLogin: () async {
+                    var check = await Connectivity().checkConnectivity();
+                       print(check);
+                     if(check == ConnectivityResult.mobile||check==ConnectivityResult.wifi){
+                       print("Login");
+                       handleLoginGoogle();
+                     }
+                     else{
+                       showAlert(context,S.of(context).translate("error"),S.of(context).translate("textNoConnectionPleaseCheckYourConnectionAndTryAgain"),icon: ic_error);
+                     }
+
+
+                  }
                 )
               : SizedBox(),
           widget.callBackFacebook != null

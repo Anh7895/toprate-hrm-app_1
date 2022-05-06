@@ -60,5 +60,6 @@
   "success": "Thành công",
   "fail": "Thất bại",
   "close": "Đóng",
-  "validMail": "Yêu cầu mail công ty"
+  "validMail": "Yêu cầu mail công ty",
+  "error": "Lỗi"
 }

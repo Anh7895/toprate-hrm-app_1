@@ -52,6 +52,8 @@ class SocialLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: doLogin,
+
+
         child: customWidget == null
             ? Card(
                 elevation: 2,

@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
@@ -21,6 +22,7 @@ import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../common/dialog/alert_dialog.dart';
 import '../../common/multi_language/internationalization.dart';
 import '../../common/utils/preference_utils.dart';
 import '../../common/widgets/social_login_bottom_widget.dart';
@@ -73,10 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
             return;
           }
           if (state is LoginFailState) {
-
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(S.of(context).translate("validMail")),
-            ));
+            showDialogConfirm(context,title:S.of(context).translate("fail"),message:S.of(context).translate("validMail"),icon: ic_error);
           }
 
           if (state is ValidateLoginState) {
@@ -114,10 +113,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       SingleChildScrollView(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 LocalImageWidget(
                                   margin: EdgeInsets.only(top: height_76),
