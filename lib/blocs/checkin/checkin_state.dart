@@ -15,6 +15,23 @@ class FillInformationState extends CheckinState {
   FillInformationState(this.stringDate);
 }
 
+class SelectDayState extends CheckinState {
+  SelectDayState();
+}
+
+class CantSelectDayState extends CheckinState {
+  CantSelectDayState();
+}
+
+class FormatChangeState extends CheckinState {
+  FormatChangeState();
+}
+
+class DayPredicateState extends CheckinState {
+  DayPredicateState();
+}
+
+
 class GetDataTimeKeepingState extends CheckinState{
 
   GetDataTimeKeepingState();

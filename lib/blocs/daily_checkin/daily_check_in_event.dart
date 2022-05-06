@@ -6,6 +6,12 @@ abstract class DailyCheckInEvent {}
 class InitDataEvent extends DailyCheckInEvent {
   InitDataEvent();
 }
+
+class InitDateEvent extends DailyCheckInEvent {
+  final DateTime dateSelect;
+  InitDateEvent(this.dateSelect);
+}
+
 class GetAllSettingBlockEvent extends DailyCheckInEvent {
   GetAllSettingBlockEvent();
 }

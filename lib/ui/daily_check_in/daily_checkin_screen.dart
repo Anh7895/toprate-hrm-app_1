@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/daily_checkin/daily_check_in_bloc.dart';
@@ -20,7 +21,8 @@ import 'package:toprate_hrm/common/widgets/loading_widget.dart';
 import '../../common/multi_language/internationalization.dart';
 
 class DailyCheckInScreen extends StatefulWidget {
-  const DailyCheckInScreen({Key? key}) : super(key: key);
+  final data;
+  const DailyCheckInScreen({Key? key, this.data}) : super(key: key);
 
   @override
   State<DailyCheckInScreen> createState() => _DailyCheckInScreenState();
@@ -36,7 +38,11 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
   @override
   void initState() {
     // TODO: implement initState
-    _bloc.add(InitDataEvent());
+    if(widget.data != null){
+      _bloc.add(InitDateEvent(widget.data));
+    }else{
+      _bloc.add(InitDataEvent());
+    }
     _bloc.add(GetProjectByDateEvent(date: _bloc.stringDayNow));
     _bloc.add(GetAllProjectEvent());
     super.initState();
@@ -407,12 +413,12 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                   borderRadius: BorderRadius.circular(radius_16),
                 ),
                 child: Container(
-                  height: 350,
+                  height: 400,
                   width: 200,
                   child: TableCalendar(
                     headerVisible: true,
                     locale: "en",
-                    focusedDay: _bloc.selectedDay,
+                    focusedDay: _bloc.tempDate,
                     firstDay: DateTime(1990),
                     lastDay: DateTime(2050),
                     calendarFormat: _bloc.format,
@@ -436,8 +442,25 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                     availableGestures: AvailableGestures.none,
                     pageJumpingEnabled: false,
                     pageAnimationEnabled: false,
+                    calendarBuilders: CalendarBuilders(
+                        dowBuilder: (context, day) {
+                          if(day.weekday == DateTime.saturday){
+                            final text = DateFormat.E().format(day);
+                            return Center(
+                              child: Text(text,style: TextStyle(color: ThemeColor.clr_CE6161),),
+                            );
+                          }
+                          if(day.weekday == DateTime.sunday){
+                            final text = DateFormat.E().format(day);
+                            return Center(
+                              child: Text(text,style: TextStyle(color: ThemeColor.clr_CE6161),),
+                            );
+                          }
+                        }
+                    ),
                     onCalendarCreated: (controller) {},
                     calendarStyle: CalendarStyle(
+                      weekendTextStyle: TextStyle(color: ThemeColor.clr_CE6161),
                       isTodayHighlighted: true,
                       outsideDaysVisible: true,
                       markersAlignment: AlignmentDirectional.center,

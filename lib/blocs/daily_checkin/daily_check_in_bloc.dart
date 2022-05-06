@@ -23,6 +23,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       // TODO: implement event handler
     });
     on<InitDataEvent>((event, emit) => initData(event, emit));
+    on<InitDateEvent>((event, emit) => initDate(event, emit));
     on<BackDayEvent>((event, emit) => backDay(event, emit));
     on<NextDayEvent>((event, emit) => nextDay(event, emit));
     on<RemoveProjectEvent>((event, emit) => removeProject(event, emit));
@@ -61,34 +62,56 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
+  DateTime tempDate = DateTime.now();
+  DateTime? dateselectcheckin ;
 
 
   initData(InitDataEvent event, Emitter<BaseState> emit) async {
-    if (isSelectDay == false){
-      time =
-      "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
-    } else {
-      time =
-      "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
-    }
-    print("selectedDaydatetoday ${selectedDay}");
+      if (isSelectDay == false){
+        time =
+        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
+      } else {
+        time =
+        "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
+      }
+      DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(time);
     emit(InitDataState());
   }
 
-  backDay(BackDayEvent event, Emitter<BaseState> emit) async {
-    if(isSelectDay == false){
-      dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day - 1);
+  initDate(InitDateEvent event, Emitter<BaseState> emit) async {
+    dateselectcheckin = event.dateSelect;
+    if (dateselectcheckin != null) {
       time =
-      "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
-      isCanGoToNextDay = true;
-      date = dateTime.convertDateTimeToString("dd-MM-yyyy");
-    } else{
-      selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day - 1);
-      time =
-      "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
-      isCanGoToNextDay = true;
-      date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
+      "${DateFormat('EE').format(dateselectcheckin!)} ${DateFormat('d MMMM')
+          .format(dateselectcheckin!)}";
     }
+    DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(time);
+    emit(InitDateState());
+  }
+
+  backDay(BackDayEvent event, Emitter<BaseState> emit) async {
+    if(dateselectcheckin == null){
+      if(isSelectDay == false){
+        dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day - 1);
+        time =
+        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
+        isCanGoToNextDay = true;
+        date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+      } else{
+        selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day - 1);
+        time =
+        "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
+        isCanGoToNextDay = true;
+        date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
+      }
+    } else {
+      dateselectcheckin = DateTime(dateselectcheckin!.year, dateselectcheckin!.month, dateselectcheckin!.day - 1);
+      time =
+      "${DateFormat('EE').format(dateselectcheckin!)} ${DateFormat('d MMMM').format(dateselectcheckin!)}";
+      isCanGoToNextDay = true;
+      date = dateselectcheckin!.convertDateTimeToString("dd-MM-yyyy");
+    }
+
     print("selectedDay ${selectedDay}");
     add(GetProjectByDateEvent(date: date));
     emit(BackDayState());
@@ -97,6 +120,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   onDaySelect(SelectDayEvent event, Emitter<BaseState> emit) async {
     selectedDay = event.selectDay!;
     focusedDay = event.focusDay!;
+    dateselectcheckin = null;
     if(selectedDay == DateTime.now()){
       isSelectDay = false;
     } else {
@@ -126,32 +150,46 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   }
 
   nextDay(NextDayEvent event, Emitter<BaseState> emit) async {
-    if(isSelectDay == false){
-      final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
-      final aDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
-      if (today != aDate) {
-        dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day + 1);
+    if(dateselectcheckin == null){
+      if(isSelectDay == false){
+        final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
+        final aDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
+        if (today != aDate) {
+          dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day + 1);
+          date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+          add(GetProjectByDateEvent(date: date));
+        }
+
+        isCanGoToNextDay = dateTime == today ? false : true;
+        time =
+        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
+        isCanGoToNextDay = true;
+      } else {
+        final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
+        final aDate = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+        if (today != aDate) {
+          selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day + 1);
+          date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
+          add(GetProjectByDateEvent(date: date));
+        }
+        isCanGoToNextDay = selectedDay == today ? false : true;
+        time =
+        "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
+        isCanGoToNextDay = true;
       }
-      date = dateTime.convertDateTimeToString("dd-MM-yyyy");
-      isCanGoToNextDay = dateTime == today ? false : true;
-      time =
-      "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
-      isCanGoToNextDay = true;
-    } else {
+    } else{
       final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
-      final aDate = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+      final aDate = DateTime(dateselectcheckin!.year, dateselectcheckin!.month, dateselectcheckin!.day);
       if (today != aDate) {
-        selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day + 1);
-        listProjectByDate.clear();
+        dateselectcheckin = DateTime(dateselectcheckin!.year, dateselectcheckin!.month, dateselectcheckin!.day + 1);
+        date = dateselectcheckin!.convertDateTimeToString("dd-MM-yyyy");
+        add(GetProjectByDateEvent(date: date));
       }
-      date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
-      isCanGoToNextDay = selectedDay == today ? false : true;
+      isCanGoToNextDay = dateselectcheckin == today ? false : true;
       time =
-      "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
+      "${DateFormat('EE').format(dateselectcheckin!)} ${DateFormat('d MMMM').format(dateselectcheckin!)}";
       isCanGoToNextDay = true;
     }
-
-    add(GetProjectByDateEvent(date: date));
     emit(NextDayState());
   }
 
@@ -209,8 +247,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
                 projectId: null));
           }
         }
-        print("Error: letter is null ${listProjectData.length}");
-        print("Error: letter is null ${listSettingBloc.length}");
         emit(GetAllSettingBlockState());
       }
     } on DioError catch (e) {

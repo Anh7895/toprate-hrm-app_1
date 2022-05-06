@@ -1,9 +1,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/checkin/checkin_bloc.dart';
+import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
@@ -107,13 +109,18 @@ class _CheckinScreenState extends State<CheckinScreen> {
                   SizedBox(
                     height: height_50,
                   ),
-                  BaseButton(
-                    margin: EdgeInsets.only(left: height_62, right: height_62),
-                    height: height_56,
-                    title: TextConstants.textCheckin,
-                    style: TextStyleCommon.textButtonStyle(context),
-                    backgroundColor: ThemeColor.clr_CE6161,
+                  GestureDetector(
+                    onTap:(){
+                       Navigator.pushNamed(context, RouteName.dailyCheckInScreen, arguments: _bloc.selectedDay);
+                       },
+                    child: BaseButton(
+                      margin: EdgeInsets.only(left: height_62, right: height_62),
+                      height: height_56,
+                      title: TextConstants.textCheckin,
+                      style: TextStyleCommon.textButtonStyle(context),
+                      backgroundColor: ThemeColor.clr_CE6161,
 
+                    ),
                   ),
                   SizedBox(
                     height: height_30,
@@ -220,20 +227,58 @@ class _CheckinScreenState extends State<CheckinScreen> {
           TableCalendar<Event>(
             headerVisible: true,
             locale: "en",
-            focusedDay: _bloc.dateToday,
+            focusedDay: _bloc.selectedDay,
             firstDay: DateTime(1990),
             lastDay: DateTime(2050),
-            calendarFormat: CalendarFormat.month,
+            calendarFormat: _bloc.format,
+            onFormatChanged: (CalendarFormat _format){
+              _bloc.add(FormatChangeEvent(_format));
+            },
+            onDaySelected: (DateTime selectDay, DateTime focusDay){
+              if(selectDay.compareTo(DateTime.now()) <= 0){
+                _bloc.add(SelectDayEvent(selectDay, focusDay));
+              }else {
+                _bloc.add(CantSeclectDayEvent());
+              }
+            },
+            selectedDayPredicate: (DateTime date){
+              return isSameDay(_bloc.selectedDay, date);
+            },
+
             isEventday: true,
             availableGestures: AvailableGestures.none,
             pageJumpingEnabled: false,
             pageAnimationEnabled: false,
+
+            calendarBuilders: CalendarBuilders(
+              dowBuilder: (context, day) {
+                if(day.weekday == DateTime.saturday){
+                  final text = DateFormat.E().format(day);
+                  return Center(
+                    child: Text(text,style: TextStyle(color: ThemeColor.clr_CE6161),),
+                  );
+                }
+                if(day.weekday == DateTime.sunday){
+                  final text = DateFormat.E().format(day);
+                  return Center(
+                    child: Text(text,style: TextStyle(color: ThemeColor.clr_CE6161),),
+                  );
+                }
+              }
+          ),
+
             // styleForEvents: (day) => getColorForEvent(day),
             // eventLoader: _bloc.getEventsForDay,
             onCalendarCreated: (controller) {},
             calendarStyle: CalendarStyle(
+              weekendTextStyle: TextStyle(color: ThemeColor.clr_CE6161),
               outsideDaysVisible: true,
+              isTodayHighlighted: true,
               markersAlignment: AlignmentDirectional.center,
+              selectedDecoration: BoxDecoration(
+                color: ThemeColor.clr_CE6161,
+                shape: BoxShape.circle,
+              ),
               markerDecoration: BoxDecoration(
                   color: Colors.red, borderRadius: BorderRadius.circular(8)),
             ),

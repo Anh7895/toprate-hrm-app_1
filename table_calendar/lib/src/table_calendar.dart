@@ -241,7 +241,7 @@ class TableCalendar<T> extends StatefulWidget {
     this.formatAnimationCurve = Curves.linear,
     this.pageAnimationDuration = const Duration(milliseconds: 300),
     this.pageAnimationCurve = Curves.easeOut,
-    this.startingDayOfWeek = StartingDayOfWeek.sunday,
+    this.startingDayOfWeek = StartingDayOfWeek.monday,
     this.dayHitTestBehavior = HitTestBehavior.opaque,
     this.availableGestures = AvailableGestures.all,
     this.simpleSwipeConfig = const SimpleSwipeConfig(
