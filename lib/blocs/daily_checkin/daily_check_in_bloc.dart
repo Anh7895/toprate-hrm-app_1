@@ -126,6 +126,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     } else {
       isSelectDay = true;
     }
+    add(GetProjectByDateEvent(date: DateFormat("dd-MM-yyyy").format(selectedDay)));
     emit(SelectDayState());
   }
 
@@ -284,7 +285,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       GetProjectByDateEvent event, Emitter<BaseState> emit) async {
     try {
       emit(StartCallApiState());
-      final response = await dailyCheckInRepository.getProjectByDate(date);
+      final response = await dailyCheckInRepository.getProjectByDate(event.date);
       if (response == null) {
         print("Error: data is null");
       } else {
@@ -364,7 +365,15 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       }
     });
     builder.data = BuiltList<CheckInData>.from(data).toBuilder();
-    builder.date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+    if(dateselectcheckin == null){
+      if (isSelectDay == false){
+        builder.date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+      } else{
+        builder.date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
+      }
+    } else {
+      builder.date = dateselectcheckin!.convertDateTimeToString("dd-MM-yyyy");
+    }
     return builder.build();
   }
 }
