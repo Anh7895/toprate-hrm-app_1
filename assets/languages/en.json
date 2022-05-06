@@ -60,5 +60,6 @@
   "success": "Success",
   "fail": "Fail",
   "close": "Close",
-  "validMail": "Request company email"
+  "validMail": "Request company email",
+  "error": "Error"
 }

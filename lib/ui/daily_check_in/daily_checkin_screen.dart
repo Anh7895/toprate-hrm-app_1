@@ -62,16 +62,16 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             listener: (context, state) {
               if (state is showAlertBottomSheetDialogState) {
                 showAlert(context,
-                    TextConstants.textFailed,
+                    S.of(context).translate("success"),
                     S.of(context).translate("textMessageThank"),
                     icon: ic_like);
 
               }
               if (state is SubmitFailState) {
-
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(S.of(context).translate("textDialog")),
-                ));
+                showAlert(context,
+                    S.of(context).translate("fail"),
+                    S.of(context).translate("textSystemIsBusyPleaseTryAgainLater"),
+                    icon: ic_error);
               }
             },
             builder: (context, state) {
@@ -166,11 +166,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
             },
             child: Text(
               _bloc.time,
-              style: TextStyle(
-                  color: ThemeColor.clr_CE6161,
-                  fontFamily: TextConstants.fontRubik,
-                  fontSize: fontSize_32,
-                  fontWeight: FontWeight.w500),
+              style: TextStyleCommon.textAppBarStyle,
             ),
           ),
           IconButton(
@@ -269,8 +265,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                               ? ThemeColor.clr_FFFFFF
                               : ThemeColor.clr_D6D9E0,
                   fontSize: fontSize_16,
-                  fontFamily: TextConstants.fontRubik,
-                  fontWeight: FontWeight.w500),
+                  fontFamily: TextConstants.fontMontserrat,
+                  fontWeight: FontWeight.bold),
             ),
             GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -487,7 +483,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                                   fontSize: fontSize_18,
                                   color: ThemeColor.clr_4C5980,
                                   fontFamily: TextConstants.fontMontserrat,
-                                  fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -568,7 +564,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
                         : ThemeColor.clr_4C5980,
                     fontSize: fontSize_16,
                     fontFamily: TextConstants.fontMontserrat,
-                    fontWeight: FontWeight.w500),
+                    fontWeight: FontWeight.bold),
               ),
             )
           ],

@@ -4,6 +4,7 @@ import 'package:flutter_tags/flutter_tags.dart';
 import 'package:intl/intl.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/day_off/day_off_bloc.dart';
+import 'package:toprate_hrm/common/dialog/alert_dialog.dart';
 import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils_new.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
@@ -132,10 +133,10 @@ class _DayOffScreenState extends State<DayOffScreen> {
       right: 8,
       child: GestureDetector(
         onTap: () {
-          showAlertBottomSheetDialogNew(context,
+          showDialogConfirm(context,
               icon: ic_like,
-              title: S.of(context).translate("success"),
-              message: S.of(context).translate("textMessageThank"));
+              title: S.of(context).translate("textMessageThank"),
+              message: "");
         },
         child: Column(
           children: [

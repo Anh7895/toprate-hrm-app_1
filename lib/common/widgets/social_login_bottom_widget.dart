@@ -96,7 +96,7 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
              )
         } );
       } catch (error) {
-        showAlert(context, S.of(context).translate("faut"), S.of(context).translate("textNoConnectionPleaseCheckYourConnectionAndTryAgain"),icon: ic_error);
+        _googleSignIn.signInSilently();
         print(error);
       }
   }
@@ -123,8 +123,17 @@ class _GroupSocialScreenState extends State<GroupSocialScreen> {
                   styleName: TextStyleCommon.textButtonStyle(context),
                   imageAssetsPng: png_ic_google,
                   doLogin: () async {
-                    print("Login");
-                    handleLoginGoogle();
+                    var check = await Connectivity().checkConnectivity();
+                       print(check);
+                     if(check == ConnectivityResult.mobile||check==ConnectivityResult.wifi){
+                       print("Login");
+                       handleLoginGoogle();
+                     }
+                     else{
+                       showAlert(context,S.of(context).translate("error"),S.of(context).translate("textNoConnectionPleaseCheckYourConnectionAndTryAgain"),icon: ic_error);
+                     }
+
+
                   }
                 )
               : SizedBox(),
