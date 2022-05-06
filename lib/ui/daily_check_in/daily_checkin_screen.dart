@@ -28,12 +28,9 @@ class DailyCheckInScreen extends StatefulWidget {
   State<DailyCheckInScreen> createState() => _DailyCheckInScreenState();
 }
 
-class _DailyCheckInScreenState extends State<DailyCheckInScreen>
-    with AutomaticKeepAliveClientMixin {
+class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
   DailyCheckInBloc _bloc = Injector.resolve<DailyCheckInBloc>();
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+
 
   @override
   void initState() {
@@ -43,7 +40,11 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen>
     }else{
       _bloc.add(InitDataEvent());
     }
-    _bloc.add(GetProjectByDateEvent(date: _bloc.stringDayNow));
+    if(widget.data != null){
+      _bloc.add(GetProjectByDateEvent(date: DateFormat("dd-MM-yyyy").format(widget.data)));
+    } else{
+      _bloc.add(GetProjectByDateEvent(date: _bloc.stringDayNow));
+    }
     _bloc.add(GetAllProjectEvent());
     super.initState();
   }
