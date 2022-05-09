@@ -62,6 +62,7 @@
   "close": "Đóng",
   "validMail": "Yêu cầu mail công ty",
   "textContent": "Nội dung",
-  "textDescription": "Miêu tả nội dung"
-  "error": "Lỗi"
+  "textDescription": "Miêu tả nội dung",
+  "error": "Lỗi",
+  "OK": "Đồng ý"
 }

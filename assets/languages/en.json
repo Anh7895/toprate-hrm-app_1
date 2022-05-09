@@ -63,5 +63,6 @@
   "error": "Error",
   "validMail": "Request company email",
   "textContent": "Content",
-  "textDescription": "Description of content"
+  "textDescription": "Description of content",
+  "OK": "OK"
 }

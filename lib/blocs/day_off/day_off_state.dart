@@ -21,8 +21,12 @@ class SetSelectedToDateState extends DayOffState {
   SetSelectedToDateState();
 }
 
-class AddMailApproverState extends DayOffState {
-  AddMailApproverState();
+class SelectMailApproverState extends DayOffState {
+  SelectMailApproverState();
+}
+
+class UnSelectMailApproverState extends DayOffState {
+  UnSelectMailApproverState();
 }
 
 class RemovedMailState extends DayOffState {
@@ -38,5 +42,21 @@ class InitDataListMailState extends DayOffState {
 }
 class SetReasonSuccessState extends DayOffState {
   SetReasonSuccessState();
+}
+
+class GetListEmailApproversState extends ApiSuccessState {
+  GetListEmailApproversState();
+}
+
+class GetReasonState extends ApiSuccessState {
+  GetReasonState();
+}
+
+class SubmitDayOffState extends ApiSuccessState {
+  SubmitDayOffState();
+}
+
+class AddListEmailApproversState extends DayOffState {
+  AddListEmailApproversState();
 }
 

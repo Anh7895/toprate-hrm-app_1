@@ -24,15 +24,20 @@ class SetSelectedToDateEvent extends DayOffEvent {
   SetSelectedToDateEvent({this.setSelectedToDate});
 }
 
-class AddMailApproverEvent extends DayOffEvent {
-  int? index;
-  AddMailApproverEvent({this.index});
+class SelectMailApproverEvent extends DayOffEvent {
+  final int? index;
+  SelectMailApproverEvent({this.index});
+}
+
+class UnSelectMailApproverEvent extends DayOffEvent {
+  final int index;
+  UnSelectMailApproverEvent({required this.index});
 }
 
 class RemovedMailEvent extends DayOffEvent {
-  int? index;
+  int index;
   bool? isChecked;
-  RemovedMailEvent({this.index,this.isChecked});
+  RemovedMailEvent({ required this.index,this.isChecked});
 }
 
 class SearchMailEvent extends DayOffEvent {
@@ -44,6 +49,24 @@ class InitDataListMailEvent extends DayOffEvent {
   InitDataListMailEvent();
 }
 class SetReasonEvent extends DayOffEvent {
-  final String? reason;
+  final ReasonSettings? reason;
   SetReasonEvent({this.reason});
+}
+
+class GetListEmailApproversEvent extends DayOffEvent {
+  GetListEmailApproversEvent();
+}
+
+class GetReasonEvent extends DayOffEvent {
+  GetReasonEvent();
+}
+
+class AddListEmailApproversEvent extends DayOffEvent {
+  final List<EmailSettings>? emailSettings;
+  AddListEmailApproversEvent({this.emailSettings});
+}
+
+class SubmitDayOffEvent extends DayOffEvent {
+ final IFurloughLetters? iFurloughLetters ;
+  SubmitDayOffEvent({this.iFurloughLetters});
 }
