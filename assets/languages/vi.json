@@ -64,5 +64,7 @@
   "textContent": "Nội dung",
   "textDescription": "Miêu tả nội dung",
   "error": "Lỗi",
-  "OK": "Đồng ý"
+  "OK": "Đồng ý",
+  "chooseReasons": "Chọn lý do",
+  "submitDayOffSuccess": "Yêu cầu của bạn đã được gửi thành công!"
 }

@@ -64,5 +64,7 @@
   "validMail": "Request company email",
   "textContent": "Content",
   "textDescription": "Description of content",
-  "OK": "OK"
+  "OK": "OK",
+  "chooseReasons": "Choose reasons",
+  "submitDayOffSuccess": "Your request has been sent successfully!"
 }

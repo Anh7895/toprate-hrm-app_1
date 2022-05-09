@@ -113,6 +113,7 @@ class ItemApprove extends StatelessWidget {
       barrierDismissible: true, // user must tap button!
       builder: (context) {
         return AlertDialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: width_20 ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius_10),
           ),
@@ -123,6 +124,7 @@ class ItemApprove extends StatelessWidget {
                 return SingleChildScrollView(
                   child: Container(
                     height: height_450,
+                    width: MediaQuery.of(context).size.width,
                     child: Column(
                       children: [
                         Container(
@@ -150,7 +152,7 @@ class ItemApprove extends StatelessWidget {
                             decoration: InputDecoration(
                                 prefixIcon: Icon(
                                   Icons.search,
-                                  size: height_20,
+                                  size: height_25,
                                   color: ThemeColor.clr_D8D8D8,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -221,7 +223,7 @@ class ItemApprove extends StatelessWidget {
             borderRadius: BorderRadius.circular(8)),
         child: Row(
           children: [
-            Text(dayOffBloc.searchList[index].userProject?.user?.email ?? ""),
+            Text(dayOffBloc.searchList[index].userProject?.user?.email ?? "",style: TextStyleCommon.textNormalStyle,),
             Spacer(),
             dayOffBloc.searchList[index].isChecked
                 ? Icon(

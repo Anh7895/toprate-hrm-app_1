@@ -59,7 +59,15 @@ class _DayOffScreenState extends State<DayOffScreen> {
         body: SafeArea(
           child: HttpStreamHandler<DayOffBloc, BaseState>(
             bloc: _bloc,
-            listener: (context, state) {},
+            listener: (context, state) {
+              if (state is showAlertBottomSheetDialogState) {
+                showAlert(context,
+                    S.of(context).translate("success"),
+                    S.of(context).translate("submitDayOffSuccess"),
+                    icon: ic_like);
+
+              }
+            },
             builder: (context, state) {
               return Stack(
                 children: [

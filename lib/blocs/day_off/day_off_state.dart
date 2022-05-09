@@ -60,3 +60,7 @@ class AddListEmailApproversState extends DayOffState {
   AddListEmailApproversState();
 }
 
+class showAlertBottomSheetDialogState extends ApiSuccessState {
+  showAlertBottomSheetDialogState();
+}
+

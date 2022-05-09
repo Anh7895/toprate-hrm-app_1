@@ -1,16 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:built_collection/src/list.dart';
 import 'package:built_value/json_object.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:meta/meta.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/enumMode.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/manager_mail_model.dart';
 import 'package:toprate_hrm/datasource/repository/day_off_repository.dart';
-import 'package:built_collection/src/list.dart';
-
 
 part 'day_off_event.dart';
 part 'day_off_state.dart';
@@ -194,7 +192,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
         print("Error: data is null");
       } else {
         print("Call api success");
-        emit(SubmitDayOffState());
+        emit(showAlertBottomSheetDialogState());
       }
     } on DioError catch (e) {
       emit(ApiErrorState(error: e));
@@ -225,33 +223,41 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     switch (timeOff) {
       case TimeOff.Allday:
         {
-          dayType = "all_day";
+          timeType = "all_day";
         }
         break;
       case TimeOff.Morning:
         {
-          dayType = "morning";
+          timeType = "morning";
         }
         break;
 
       case TimeOff.Afternoon:
         {
-          dayType = "afternoon";
+          timeType = "afternoon";
         }
         break;
       default:
         {
-          dayType = "all_day";
+          timeType = "all_day";
         }
         break;
     }
     var builder = IFurloughLettersBuilder();
     builder.duration = dayType;
+    builder.type = timeType;
     builder.startDate = selectedFromDate;
     builder.endDate = selectedToDate;
     builder.reason = defaultReason?.content;
     builder.content = textDescriptionController.text;
-   // builder.approvers = BuiltList<EmailSettings>.from(listEmailSettings).toBuilder() as ListBuilder<JsonObject?>?;
+    ListBuilder<JsonObject?> build = ListBuilder();
+    listEmailSettings.forEach((e) {
+      if (e.email != null) {
+        build.add(JsonObject(e.email));
+      }
+    });
+    builder.approvers = build;
+    print("IFurloughLettersBuilder ${builder.build()}");
     return builder.build();
   }
 }

@@ -325,7 +325,7 @@ class TextStyleCommon {
   static TextStyle textNormalStyle = TextStyle(
     color: ThemeColor.clr_2D3142,
     fontSize: 12,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     fontFamily: TextConstants.fontMontserrat,
   );
   static TextStyle textHintStyle = TextStyle(

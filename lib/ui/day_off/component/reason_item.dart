@@ -25,6 +25,8 @@ class ItemReason extends StatelessWidget {
           ),
           iconSize: 24,
           elevation: 16,
+          hint: Text(S.of(context).translate("chooseReasons"),
+              style: TextStyleCommon.textHintStyle),
           isExpanded: true,
           style: TextStyle(color: ThemeColor.clr_979797),
           underline: Container(
