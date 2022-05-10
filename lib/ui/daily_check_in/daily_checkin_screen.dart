@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/daily_checkin/daily_check_in_bloc.dart';
-import 'package:toprate_hrm/common/dialog/bottom_sheet_dialog_utils_new.dart';
-import 'package:toprate_hrm/common/dialog/dialog_custom.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
@@ -110,9 +108,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
       right: 8,
       child: GestureDetector(
         onTap: () {
-          if (_bloc.isClick == true) {
             _showDialogConfirm(context);
-          }
         },
         child: Column(
           children: [
@@ -127,9 +123,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                     fontFamily: TextConstants.fontRubik,
                     fontSize: fontSize_16,
                     fontWeight: FontWeight.w500),
-                backgroundColor: _bloc.isClick == true
-                    ? ThemeColor.clr_CE6161
-                    : ThemeColor.clr_A7A5A5,
+                backgroundColor: ThemeColor.clr_CE6161,
               ),
             )
           ],
@@ -213,9 +207,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        if (_bloc.isClick == true) {
           _showMyDialog(context, index);
-        }
       },
       child: Container(
         width: width_336,
@@ -278,7 +270,6 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
             GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                if (_bloc.isClick == true) {
                   if (_bloc.listProjectData != [] &&
                       _bloc.listProjectData[index].projectId !=
                           null) {
@@ -286,7 +277,6 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                   } else {
                     _showMyDialog(context, index);
                   }
-                }
               },
               child: LocalImageWidget(
                 url: _bloc.listProjectByDate.length > 0

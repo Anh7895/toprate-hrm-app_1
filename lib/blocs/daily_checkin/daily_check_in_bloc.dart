@@ -46,7 +46,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   List<Project> listProjectByDate = [];
   DateTime dateTime = DateTime.now();
   DateTime dateToday = DateTime.now();
-  bool isClick = false;
   bool isSelectDay = false;
   bool isCanGoToNextDay = false;
   String time = "";
@@ -226,7 +225,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       if (response == null) {
         print("Error: data is null");
       } else {
-        isClick = true;
         listSettingBloc.clear();
         listProjectByDate.clear();
         listProjectData.clear();
@@ -293,7 +291,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
           if(response.data?.length == 0){
             add(GetAllSettingBlockEvent());
           }else{
-            isClick =false;
             listProjectByDate.clear();
             listProjectData.clear();
             response.data?.forEach((e) {
@@ -317,7 +314,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       if (response.data == null) {
         print("Error: letter is null");
       } else {
-        isClick = false;
         emit(showAlertBottomSheetDialogState());
       }
     } on DioError catch (e) {

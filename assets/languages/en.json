@@ -60,6 +60,11 @@
   "success": "Success",
   "fail": "Fail",
   "close": "Close",
+  "error": "Error",
   "validMail": "Request company email",
-  "error": "Error"
+  "textContent": "Content",
+  "textDescription": "Description of content",
+  "OK": "OK",
+  "chooseReasons": "Choose reasons",
+  "submitDayOffSuccess": "Your request has been sent successfully!"
 }
