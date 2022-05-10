@@ -10,7 +10,10 @@ import 'package:toprate_hrm/datasource/data/model/entity/enumMode.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/manager_mail_model.dart';
 import 'package:toprate_hrm/datasource/repository/day_off_repository.dart';
 
+import '../../common/resource/strings.dart';
+
 part 'day_off_event.dart';
+
 part 'day_off_state.dart';
 
 class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
@@ -36,6 +39,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
         (event, emit) => getListEmailApprovers(event, emit));
 
     on<GetReasonEvent>((event, emit) => getReason(event, emit));
+    on<ValidateDayOffEvent>((event, emit) => validateDayOff(event, emit));
     on<SubmitDayOffEvent>((event, emit) => submitDayOff(event, emit));
     on<ClickCheckboxTimeOffEvent>(
         (event, emit) => clickCheckboxTimeOff(event, emit));
@@ -149,7 +153,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     try {
       emit(StartCallApiState());
       final response = await dayOffRepository.getEmailApprovers();
-      if (response == null) {
+      if (response.data == null) {
         print("Error: data is null");
       } else {
         listEmailSettings.addAll(response.data?.emailDefaults ?? []);
@@ -172,7 +176,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     try {
       emit(StartCallApiState());
       final response = await dayOffRepository.getReason();
-      if (response == null) {
+      if (response.data == null) {
         print("Error: data is null");
       } else {
         listReasonSettings.addAll(response.data ?? []);
@@ -184,20 +188,61 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     }
   }
 
+  void validateDayOff(ValidateDayOffEvent event, Emitter<BaseState> emit) {
+    DateTime fromDateTime =
+        new DateFormat("dd/MM/yyyy HH:mm").parse(selectedFromDate, true);
+    DateTime toDateTime =
+        new DateFormat("dd/MM/yyyy HH:mm").parse(selectedToDate, true);
+
+    if (fromDateTime.compareTo(toDateTime) >= 0) {
+      emit(ValidateDayOffState(false,
+          message: 'The last break must be greater than the start time.'));
+      return;
+    }
+    if (defaultReason?.content == null) {
+      emit(ValidateDayOffState(false, message: 'You did not choose a reason.'));
+      return;
+    }
+    add(SubmitDayOffEvent(iFurloughLetters: iFurloughLettersBuilder()));
+  }
+
   submitDayOff(SubmitDayOffEvent event, Emitter<BaseState> emit) async {
     try {
       emit(StartCallApiState());
       final response =
-
-          await dayOffRepository.addFurloughLetters(iFurloughLettersBuilder());
-      if (response == null) {
+          await dayOffRepository.addFurloughLetters(event.iFurloughLetters);
+      if (response.data == null) {
         print("Error: data is null");
       } else {
         print("Call api success");
         emit(showAlertBottomSheetDialogState());
       }
     } on DioError catch (e) {
-      emit(ApiErrorState(error: e));
+      if (e.response?.statusCode == 400) {
+        if (e.response?.data['messages'] != null) {
+          if (e.response?.data['messages']["data.0.project_id"] != null) {
+            emit(ApiErrorState(
+                error: e,
+                errorMessage: e.response?.data['messages']["data.0.project_id"]
+                    .toString()));
+            return;
+          }
+        }
+        if (e.response?.data['data.0.coefficient_pay_id'] != null) {
+          if (e.response?.data['messages']["data.0.coefficient_pay_id"] !=
+              null) {
+            emit(ApiErrorState(
+                error: e,
+                errorMessage: e
+                    .response?.data['messages']["data.0.coefficient_pay_id"]
+                    .toString()));
+            return;
+          }
+        }
+      }
+      emit(ApiErrorState(error: e, errorMessage: e.response?.data['message']));
+    } catch (e) {
+      emit(ApiErrorState(errorMessage: TextConstants.text101Err));
     }
   }
 

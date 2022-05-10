@@ -66,5 +66,6 @@
   "error": "Lỗi",
   "OK": "Đồng ý",
   "chooseReasons": "Chọn lý do",
-  "submitDayOffSuccess": "Lịch xin nghỉ của bạn đã được gửi"
+  "submitDayOffSuccess": "Lịch xin nghỉ của bạn đã được gửi",
+  "NotReason": "Bạn đã không chọn một lý do."
 }

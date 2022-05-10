@@ -96,7 +96,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                     right: 8,
                     child: GestureDetector(
                       onTap: () {
-                        _bloc.add(SubmitDayOffEvent());
+                        _bloc.add(ValidateDayOffEvent());
                       },
                       child: Column(
                         children: [

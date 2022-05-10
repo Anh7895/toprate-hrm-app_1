@@ -3,13 +3,13 @@ part of 'day_off_bloc.dart';
 @immutable
 abstract class DayOffEvent {}
 class ClickCheckboxDurationEvent extends DayOffEvent{
-  Mode? value;
-  bool? isSelect;
+  final Mode? value;
+  final bool? isSelect;
   ClickCheckboxDurationEvent({this.value,this.isSelect});
 }
 
 class ClickCheckboxTimeOffEvent extends DayOffEvent{
-  TimeOff? value;
+  final TimeOff? value;
   ClickCheckboxTimeOffEvent({this.value,});
 }
 class SetSelectedFromDateEvent extends DayOffEvent {
@@ -35,13 +35,13 @@ class UnSelectMailApproverEvent extends DayOffEvent {
 }
 
 class RemovedMailEvent extends DayOffEvent {
-  int index;
-  bool? isChecked;
+  final int index;
+  final bool? isChecked;
   RemovedMailEvent({ required this.index,this.isChecked});
 }
 
 class SearchMailEvent extends DayOffEvent {
-  String? value;
+  final String? value;
   SearchMailEvent({this.value});
 }
 
@@ -67,6 +67,10 @@ class AddListEmailApproversEvent extends DayOffEvent {
 }
 
 class SubmitDayOffEvent extends DayOffEvent {
- final IFurloughLetters? iFurloughLetters ;
-  SubmitDayOffEvent({this.iFurloughLetters});
+ final IFurloughLetters iFurloughLetters ;
+  SubmitDayOffEvent({required this.iFurloughLetters});
+}
+
+class ValidateDayOffEvent extends DayOffEvent {
+  ValidateDayOffEvent();
 }

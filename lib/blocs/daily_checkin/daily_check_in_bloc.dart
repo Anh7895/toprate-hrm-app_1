@@ -58,7 +58,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   List<Project> listProjectHistory = [];
   final DailyCheckInRepository dailyCheckInRepository;
   String date = "";
-  String colorSelect = "";
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
@@ -256,7 +255,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     try {
       emit(StartCallApiState());
       final response = await dailyCheckInRepository.getProjectByUser();
-      if (response == null) {
+      if (response.data == null) {
         print("Error: data is null");
       } else {
         response.data?.projects?.forEach((e) {
@@ -283,7 +282,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     try {
       emit(StartCallApiState());
       final response = await dailyCheckInRepository.getProjectByDate(event.date);
-      if (response == null) {
+      if (response.data == null) {
         print("Error: data is null");
       } else {
         print("dataaaa $response");

@@ -63,4 +63,9 @@ class AddListEmailApproversState extends DayOffState {
 class showAlertBottomSheetDialogState extends ApiSuccessState {
   showAlertBottomSheetDialogState();
 }
+class ValidateDayOffState extends DayOffState{
+  final bool valid;
+  final String? message;
+  ValidateDayOffState(this.valid, {this.message});
+}
 
