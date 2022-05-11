@@ -16,6 +16,7 @@ showDialogConfirm(BuildContext context,{String? icon, String? title, String? mes
       barrierDismissible: true, // user must tap button!
       builder: (context) {
         return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: width_20),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           child: Padding(
@@ -31,14 +32,12 @@ showDialogConfirm(BuildContext context,{String? icon, String? title, String? mes
                   url: icon,
                 ):Container(),
                 SizedBox(
-                  height: height_20,
+                  height: height_15,
                 ),
                 Text(title??"",
                     style: TextStyleCommon.textHeaderDialogStyle(context),
                     textAlign: TextAlign.center),
-                SizedBox(
-                  height: height_20,
-                ),
+                message!=""?SizedBox(height: height_20,):Container(),
                 Text(
                   message??"",
                   style: TextStyleCommon.textMessageDialogStyle,

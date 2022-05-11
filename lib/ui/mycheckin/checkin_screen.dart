@@ -67,6 +67,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    _bloc.add(InitDataEvent());
     // _bloc.add(InitDataDateEvent());
     super.initState();
   }
@@ -152,11 +153,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
           Spacer(),
           Text(
             S.of(context).translate("textMyCheckin"),
-            style: TextStyle(
-                color: ThemeColor.clr_CE6161,
-                fontSize: fontSize_32,
-                fontFamily: TextConstants.fontRubik,
-                fontWeight: FontWeight.w500),
+            style: TextStyleCommon.textAppBarStyle,
           ),
           Spacer(),
           SizedBox(
@@ -251,7 +248,68 @@ class _CheckinScreenState extends State<CheckinScreen> {
             pageAnimationEnabled: false,
 
             calendarBuilders: CalendarBuilders(
-              dowBuilder: (context, day) {
+                markerBuilder: (BuildContext context, date, events) {
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _bloc.listCheckin.length,
+                      itemBuilder: (context,index){
+                        if(_bloc.listCheckin[index].title=="CHECKIN"&& date == _bloc.listCheckin[index].notcheckinDay){
+                          return Center(
+                              child: Container(
+                                width: width_27,
+                                height: height_27,
+                                decoration: BoxDecoration(color: ThemeColor.clr_FF9B90,
+                                    shape: BoxShape.circle
+                                ),
+                                child: Center(child: Text(date.day.toString(),style: TextStyle(color: ThemeColor.clr_FFFFFF))),
+                              ));
+                        }
+                        else if(_bloc.listCheckin[index].title=="NOTCHECKIN"&& date == _bloc.listCheckin[index].notcheckinDay){
+                          return Center(
+                              child: Container(
+                                width: width_27,
+                                height: height_27,
+                                decoration: BoxDecoration(color:ThemeColor.clr_FFFFFF,
+                                    border: Border.all(color: ThemeColor.clr_000000),
+                                    shape: BoxShape.circle
+                                ),
+                                child: Center(child: Text(date.day.toString(),style: TextStyle(color: ThemeColor.clr_000000))),
+                              ));
+                        }
+                        else if (_bloc.listCheckin[index].title=="DAYOFF"&& date == _bloc.listCheckin[index].notcheckinDay){
+                          return Center(
+                              child: Container(
+                                width: width_27,
+                                height: height_27,
+                                decoration: BoxDecoration(color: ThemeColor.clr_8F8F8F,
+                                    shape: BoxShape.circle
+                                ),
+                                child: Center(child: Text(date.day.toString(),style: TextStyle(color: ThemeColor.clr_FFFFFF))),
+                              ));
+                        }
+                        else if(_bloc.listCheckin[index].title=="HOLIDAY"&& date == _bloc.listCheckin[index].notcheckinDay){
+                          return Center(
+                              child: Container(
+                                width: width_27,
+                                height: height_27,
+                                decoration: BoxDecoration(color: ThemeColor.clr_F30000,
+                                    shape: BoxShape.circle
+                                ),
+                                child: Center(child: Text(date.day.toString(),style: TextStyle(color: ThemeColor.clr_FFFFFF,),textAlign: TextAlign.center,)),
+                              ));
+                        }
+                        else return Center(
+                              child: Container(
+                              ));
+
+                      }
+
+                  );
+
+                },
+
+                dowBuilder: (context, day) {
                 if(day.weekday == DateTime.saturday){
                   final text = DateFormat.E().format(day);
                   return Center(
