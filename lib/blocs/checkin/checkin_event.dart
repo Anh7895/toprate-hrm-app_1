@@ -35,3 +35,9 @@ class GetDataTimeKeepingEvent extends CheckinEvent {
 
   GetDataTimeKeepingEvent({this.date});
 }
+
+class InitDataEvent extends CheckinEvent {
+  InitDataEvent();
+}
+
+

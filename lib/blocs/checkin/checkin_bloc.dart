@@ -44,6 +44,11 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
       // add(GetDataTimeKeepingEvent(date: DateFormat("MM-yyyy").format(dateToday)));
       emit(InitDataDateState(listDataDate));
     });
+    on<InitDataEvent>((event, emit) {
+      fakeDataCheckinDay();
+      emit(InitDataState());
+    });
+
     on<SelectDayEvent>((event, emit) => onDaySelect(event, emit));
     on<CantSeclectDayEvent>((event, emit) => cantSelectDay(event, emit));
     on<FormatChangeEvent>((event, emit) => onFormatChange(event, emit));
@@ -151,7 +156,7 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
   //             errorMessage: TextConstants.text101Err));    }
   //
   // }
-
+  List<CheckinDay> listCheckin =[];
 
 
   @override
@@ -160,5 +165,17 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
       ) async* {
     // TODO: implement mapEventToState
   }
+  fakeDataCheckinDay(){
+    listCheckin.add(CheckinDay(notcheckinDay: DateTime.utc(2022,5,3),title: "NOTCHECKIN"));
+    listCheckin.add(CheckinDay(notcheckinDay: DateTime.utc(2022,5,4),title: "CHECKIN"));
+    listCheckin.add(CheckinDay(notcheckinDay: DateTime.utc(2022,5,5),title: "NOTCHECKIN"));
+    listCheckin.add(CheckinDay(notcheckinDay: DateTime.utc(2022,5,6),title: "DAYOFF"));
+    listCheckin.add(CheckinDay(notcheckinDay: DateTime.utc(2022,5,7),title: "HOLIDAY"));
+  }
 
+}
+class CheckinDay{
+  DateTime? notcheckinDay;
+  String? title;
+  CheckinDay({this.notcheckinDay, this.title});
 }

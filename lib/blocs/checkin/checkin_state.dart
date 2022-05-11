@@ -36,3 +36,8 @@ class GetDataTimeKeepingState extends CheckinState{
 
   GetDataTimeKeepingState();
 }
+
+class InitDataState extends CheckinState{
+
+  InitDataState();
+}

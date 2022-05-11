@@ -95,10 +95,10 @@ class _HttpStreamHandler<B extends Bloc<dynamic, S>, S extends BaseState>
         if (err is DioError) {
           if (err.response?.statusCode == HttpStatus.unauthorized ||
               err.response?.statusCode == HttpStatus.forbidden) {
-            showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error);
+            showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");
           } else if (err.response?.statusCode ==
               HttpStatus.internalServerError) {
-            showAlert(context, TextConstants.textFailed, TextConstants.text100Err, icon: ic_error);
+            showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");
           } else if (err.type == DioErrorType.connectTimeout ||
               err.type == DioErrorType.receiveTimeout) {
             _mappingError(
@@ -114,7 +114,7 @@ class _HttpStreamHandler<B extends Bloc<dynamic, S>, S extends BaseState>
         }
       }
     }, onError: (onError) {
-      showAlert(context, TextConstants.textFailed, TextConstants.text100Err, icon: ic_error);
+      showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");;
     }, onDone: () {}, cancelOnError: true);
   }
 
@@ -135,14 +135,14 @@ class _HttpStreamHandler<B extends Bloc<dynamic, S>, S extends BaseState>
       _transformMessage = language.S
           .of(context)
           .translate(TextConstants.textSystemIsBusyPleaseTryAgainLater);
-      showAlert(context, TextConstants.textFailed, '${errorMessage}', icon: ic_error);
+      showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");
     } else if (errorMessage ==
         TextConstants.textNoConnectionPleaseCheckYourConnectionAndTryAgain) {
       _transformMessage = language.S.of(context).translate(
           TextConstants.textNoConnectionPleaseCheckYourConnectionAndTryAgain);
-      showAlert(context, TextConstants.textFailed, '${errorMessage}', icon: ic_error);
+      showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");
     } else {
-      showAlert(context, TextConstants.textFailed, '${errorMessage}', icon: ic_error);
+      showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");
     }
   }
 }
@@ -180,7 +180,7 @@ String handleResponseError(error) {
 }
 
 showAlert(BuildContext context, String title, String message,
-    {Function(BuildContext)? onDismiss, bool? dismissible, bool? canPop, String? icon}) {
+    {Function(BuildContext)? onDismiss, bool? dismissible, bool? canPop, String? icon, String? nameButton}) {
   final mediaData = MediaQuery.of(context);
   showDialog(
       barrierDismissible: dismissible ?? true,
@@ -191,6 +191,7 @@ showAlert(BuildContext context, String title, String message,
               // prevent UI broken when text-scale is changed by system
               data: mediaData.copyWith(textScaleFactor: 1.0),
               child: Dialog(
+                insetPadding: EdgeInsets.symmetric(horizontal: width_20),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20.0))),
                 child: Padding(
@@ -219,7 +220,7 @@ showAlert(BuildContext context, String title, String message,
                         style: TextStyleCommon.textMessageDialogStyle,
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: height_20,),
+                     message!=""?SizedBox(height: height_20,):Container(),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: width_16),
                         child: BaseButton(
@@ -227,7 +228,7 @@ showAlert(BuildContext context, String title, String message,
                             Navigator.pop(context);
                           },
                           backgroundColor: ThemeColor.clr_CE6161,
-                          title: S.of(context).translate("submit"),
+                          title: nameButton!=""?S.of(context).translate(nameButton??""):S.of(context).translate("submit"),
                         ),
                       )
                     ],

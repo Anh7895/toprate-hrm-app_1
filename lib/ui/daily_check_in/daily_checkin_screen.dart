@@ -67,9 +67,10 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
             listener: (context, state) {
               if (state is showAlertBottomSheetDialogState) {
                 showAlert(context,
-                    S.of(context).translate("success"),
                     S.of(context).translate("textMessageThank"),
-                    icon: ic_like);
+                    "",
+                    icon: ic_like,
+                    nameButton: "close");
 
               }
               if (state is SubmitFailState) {
@@ -310,6 +311,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
             listener: (context, state) {},
             builder: (context, setState) {
               return Dialog(
+                insetPadding: EdgeInsets.symmetric(horizontal: width_20),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(radius_16),
                 ),
@@ -494,11 +496,9 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                           child: Center(
                             child: Text(
                             S.of(context).translate("messageSendInfo"),
-                              style: TextStyle(
-                                  fontSize: fontSize_18,
-                                  color: ThemeColor.clr_4C5980,
-                                  fontFamily: TextConstants.fontMontserrat,
-                                  fontWeight: FontWeight.bold),
+                             style: TextStyleCommon.textHeaderDialogStyle(context),
+                            textAlign: TextAlign.center,
+
                             ),
                           ),
                         ),
