@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/daily_checkin/daily_check_in_bloc.dart';
+import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
@@ -70,6 +71,10 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                     S.of(context).translate("textMessageThank"),
                     "",
                     icon: ic_like,
+                    dismissible: false,
+                    onPressed: (){
+                      Navigator.pushReplacementNamed(context, RouteName.checkinScreen);
+                    },
                     nameButton: "close");
 
               }
@@ -119,11 +124,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
               child: BaseButton(
                 height: height_56,
                 title: S.of(context).translate("submit"),
-                style: TextStyle(
-                    color: ThemeColor.clr_FFFFFF,
-                    fontFamily: TextConstants.fontRubik,
-                    fontSize: fontSize_16,
-                    fontWeight: FontWeight.w500),
+                style: TextStyleCommon.textButtonStyle(context),
                 backgroundColor: ThemeColor.clr_CE6161,
               ),
             )
@@ -371,7 +372,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                                   color: _bloc
                                       .listProjectHistory[_bloc.intSelectData!]
                                       .background));
-                              Navigator.pop(context);
+
                             }
                           },
                           child: BaseButton(

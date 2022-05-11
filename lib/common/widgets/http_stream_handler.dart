@@ -180,7 +180,7 @@ String handleResponseError(error) {
 }
 
 showAlert(BuildContext context, String title, String message,
-    {Function(BuildContext)? onDismiss, bool? dismissible, bool? canPop, String? icon, String? nameButton}) {
+    {Function(BuildContext)? onDismiss, bool? dismissible, bool? canPop, String? icon, String? nameButton, VoidCallback? onPressed}) {
   final mediaData = MediaQuery.of(context);
   showDialog(
       barrierDismissible: dismissible ?? true,
@@ -224,7 +224,7 @@ showAlert(BuildContext context, String title, String message,
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: width_16),
                         child: BaseButton(
-                          onPressed: (){
+                          onPressed: onPressed!=null?onPressed:(){
                             Navigator.pop(context);
                           },
                           backgroundColor: ThemeColor.clr_CE6161,

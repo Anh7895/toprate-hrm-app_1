@@ -142,7 +142,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.popUntil(context, (route) => route.isFirst);
             },
             child: Icon(
               Icons.arrow_back_ios,

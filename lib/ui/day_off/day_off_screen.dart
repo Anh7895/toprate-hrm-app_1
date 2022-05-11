@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/day_off/day_off_bloc.dart';
+import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/common/dialog/alert_dialog.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
@@ -64,7 +65,12 @@ class _DayOffScreenState extends State<DayOffScreen> {
                 showAlert(context,
                     S.of(context).translate("success"),
                     S.of(context).translate("submitDayOffSuccess"),
-                    icon: ic_like);
+                    icon: ic_like,
+                    dismissible: false,
+                    onPressed: (){
+                      Navigator.pushReplacementNamed(context, RouteName.checkinScreen);
+                    },
+                    nameButton: "close");
 
               }
             },
