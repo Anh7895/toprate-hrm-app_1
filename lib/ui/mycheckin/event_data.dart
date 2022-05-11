@@ -12,7 +12,7 @@ extension ExtensionEventStatus on EventStatus {
   Color get statusColor {
     switch (this) {
       case EventStatus.notCheckin:
-        return ThemeColor.clr_E56000;
+        return ThemeColor.clr_F4F6FA;
       case EventStatus.checkedIn:
         return ThemeColor.clr_FF9B90;
       case EventStatus.dayOff:

@@ -140,6 +140,9 @@ class _CheckinScreenState extends State<CheckinScreen> {
     return Container(
       child: Row(
         children: [
+          SizedBox(
+            width: width_20,
+          ),
           GestureDetector(
             onTap: () {
              Navigator.pushNamedAndRemoveUntil(context, RouteName.dashboard, (route) => true);
