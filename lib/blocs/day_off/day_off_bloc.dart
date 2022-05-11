@@ -187,6 +187,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     try {
       emit(StartCallApiState());
       final response =
+
           await dayOffRepository.addFurloughLetters(iFurloughLettersBuilder());
       if (response == null) {
         print("Error: data is null");

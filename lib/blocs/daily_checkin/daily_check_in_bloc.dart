@@ -68,10 +68,10 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   initData(InitDataEvent event, Emitter<BaseState> emit) async {
       if (isSelectDay == false){
         time =
-        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
+        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMM').format(dateTime)}";
       } else {
         time =
-        "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
+        "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMM').format(selectedDay)}";
       }
       DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(time);
     emit(InitDataState());
@@ -81,7 +81,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     dateselectcheckin = event.dateSelect;
     if (dateselectcheckin != null) {
       time =
-      "${DateFormat('EE').format(dateselectcheckin!)} ${DateFormat('d MMMM')
+      "${DateFormat('EE').format(dateselectcheckin!)} ${DateFormat('d MMM')
           .format(dateselectcheckin!)}";
     }
     DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(time);
@@ -93,20 +93,20 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       if(isSelectDay == false){
         dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day - 1);
         time =
-        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
+        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMM').format(dateTime)}";
         isCanGoToNextDay = true;
         date = dateTime.convertDateTimeToString("dd-MM-yyyy");
       } else{
         selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day - 1);
         time =
-        "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
+        "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMM').format(selectedDay)}";
         isCanGoToNextDay = true;
         date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
       }
     } else {
       dateselectcheckin = DateTime(dateselectcheckin!.year, dateselectcheckin!.month, dateselectcheckin!.day - 1);
       time =
-      "${DateFormat('EE').format(dateselectcheckin!)} ${DateFormat('d MMMM').format(dateselectcheckin!)}";
+      "${DateFormat('EE').format(dateselectcheckin!)} ${DateFormat('d MMM').format(dateselectcheckin!)}";
       isCanGoToNextDay = true;
       date = dateselectcheckin!.convertDateTimeToString("dd-MM-yyyy");
     }
@@ -162,19 +162,19 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
 
         isCanGoToNextDay = dateTime == today ? false : true;
         time =
-        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMMM').format(dateTime)}";
+        "${DateFormat('EE').format(dateTime)} ${DateFormat('d MMM').format(dateTime)}";
         isCanGoToNextDay = true;
       } else {
         final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
         final aDate = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
         if (today != aDate) {
           selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day + 1);
-          date = selectedDay.convertDateTimeToString("dd-MM-yyyy");
+          date = selectedDay.convertDateTimeToString("dd-MMM-yyyy");
           add(GetProjectByDateEvent(date: date));
         }
         isCanGoToNextDay = selectedDay == today ? false : true;
         time =
-        "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMMM').format(selectedDay)}";
+        "${DateFormat('EE').format(selectedDay)} ${DateFormat('d MMM').format(selectedDay)}";
         isCanGoToNextDay = true;
       }
     } else{
@@ -187,7 +187,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       }
       isCanGoToNextDay = dateselectcheckin == today ? false : true;
       time =
-      "${DateFormat('EE').format(dateselectcheckin!)} ${DateFormat('d MMMM').format(dateselectcheckin!)}";
+      "${DateFormat('EE').format(dateselectcheckin!)} ${DateFormat('d MMM').format(dateselectcheckin!)}";
       isCanGoToNextDay = true;
     }
     emit(NextDayState());

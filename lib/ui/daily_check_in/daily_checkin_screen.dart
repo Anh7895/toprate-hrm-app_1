@@ -395,17 +395,18 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
       context: context,
       barrierDismissible: true,
       builder: (context) {
-        return HttpStreamHandler<DailyCheckInBloc, BaseState>(
+        return AlertDialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: width_20 ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(radius_16),
+            ),
+            content: HttpStreamHandler<DailyCheckInBloc, BaseState>(
             bloc: _bloc,
             listener: (context, state) {},
             builder: (context, setState) {
-              return Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(radius_16),
-                ),
-                child: Container(
-                  height: 400,
-                  width: 200,
+                return Container(
+                  height: height_550,
+                  width: MediaQuery.of(context).size.width,
                   child: TableCalendar(
                     headerVisible: true,
                     locale: "en",
@@ -464,9 +465,9 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                       selectedTextStyle: TextStyle(color: Colors.white),
                     ),
                   ),
-                ),
-              );
-            });
+                );
+            }),
+        );
       },
     );
   }
