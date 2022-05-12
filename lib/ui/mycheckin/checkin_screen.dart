@@ -232,12 +232,22 @@ class _CheckinScreenState extends State<CheckinScreen> {
               _bloc.add(FormatChangeEvent(_format));
             },
             onDaySelected: (DateTime selectDay, DateTime focusDay){
-              if(selectDay.compareTo(DateTime.now()) <= 0){
-                _bloc.add(SelectDayEvent(selectDay, focusDay));
-              }
-              else {
-                _bloc.add(CantSeclectDayEvent());
-              }
+              print("Select Day ${selectDay}");
+              print(DateTime.now().toUtc());
+              if(selectDay.toString().substring(0,10)==DateTime.now().toString().substring(0,10)) _bloc.add(SelectDayEvent(selectDay, focusDay));
+                else if(selectDay.compareTo(DateTime.now())<0){
+                  for(int i=0;i<_bloc.listCheckin.length;i++){
+                    if (selectDay.compareTo(_bloc.listCheckin[i].notcheckinDay)==0) {
+                      if(_bloc.listCheckin[i].title=="HOLIDAY"||_bloc.listCheckin[i].title=="DAYOFF")
+                      _bloc.add(CantSeclectThisDayEvent());
+                      else  _bloc.add(SelectDayEvent(selectDay, focusDay));
+                    }
+                  }
+                }
+                else{
+                  _bloc.add(CantSeclectDayEvent());
+                }
+
             },
             selectedDayPredicate: (DateTime date){
               return isSameDay(_bloc.selectedDay, date);

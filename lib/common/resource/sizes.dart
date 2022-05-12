@@ -186,6 +186,7 @@ double radius_8 = 8.r;
 double radius_10 = 10.r;
 double radius_12 = 12.r;
 double radius_16 = 16.r;
+double radius_18 = 18.r;
 double radius_20 = 20.r;
 double radius_24 = 24.r;
 double radius_32 = 32.r;

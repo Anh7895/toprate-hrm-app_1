@@ -3,6 +3,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_collection/src/list.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
@@ -63,8 +64,6 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   DateTime focusedDay = DateTime.now();
   DateTime tempDate = DateTime.now();
   DateTime? dateselectcheckin ;
-
-
   initData(InitDataEvent event, Emitter<BaseState> emit) async {
       if (isSelectDay == false){
         time =
@@ -291,13 +290,14 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
           if(response.data?.length == 0){
             add(GetAllSettingBlockEvent());
           }else{
-            listProjectByDate.clear();
-            listProjectData.clear();
-            response.data?.forEach((e) {
-              if(e.project != null){
-                listProjectByDate.add(e.project!);
-              }
-            });
+              listProjectByDate.clear();
+              listProjectData.clear();
+              response.data?.forEach((e) {
+                if (e.project != null) {
+                listProjectData.add(ProjectData(stringNameDefault: "Select 01 Project",stringNameSelectProject: e.project?.name,projectId: e.projectId,avatar: e.project?.avatarUrl,color: e.project?.background,coefficientPayId: e.coefficientPayId, time: e.hour));
+                }
+              });
+              print("dataaaa ${listProjectData.length}");
           print("dataaaa ${listProjectByDate.length}");
         }
         emit(GetProjectByDateState());

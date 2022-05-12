@@ -79,23 +79,27 @@ class _HomeScreensState extends State<HomeScreens> {
                                       ],
                                     )
                                 ),
-                                Stack(
-                                  alignment: Alignment.bottomLeft,
-                                  children: [
-                                  Container(
-                                    margin: EdgeInsets.only(left: width_2,bottom: height_3),
-                                    height: height_60,
-                                    width: width_50,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(image: NetworkImage(LocalUserData.getInstance.user.avatarUrl??"https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"))
-                                        ,borderRadius: BorderRadius.circular(radius_20)),
-                                  ),
-                                  Container(
+                                Container(
+                                  height: height_60,
+                                  width: width_60,
+                                  child: Stack(
+                                    alignment: Alignment.bottomLeft,
+                                    children: [
+                                    Container(
+                                      margin: EdgeInsets.only(left: width_1,bottom: height_3),
+                                      height: height_50,
+                                      width: width_50,
                                       decoration: BoxDecoration(
-                                          border: Border.all(color: ThemeColor.clr_FFFFFF,width: width_3,style: BorderStyle.solid),
-                                          borderRadius: BorderRadius.circular(radius_32)),
-                                      child: Container(color: ThemeColor.clr_FFFFFF,child: Icon(Icons.circle,size: radius_12, color:ThemeColor.clr_CE6161))),
-                                ],)
+                                          image: DecorationImage(image: NetworkImage(LocalUserData.getInstance.user.avatarUrl??"https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"))
+                                          ,borderRadius: BorderRadius.circular(radius_18)),
+                                    ),
+                                    Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: ThemeColor.clr_FFFFFF,width: width_3,style: BorderStyle.solid),
+                                            borderRadius: BorderRadius.circular(radius_32)),
+                                        child: Container(color: ThemeColor.clr_FFFFFF,child: Icon(Icons.circle,size: radius_12, color:ThemeColor.clr_CE6161))),
+                                  ],),
+                                )
                               ],
                             ),
                             SizedBox(height: height_13,),
@@ -153,7 +157,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                               Navigator.of(NavKey.navKey.currentContext!).pushAndRemoveUntil(
                                                   MaterialPageRoute(builder: (context) => DashboardScreen(index: 1)),(Route<dynamic> route) => false);
                                             },
-                                            child: HomeCardItem(text: S.of(context).translate("textCheckin"), url: svg_ic_checkin_now, textStyle:  TextStyleCommon.textCustomCardStyle(context, color: ThemeColor.clr_4C5980))),
+                                            child: HomeCardItem(text: S.of(context).translate("textCheckinnow"), url: svg_ic_checkin_now, textStyle:  TextStyleCommon.textCustomCardStyle(context, color: ThemeColor.clr_4C5980))),
                                         GestureDetector(
                                             onTap: (){
                                               Navigator.pushNamed(context,RouteName.checkinScreen);

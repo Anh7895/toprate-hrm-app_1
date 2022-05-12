@@ -23,6 +23,10 @@ class CantSelectDayState extends CheckinState {
   CantSelectDayState();
 }
 
+class CantSelectThisDayState extends CheckinState {
+  CantSelectThisDayState();
+}
+
 class FormatChangeState extends CheckinState {
   FormatChangeState();
 }

@@ -65,6 +65,5 @@
   "textContent": "Content",
   "textDescription": "Description of content",
   "OK": "OK",
-  "chooseReasons": "Choose reasons",
-  "submitDayOffSuccess": "Your request has been sent successfully!"
+  "chooseReasons": "Choose reasons"
 }
