@@ -40,6 +40,12 @@ class _DayOffScreenState extends State<DayOffScreen> {
         DateFormat("dd/MM/yyyy").format(_bloc.selectedDate);
     _bloc.add(GetListEmailApproversEvent());
     _bloc.add(GetReasonEvent());
+    _bloc.focusDescription.addListener(() {
+      if (_bloc.focusDescription.hasFocus) {
+        _bloc.scroll.animateTo(_bloc.scroll.position.maxScrollExtent+300,
+            duration: Duration(milliseconds: 500), curve: Curves.ease);
+      }
+    });
     super.initState();
   }
 
@@ -80,6 +86,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                   Container(
                     height: MediaQuery.of(context).size.height,
                     child: SingleChildScrollView(
+                      controller: _bloc.scroll,
                       child: _buildDetailBody(context),
                     ),
                   ),
@@ -153,6 +160,7 @@ class _DayOffScreenState extends State<DayOffScreen> {
                   height: height_12,
                 ),
                 TextField(
+                  scrollPadding: EdgeInsets.only(bottom: height_400 ),
                   controller: _bloc.textDescriptionController,
                   minLines: 5,
                   maxLength: 255,

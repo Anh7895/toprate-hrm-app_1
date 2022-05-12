@@ -98,7 +98,7 @@ class _HttpStreamHandler<B extends Bloc<dynamic, S>, S extends BaseState>
             showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");
           } else if (err.response?.statusCode ==
               HttpStatus.internalServerError) {
-            showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");
+            showAlert(context, TextConstants.textFailed, TextConstants.text100Err, icon: ic_error,nameButton: "close");
           } else if (err.type == DioErrorType.connectTimeout ||
               err.type == DioErrorType.receiveTimeout) {
             _mappingError(
@@ -135,14 +135,14 @@ class _HttpStreamHandler<B extends Bloc<dynamic, S>, S extends BaseState>
       _transformMessage = language.S
           .of(context)
           .translate(TextConstants.textSystemIsBusyPleaseTryAgainLater);
-      showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");
+      showAlert(context, TextConstants.textFailed, '${errorMessage}', icon: ic_error,nameButton: "close");
     } else if (errorMessage ==
         TextConstants.textNoConnectionPleaseCheckYourConnectionAndTryAgain) {
       _transformMessage = language.S.of(context).translate(
           TextConstants.textNoConnectionPleaseCheckYourConnectionAndTryAgain);
-      showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");
+      showAlert(context, TextConstants.textFailed, '${errorMessage}', icon: ic_error,nameButton: "close");
     } else {
-      showAlert(context, TextConstants.textFailed, TextConstants.text106Err, icon: ic_error,nameButton: "close");
+      showAlert(context, TextConstants.textFailed, '${errorMessage}', icon: ic_error,nameButton: "close");
     }
   }
 }

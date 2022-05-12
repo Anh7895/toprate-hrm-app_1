@@ -234,7 +234,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
             onDaySelected: (DateTime selectDay, DateTime focusDay){
               if(selectDay.compareTo(DateTime.now()) <= 0){
                 _bloc.add(SelectDayEvent(selectDay, focusDay));
-              }else {
+              }
+              else {
                 _bloc.add(CantSeclectDayEvent());
               }
             },

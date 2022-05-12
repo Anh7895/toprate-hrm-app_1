@@ -57,6 +57,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
   DateTime dateTime = DateTime.now();
   DateTime selectedDate = DateTime.now();
   FocusNode focusDescription = FocusNode();
+  ScrollController scroll = new ScrollController();
   final DayOffRepository dayOffRepository;
   List<EmailSettings> listEmailSettings = [];
   List<ManagerMailModel> listUserProject = [];
