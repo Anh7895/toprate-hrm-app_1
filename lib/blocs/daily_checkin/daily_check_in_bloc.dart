@@ -35,6 +35,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         (event, emit) => getAllSettingBlock(event, emit));
     on<GetAllProjectEvent>((event, emit) => getAllProject(event, emit));
     on<GetProjectByDateEvent>((event, emit) => GetProjectByDate(event, emit));
+    on<GetListEditBlocEvent>((event, emit) => GetListEditBloc(event, emit));
     on<CheckInEvent>((event, emit) => checkIn(event, emit));
     on<SelectDayEvent>((event, emit) => onDaySelect(event, emit));
     on<CantSeclectDayEvent>((event, emit) => cantSelectDay(event, emit));
@@ -289,17 +290,62 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
           if(response.data?.length == 0){
             add(GetAllSettingBlockEvent());
           }else{
-              listProjectByDate.clear();
-              listProjectData.clear();
-              response.data?.forEach((e) {
-                if (e.project != null) {
-                listProjectData.add(ProjectData(stringNameDefault: "Select 01 Project",stringNameSelectProject: e.project?.name,projectId: e.projectId,avatar: e.project?.avatarUrl,color: e.project?.background,coefficientPayId: e.coefficientPayId, time: e.hour));
-                }
-              });
-              print("dataaaa ${listProjectData.length}");
-          print("dataaaa ${listProjectByDate.length}");
+            listProjectByDate.clear();
+            listProjectData.clear();
+            response.data?.forEach((e) {
+              if(e.project != null){
+                listProjectData.add(ProjectData(stringNameDefault: "Select 01 Project", stringNameSelectProject: e.project!.name,
+                coefficientPayId: e.coefficientPayId, time: e.hour, projectId: e.projectId, avatar: e.project!.avatarUrl, color: e.project!.background));
+              }
+            });
+            add(GetListEditBlocEvent());
         }
         emit(GetProjectByDateState());
+      }
+    } on DioError catch (e) {
+      emit(ApiErrorState(error: e));
+    }
+  }
+
+  /// them bloc sau khi api trả về
+  GetListEditBloc(
+      GetListEditBlocEvent event, Emitter<BaseState> emit) async {
+    try {
+      emit(StartCallApiState());
+      final response = await dailyCheckInRepository.getAllSettingBlock();
+      if (response == null) {
+        print("Error: data is null");
+      } else {
+        final listModel = response?['data']
+            .map<SettingBlock>((e) =>
+        standardSerializers.deserializeWith<SettingBlock>(
+            SettingBlock.serializer, e) ??
+            SettingBlock())
+            .toList();
+        listSettingBloc.addAll(listModel);
+        for (int i = 0; i < listSettingBloc.length; i++) {
+          numberBloc = int.parse(listSettingBloc[i].number ?? "");
+          int listBLoc = int.parse(listSettingBloc[0].number ?? "") - listProjectData.length;
+          int listOTBloc = int.parse(listSettingBloc[0].number ?? "") + int.parse(listSettingBloc[1].number ?? "") - listProjectData.length;
+          if(listBLoc > 0){
+            for(int t = 0; t < listBLoc; t++ )
+              listProjectData.add(ProjectData(
+                  stringNameDefault: listSettingBloc[i].placeholder!,
+                  stringNameSelectProject: null,
+                  coefficientPayId: listSettingBloc[i].coefficientPayId,
+                  time: listSettingBloc[i].time,
+                  projectId: null));
+          } else {
+            for(int t = 0; t < listOTBloc; t++)
+              listProjectData.add(ProjectData(
+                  stringNameDefault: listSettingBloc[i].placeholder!,
+                  stringNameSelectProject: null,
+                  coefficientPayId: listSettingBloc[i].coefficientPayId,
+                  time: listSettingBloc[i].time,
+                  projectId: null));
+          }
+        }
+        emit(GetAllSettingBlockState());
       }
     } on DioError catch (e) {
       emit(ApiErrorState(error: e));

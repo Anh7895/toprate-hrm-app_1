@@ -82,7 +82,9 @@ class ItemApprove extends StatelessWidget {
                         onPressed: null,
                         onLongPressed: null,
                       )
-                          : SizedBox();
+                          : SizedBox(
+                        width: width_12,
+                      );
                     },
                   ),
                 ),

@@ -84,5 +84,9 @@ class GetProjectByDateEvent extends DailyCheckInEvent {
   GetProjectByDateEvent({this.date});
 }
 
+class GetListEditBlocEvent extends DailyCheckInEvent {
+  GetListEditBlocEvent();
+}
+
 
 

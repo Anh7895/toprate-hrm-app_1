@@ -194,7 +194,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     DateTime toDateTime =
         new DateFormat("dd/MM/yyyy HH:mm").parse(selectedToDate, true);
 
-    if (fromDateTime.compareTo(toDateTime) >= 0) {
+    if (fromDateTime.compareTo(toDateTime) == -1) {
       emit(ValidateDayOffState(false,
           message: 'The last break must be greater than the start time.'));
       return;
