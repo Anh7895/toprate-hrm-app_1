@@ -57,6 +57,10 @@ class GetProjectByDateState extends ApiSuccessState {
   GetProjectByDateState();
 }
 
+class GetListEditBlocState extends ApiSuccessState {
+  GetListEditBlocState();
+}
+
 class GetAllProjectState extends ApiSuccessState {
   GetAllProjectState();
 }

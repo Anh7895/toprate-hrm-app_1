@@ -279,6 +279,12 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                   } else {
                     _showMyDialog(context, index);
                   }
+
+                  if(_bloc.listProjectByDate != [] && _bloc.listProjectByDate[index].id != null){
+                    _bloc.add(RemoveProjectEvent(indexSelect: index));
+                  } else{
+                    _showMyDialog(context, index);
+                  }
               },
               child: LocalImageWidget(
                 url: _bloc.listProjectByDate.length > 0

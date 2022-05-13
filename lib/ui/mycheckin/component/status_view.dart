@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
 import 'package:toprate_hrm/common/resource/theme_color.dart';
@@ -57,6 +58,7 @@ class ListStatusView extends StatelessWidget {
             decoration: BoxDecoration(
                 color: event.status.statusColor,
                 borderRadius: BorderRadius.circular(28),
+              border: event.status.statusColor == ThemeColor.clr_F4F6FA ? Border.all(color: Colors.black) : Border.all(color: Colors.white)
               )
           ),
           SizedBox(
