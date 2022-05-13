@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-
 import 'package:bloc/bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -51,6 +50,7 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
 
     on<SelectDayEvent>((event, emit) => onDaySelect(event, emit));
     on<CantSeclectDayEvent>((event, emit) => cantSelectDay(event, emit));
+    on<CantSeclectThisDayEvent>((event, emit) => cantSelectThisDay(event, emit));
     on<FormatChangeEvent>((event, emit) => onFormatChange(event, emit));
     on<DayPredicateEvent>((event, emit) => onDayPredicate(event, emit));
   //   on<FillInformationEvent>((event, emit) {
@@ -74,13 +74,21 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
 
   cantSelectDay(CantSeclectDayEvent event, Emitter<BaseState> emit) async {
     Fluttertoast.showToast(
-      msg: "Bạn không thể chọn ngày lớn hơn hiện tại",
+      msg: "you can't choose dates after today",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
     );
     emit(CantSelectDayState());
   }
 
+  cantSelectThisDay(CantSeclectThisDayEvent event, Emitter<BaseState> emit) async {
+    Fluttertoast.showToast(
+      msg: "You cannot choose holiday or day off",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+    );
+    emit(CantSelectDayState());
+  }
 
   onFormatChange(FormatChangeEvent event, Emitter<BaseState> emit) async {
     format = event._format!;
@@ -166,16 +174,22 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     // TODO: implement mapEventToState
   }
   fakeDataCheckinDay(){
-    listCheckin.add(CheckinDay(notcheckinDay: DateTime.utc(2022,5,3),title: "NOTCHECKIN"));
-    listCheckin.add(CheckinDay(notcheckinDay: DateTime.utc(2022,5,4),title: "CHECKIN"));
-    listCheckin.add(CheckinDay(notcheckinDay: DateTime.utc(2022,5,5),title: "NOTCHECKIN"));
-    listCheckin.add(CheckinDay(notcheckinDay: DateTime.utc(2022,5,6),title: "DAYOFF"));
-    listCheckin.add(CheckinDay(notcheckinDay: DateTime.utc(2022,5,7),title: "HOLIDAY"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,1), "FREE"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,2), "NOTCHECKIN"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,3), "NOTCHECKIN"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,4), "CHECKIN"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,5), "NOTCHECKIN"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,6), "DAYOFF"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,7), "HOLIDAY"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,8), "FREE"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,9), "NOTCHECKIN"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,10), "CHECKIN"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,11), "CHECKIN"));
   }
 
 }
 class CheckinDay{
-  DateTime? notcheckinDay;
+  DateTime notcheckinDay;
   String? title;
-  CheckinDay({this.notcheckinDay, this.title});
+  CheckinDay(this.notcheckinDay, this.title);
 }

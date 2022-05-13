@@ -372,7 +372,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                                   color: _bloc
                                       .listProjectHistory[_bloc.intSelectData!]
                                       .background));
-
+                              Navigator.pop(context);
                             }
                           },
                           child: BaseButton(

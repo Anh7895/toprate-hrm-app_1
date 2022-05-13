@@ -23,6 +23,10 @@ class CantSeclectDayEvent extends CheckinEvent {
   CantSeclectDayEvent();
 }
 
+class CantSeclectThisDayEvent extends CheckinEvent {
+  CantSeclectThisDayEvent();
+}
+
 class DayPredicateEvent extends CheckinEvent {
   final DateTime? date;
   DayPredicateEvent(this.date);

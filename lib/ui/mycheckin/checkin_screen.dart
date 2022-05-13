@@ -142,7 +142,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.popUntil(context, (route) => route.isFirst);
+             Navigator.pushNamedAndRemoveUntil(context, RouteName.dashboard, (route) => true);
             },
             child: Icon(
               Icons.arrow_back_ios,
@@ -232,12 +232,22 @@ class _CheckinScreenState extends State<CheckinScreen> {
               _bloc.add(FormatChangeEvent(_format));
             },
             onDaySelected: (DateTime selectDay, DateTime focusDay){
-              if(selectDay.compareTo(DateTime.now()) <= 0){
-                _bloc.add(SelectDayEvent(selectDay, focusDay));
-              }
-              else {
-                _bloc.add(CantSeclectDayEvent());
-              }
+              print("Select Day ${selectDay}");
+              print(DateTime.now().toUtc());
+              if(selectDay.toString().substring(0,10)==DateTime.now().toString().substring(0,10)) _bloc.add(SelectDayEvent(selectDay, focusDay));
+                else if(selectDay.compareTo(DateTime.now())<0){
+                  for(int i=0;i<_bloc.listCheckin.length;i++){
+                    if (selectDay.compareTo(_bloc.listCheckin[i].notcheckinDay)==0) {
+                      if(_bloc.listCheckin[i].title=="HOLIDAY"||_bloc.listCheckin[i].title=="DAYOFF")
+                      _bloc.add(CantSeclectThisDayEvent());
+                      else  _bloc.add(SelectDayEvent(selectDay, focusDay));
+                    }
+                  }
+                }
+                else{
+                  _bloc.add(CantSeclectDayEvent());
+                }
+
             },
             selectedDayPredicate: (DateTime date){
               return isSameDay(_bloc.selectedDay, date);
@@ -258,8 +268,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         if(_bloc.listCheckin[index].title=="CHECKIN"&& date == _bloc.listCheckin[index].notcheckinDay){
                           return Center(
                               child: Container(
-                                width: width_27,
-                                height: height_27,
+                                width: width_25,
+                                height: height_25,
                                 decoration: BoxDecoration(color: ThemeColor.clr_FF9B90,
                                     shape: BoxShape.circle
                                 ),
@@ -269,8 +279,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         else if(_bloc.listCheckin[index].title=="NOTCHECKIN"&& date == _bloc.listCheckin[index].notcheckinDay){
                           return Center(
                               child: Container(
-                                width: width_27,
-                                height: height_27,
+                                width: width_25,
+                                height: height_25,
                                 decoration: BoxDecoration(color:ThemeColor.clr_FFFFFF,
                                     border: Border.all(color: ThemeColor.clr_000000),
                                     shape: BoxShape.circle
@@ -281,8 +291,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         else if (_bloc.listCheckin[index].title=="DAYOFF"&& date == _bloc.listCheckin[index].notcheckinDay){
                           return Center(
                               child: Container(
-                                width: width_27,
-                                height: height_27,
+                                width: width_25,
+                                height: height_25,
                                 decoration: BoxDecoration(color: ThemeColor.clr_8F8F8F,
                                     shape: BoxShape.circle
                                 ),
@@ -292,8 +302,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         else if(_bloc.listCheckin[index].title=="HOLIDAY"&& date == _bloc.listCheckin[index].notcheckinDay){
                           return Center(
                               child: Container(
-                                width: width_27,
-                                height: height_27,
+                                width: width_25,
+                                height: height_25,
                                 decoration: BoxDecoration(color: ThemeColor.clr_F30000,
                                     shape: BoxShape.circle
                                 ),
