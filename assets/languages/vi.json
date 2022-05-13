@@ -65,5 +65,6 @@
   "textDescription": "Miêu tả nội dung",
   "error": "Lỗi",
   "OK": "Đồng ý",
-  "chooseReasons": "Chọn lý do"
+  "chooseReasons": "Chọn lý do",
+  "submitDayOffSuccess": "Lịch xin nghỉ của bạn đã được gửi"
 }

@@ -115,6 +115,7 @@ double width_19 = 19.w;
 double width_20 = 20.w;
 double width_22 = 22.w;
 double width_24 = 24.w;
+double width_25 = 25.w;
 double width_27 = 27.w;
 double width_28 = 28.w;
 double width_32 = 32.w;

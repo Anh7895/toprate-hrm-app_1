@@ -74,7 +74,7 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
 
   cantSelectDay(CantSeclectDayEvent event, Emitter<BaseState> emit) async {
     Fluttertoast.showToast(
-      msg: "Your request has been sent successfully!",
+      msg: "you can't choose dates after today",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
     );
