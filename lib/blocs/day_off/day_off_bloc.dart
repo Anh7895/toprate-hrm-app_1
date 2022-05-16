@@ -13,7 +13,6 @@ import 'package:toprate_hrm/datasource/repository/day_off_repository.dart';
 import '../../common/resource/strings.dart';
 
 part 'day_off_event.dart';
-
 part 'day_off_state.dart';
 
 class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
@@ -67,6 +66,9 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
   List<ManagerMailModel> listUserProject = [];
   List<ManagerMailModel> searchList = [];
   List<ReasonSettings> listReasonSettings = [];
+  DateTime fromDateTime = DateTime.now();
+  DateTime toDateTime = DateTime.now();
+  List<EmailSettings> listMailSelect = [];
 
   setReason(SetReasonEvent event, Emitter<BaseState> emit) async {
     this.defaultReason = event.reason!;
@@ -75,13 +77,12 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
 
   removedMail(RemovedMailEvent event, Emitter<BaseState> emit) async {
     int userProjectIndex = listUserProject.indexWhere((element) =>
-        element.userProject?.user?.email ==
-        listEmailSettings[event.index].email);
+        element.userProject?.user?.email == listMailSelect[event.index].email);
     if (userProjectIndex != -1) {
       listUserProject[userProjectIndex].isChecked = false;
     }
     print("userProjectIndex $userProjectIndex");
-    listEmailSettings.removeAt(event.index);
+    listMailSelect.removeAt(event.index);
     emit(RemovedMailState());
   }
 
@@ -114,17 +115,25 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
 
   onSelectedFromDate(
       SetSelectedFromDateEvent event, Emitter<BaseState> emit) async {
-    fromController.text =
-        event.setSelectedFromDate!.substring(0, 10).replaceAll("-", "/");
-    selectedFromDate = event.setSelectedFromDate!;
+    fromController.text = DateFormat("dd-MM-yyyy 00:00:00")
+        .format(event.setSelectedFromDate)
+        .substring(0, 10)
+        .replaceAll("-", "/");
+    selectedFromDate =
+        DateFormat("dd-MM-yyyy 00:00:00").format(event.setSelectedFromDate);
+    fromDateTime = event.setSelectedFromDate;
     emit(SetSelectedFromDateState());
   }
 
   onSelectedToDate(
       SetSelectedToDateEvent event, Emitter<BaseState> emit) async {
-    toController.text =
-        event.setSelectedToDate!.substring(0, 10).replaceAll("-", "/");
-    selectedToDate = event.setSelectedToDate!;
+    toController.text = DateFormat("dd-MM-yyyy 00:00:00")
+        .format(event.setSelectedToDate)
+        .substring(0, 10)
+        .replaceAll("-", "/");
+    selectedToDate =
+        DateFormat("dd-MM-yyyy 00:00:00").format(event.setSelectedToDate);
+    toDateTime = event.setSelectedToDate;
     emit(SetSelectedToDateState());
   }
 
@@ -143,8 +152,8 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
 
   addListEmailApprovers(
       AddListEmailApproversEvent event, Emitter<BaseState> emit) async {
-    listEmailSettings.removeWhere((element) => element.id == null);
-    listEmailSettings.addAll(event.emailSettings ?? []);
+    listMailSelect.clear();
+    listMailSelect.addAll(event.emailSettings ?? []);
     emit(SelectMailApproverState());
   }
 
@@ -189,16 +198,14 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
   }
 
   void validateDayOff(ValidateDayOffEvent event, Emitter<BaseState> emit) {
-    DateTime fromDateTime =
-        new DateFormat("dd/MM/yyyy HH:mm").parse(selectedFromDate, true);
-    DateTime toDateTime =
-        new DateFormat("dd/MM/yyyy HH:mm").parse(selectedToDate, true);
-
-    if (fromDateTime.compareTo(toDateTime) == -1) {
-      emit(ValidateDayOffState(false,
-          message: 'The last break must be greater than the start time.'));
-      return;
+    if (character == Mode.ManyDay) {
+      if (fromDateTime.compareTo(toDateTime) >= 0) {
+        emit(ValidateDayOffState(false,
+            message: 'The last break must be greater than the start time.'));
+        return;
+      }
     }
+
     if (defaultReason?.content == null) {
       emit(ValidateDayOffState(false, message: 'You did not choose a reason.'));
       return;
@@ -290,6 +297,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
         }
         break;
     }
+    var listMailApproverBuilder = [];
     var builder = IFurloughLettersBuilder();
     builder.duration = dayType;
     builder.type = timeType;
@@ -298,7 +306,9 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     builder.reason = defaultReason?.content;
     builder.content = textDescriptionController.text;
     ListBuilder<JsonObject?> build = ListBuilder();
-    listEmailSettings.forEach((e) {
+    listMailApproverBuilder.addAll(listEmailSettings);
+    listMailApproverBuilder.addAll(listMailSelect);
+    listMailApproverBuilder.forEach((e) {
       if (e.email != null) {
         build.add(JsonObject(e.email));
       }
