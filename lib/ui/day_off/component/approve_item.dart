@@ -14,7 +14,7 @@ import '../../../common/widgets/http_stream_handler.dart';
 class ItemApprove extends StatelessWidget {
   final DayOffBloc dayOffBloc;
 
-  const ItemApprove({required this.dayOffBloc});
+   ItemApprove({required this.dayOffBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,6 @@ class ItemApprove extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
-            height: height_20,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -47,13 +44,9 @@ class ItemApprove extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
-            height: height_15,
-          ),
           Column(
             children: [
               Container(
-                height: 200,
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Column(
@@ -102,7 +95,7 @@ class ItemApprove extends StatelessWidget {
                                       index: idx, isChecked: false));
                                 },
                                 backgroundColor: ThemeColor.clr_FEC0C1,
-                                padding: EdgeInsets.all(height_8),
+                                padding: EdgeInsets.all(height_10),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(radius_32))),

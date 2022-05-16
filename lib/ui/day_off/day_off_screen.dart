@@ -90,41 +90,28 @@ class _DayOffScreenState extends State<DayOffScreen> {
               }
             },
             builder: (context, state) {
-              return Stack(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    child: SingleChildScrollView(
-                      controller: _bloc.scroll,
-                      child: _buildDetailBody(context),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 20,
-                    left: 8,
-                    right: 8,
-                    child: GestureDetector(
-                      onTap: () {
-                        _bloc.add(ValidateDayOffEvent());
-                      },
-                      child: Column(
+              return Padding(
+                padding: EdgeInsets.fromLTRB(25, 25, 25,0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: Stack(
+                    children: [
+                      Column(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(
-                                height_50, height_zero, height_50, height_24),
-                            child: BaseButton(
-                              height: height_56,
-                              title: S.of(context).translate("submit"),
-                              style: TextStyleCommon.textButtonStyle(context),
-                              backgroundColor: ThemeColor.clr_CE6161,
-                            ),
-                          )
+                          ItemAppBar(
+                              text: S.of(context).translate("textDayOff"),
+                              textStyle: TextStyleCommon.textCustomNormalStyle(context,
+                                  color: ThemeColor.clr_CE6161,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: fontSize_32),
+                              colorIcon: ThemeColor.clr_CE6161),
+                          Expanded(child: _buildDetailBody(context)),
                         ],
                       ),
-                    ),
-                  )
-                  // _buildButtonBottomWidget(),
-                ],
+                      // _buildButtonBottomWidget(),
+                    ],
+                  ),
+                ),
               );
             },
           ),
@@ -134,65 +121,75 @@ class _DayOffScreenState extends State<DayOffScreen> {
   }
 
   Widget _buildDetailBody(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(25, 25, 25, 30),
-        child: Column(
-          children: [
-            ItemAppBar(
-                text: S.of(context).translate("textDayOff"),
-                textStyle: TextStyleCommon.textCustomNormalStyle(context,
-                    color: ThemeColor.clr_CE6161,
-                    fontWeight: FontWeight.bold,
-                    fontSize: fontSize_32),
-                colorIcon: ThemeColor.clr_CE6161),
-            SizedBox(height: height_15),
-            ItemDuration(dayOffBloc: _bloc),
-            ItemTimer(
-              dayOffBloc: _bloc,
-              text: S.of(context).translate("time"),
-              textStyle: TextStyleCommon.textTitleStyle,
-              context: context,
-              textStyleHint: TextStyleCommon.textHintStyle,
-            ),
-            ItemRowTimer(dayOffBloc: _bloc),
-            ItemReason(dayOffBloc: _bloc),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: height_20,
-                ),
-                Text(S.of(context).translate("textContent"),
-                    style: TextStyleCommon.textTitleStyle),
-                SizedBox(
-                  height: height_12,
-                ),
-                TextField(
-                  scrollPadding: EdgeInsets.only(bottom: height_400 ),
-                  controller: _bloc.textDescriptionController,
-                  minLines: 5,
-                  maxLength: 255,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: ThemeColor.clr_DADADA,
-                      ),
+    return SingleChildScrollView(
+      controller: _bloc.scroll,
+      child: Column(
+        children: [
+          SizedBox(height: height_15),
+          ItemDuration(dayOffBloc: _bloc),
+          ItemTimer(
+            dayOffBloc: _bloc,
+            text: S.of(context).translate("time"),
+            textStyle: TextStyleCommon.textTitleStyle,
+            context: context,
+            textStyleHint: TextStyleCommon.textHintStyle,
+          ),
+          ItemRowTimer(dayOffBloc: _bloc),
+          ItemReason(dayOffBloc: _bloc),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: height_20,
+              ),
+              Text(S.of(context).translate("textContent"),
+                  style: TextStyleCommon.textTitleStyle),
+              SizedBox(
+                height: height_12,
+              ),
+              TextField(
+                scrollPadding: EdgeInsets.only(bottom: height_400 ),
+                controller: _bloc.textDescriptionController,
+                minLines: 5,
+                maxLength: 255,
+                maxLines: null,
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: ThemeColor.clr_DADADA,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: ThemeColor.clr_DADADA),
-                    ),
-                    hintText: S.of(context).translate("textDescription"),
-                    hintStyle: TextStyleCommon.textHintStyle,
                   ),
-                  focusNode: _bloc.focusDescription,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: ThemeColor.clr_DADADA),
+                  ),
+                  hintText: S.of(context).translate("textDescription"),
+                  hintStyle: TextStyleCommon.textHintStyle,
                 ),
+                focusNode: _bloc.focusDescription,
+              ),
+            ],
+          ),
+          ItemApprove(dayOffBloc: _bloc),
+          GestureDetector(
+            onTap: () {
+              _bloc.add(ValidateDayOffEvent());
+            },
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      height_50, height_50, height_50, height_24),
+                  child: BaseButton(
+                    height: height_56,
+                    title: S.of(context).translate("submit"),
+                    style: TextStyleCommon.textButtonStyle(context),
+                    backgroundColor: ThemeColor.clr_CE6161,
+                  ),
+                )
               ],
             ),
-            ItemApprove(dayOffBloc: _bloc),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

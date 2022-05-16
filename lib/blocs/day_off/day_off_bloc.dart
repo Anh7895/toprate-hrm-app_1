@@ -297,7 +297,7 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
         }
         break;
     }
-    var listMailApproverBuilder = [];
+    var listMailApproveBuilder = [];
     var builder = IFurloughLettersBuilder();
     builder.duration = dayType;
     builder.type = timeType;
@@ -306,9 +306,9 @@ class DayOffBloc extends Bloc<DayOffEvent, BaseState> {
     builder.reason = defaultReason?.content;
     builder.content = textDescriptionController.text;
     ListBuilder<JsonObject?> build = ListBuilder();
-    listMailApproverBuilder.addAll(listEmailSettings);
-    listMailApproverBuilder.addAll(listMailSelect);
-    listMailApproverBuilder.forEach((e) {
+    listMailApproveBuilder.addAll(listEmailSettings);
+    listMailApproveBuilder.addAll(listMailSelect);
+    listMailApproveBuilder.forEach((e) {
       if (e.email != null) {
         build.add(JsonObject(e.email));
       }
