@@ -79,6 +79,15 @@ class _DayOffScreenState extends State<DayOffScreen> {
                     nameButton: "close");
 
               }
+
+              if (state is ValidateDayOffState) {
+                if (state.valid) {
+                  return;
+                }
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.message ?? "Error"),
+                ));
+              }
             },
             builder: (context, state) {
               return Stack(

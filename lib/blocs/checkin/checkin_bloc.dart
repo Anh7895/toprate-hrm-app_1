@@ -185,6 +185,7 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     listCheckin.add(CheckinDay( DateTime.utc(2022,5,9), "NOTCHECKIN"));
     listCheckin.add(CheckinDay( DateTime.utc(2022,5,10), "CHECKIN"));
     listCheckin.add(CheckinDay( DateTime.utc(2022,5,11), "CHECKIN"));
+    listCheckin.add(CheckinDay( DateTime.utc(2022,5,12), "NOTCHECKIN"));
   }
 
 }

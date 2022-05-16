@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tags/flutter_tags.dart';
 import 'package:openapi/openapi.dart';
 import 'package:toprate_hrm/blocs/day_off/day_off_bloc.dart';
 
 import '../../../blocs/base_state/base_state.dart';
 import '../../../common/multi_language/internationalization.dart';
 import '../../../common/resource/sizes.dart';
+import '../../../common/resource/strings.dart';
 import '../../../common/resource/text_style.dart';
 import '../../../common/resource/theme_color.dart';
 import '../../../common/widgets/base_button.dart';
@@ -27,68 +27,11 @@ class ItemApprove extends StatelessWidget {
           SizedBox(
             height: height_20,
           ),
-          Text(S.of(context).translate("approver"),
-              style: TextStyleCommon.textTitleStyle),
-          SizedBox(
-            height: height_15,
-          ),
-          Stack(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                height: 200,
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Tags(
-                    alignment: WrapAlignment.start,
-                    itemCount: dayOffBloc.listEmailSettings.length,
-                    // required
-                    itemBuilder: (int index) {
-                      return dayOffBloc.listEmailSettings != []
-                          ? ItemTags(
-                        color: ThemeColor.clr_FEC0C1,
-                        active: false,
-                        pressEnabled: false,
-                        textColor: ThemeColor.clr_2D3142,
-                        // Each ItemTags must contain a Key. Keys allow Flutter to
-                        // uniquely identify widgets.
-                        key: Key(index.toString()),
-                        index: index,
-                        // required
-                        padding: EdgeInsets.all(height_15),
-                        title: dayOffBloc.listEmailSettings[index].email!,
-                        textStyle: TextStyle(
-                          fontSize: fontSize_12,
-                        ),
-                        combine: ItemTagsCombine.withTextBefore,
-                        //
-                        removeButton:
-                        (dayOffBloc.listEmailSettings[index].id == null)
-                            ? ItemTagsRemoveButton(
-                          icon: Icons.remove_circle_outline,
-                          color: ThemeColor.clr_CE6161,
-                          backgroundColor:
-                          ThemeColor.clr_FEC0C1,
-                          size: height_16,
-                          onRemoved: () {
-                            dayOffBloc.add(RemovedMailEvent(
-                                index: index,
-                                isChecked: false));
-                            //required
-                            return true;
-                          },
-                        )
-                            : null,
-                        // OR null,
-                        onPressed: null,
-                        onLongPressed: null,
-                      )
-                          : SizedBox(
-                        width: width_12,
-                      );
-                    },
-                  ),
-                ),
-              ),
+              Text(S.of(context).translate("approver"),
+                  style: TextStyleCommon.textTitleStyle),
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
@@ -102,6 +45,84 @@ class ItemApprove extends StatelessWidget {
                   ),
                 ),
               )
+            ],
+          ),
+          SizedBox(
+            height: height_15,
+          ),
+          Column(
+            children: [
+              Container(
+                height: 200,
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Wrap(
+                        runSpacing: 1,
+                        spacing: 9,
+                        children: dayOffBloc.listEmailSettings
+                            .map((chip) => Chip(
+                                  labelPadding: EdgeInsets.all(height_3),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(radius_32))),
+                                  label: Text(
+                                    chip.email ?? "",
+                                    maxLines: 4,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    style: TextStyle(
+                                      color: ThemeColor.clr_002113,
+                                      fontSize: fontSize_12,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: TextConstants.fontMontserrat,
+                                    ),
+                                  ),
+                                  backgroundColor: ThemeColor.clr_FEC0C1,
+                                  padding: EdgeInsets.all(height_8),
+                                ))
+                            .toList(),
+                      ),
+                      GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 200,
+                                  childAspectRatio: 4,
+                                  crossAxisSpacing: height_8,
+                                  mainAxisSpacing: height_8),
+                          itemCount: dayOffBloc.listMailSelect.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, idx) {
+                            return Chip(
+                                onDeleted: () {
+                                  dayOffBloc.add(RemovedMailEvent(
+                                      index: idx, isChecked: false));
+                                },
+                                backgroundColor: ThemeColor.clr_FEC0C1,
+                                padding: EdgeInsets.all(height_8),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(radius_32))),
+                                label: Text(
+                                  dayOffBloc.listMailSelect[idx].email ?? "",
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    color: ThemeColor.clr_002113,
+                                    fontSize: fontSize_12,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: TextConstants.fontMontserrat,
+                                  ),
+                                ));
+                          }),
+                    ],
+                  ),
+                ),
+              ),
             ],
           )
         ],

@@ -13,15 +13,15 @@ class ClickCheckboxTimeOffEvent extends DayOffEvent{
   ClickCheckboxTimeOffEvent({this.value,});
 }
 class SetSelectedFromDateEvent extends DayOffEvent {
-  final String? setSelectedFromDate;
+  final DateTime setSelectedFromDate;
 
-  SetSelectedFromDateEvent({this.setSelectedFromDate});
+  SetSelectedFromDateEvent({required this.setSelectedFromDate});
 }
 
 class SetSelectedToDateEvent extends DayOffEvent {
-  final String? setSelectedToDate;
+  final DateTime setSelectedToDate;
 
-  SetSelectedToDateEvent({this.setSelectedToDate});
+  SetSelectedToDateEvent({required this.setSelectedToDate});
 }
 
 class SelectMailApproverEvent extends DayOffEvent {

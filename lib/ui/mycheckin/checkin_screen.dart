@@ -271,8 +271,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         if(_bloc.listCheckin[index].title=="CHECKIN"&& date == _bloc.listCheckin[index].notcheckinDay){
                           return Center(
                               child: Container(
-                                width: width_25,
-                                height: height_25,
+                                width: width_20,
+                                height: height_20,
                                 decoration: BoxDecoration(color: ThemeColor.clr_FF9B90,
                                     shape: BoxShape.circle
                                 ),
@@ -282,8 +282,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         else if(_bloc.listCheckin[index].title=="NOTCHECKIN"&& date == _bloc.listCheckin[index].notcheckinDay){
                           return Center(
                               child: Container(
-                                width: width_25,
-                                height: height_25,
+                                width: width_20,
+                                height: height_20,
                                 decoration: BoxDecoration(color:ThemeColor.clr_FFFFFF,
                                     border: Border.all(color: ThemeColor.clr_000000),
                                     shape: BoxShape.circle
@@ -294,8 +294,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         else if (_bloc.listCheckin[index].title=="DAYOFF"&& date == _bloc.listCheckin[index].notcheckinDay){
                           return Center(
                               child: Container(
-                                width: width_25,
-                                height: height_25,
+                                width: width_20,
+                                height: height_20,
                                 decoration: BoxDecoration(color: ThemeColor.clr_8F8F8F,
                                     shape: BoxShape.circle
                                 ),
@@ -305,8 +305,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         else if(_bloc.listCheckin[index].title=="HOLIDAY"&& date == _bloc.listCheckin[index].notcheckinDay){
                           return Center(
                               child: Container(
-                                width: width_25,
-                                height: height_25,
+                                width: width_20,
+                                height: height_20,
                                 decoration: BoxDecoration(color: ThemeColor.clr_F30000,
                                     shape: BoxShape.circle
                                 ),

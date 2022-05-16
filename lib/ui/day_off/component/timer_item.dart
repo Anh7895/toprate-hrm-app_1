@@ -31,7 +31,7 @@ class ItemTimer<T> extends StatelessWidget {
       onDateTimeChanged: (DateTime newDateTime) {
         dayOffBloc.add(SetSelectedFromDateEvent(
             setSelectedFromDate:
-            DateFormat("dd-MM-yyyy 00:00:00").format(newDateTime)));
+            newDateTime));
       },
     ));
   }
@@ -46,7 +46,7 @@ class ItemTimer<T> extends StatelessWidget {
       onDateTimeChanged: (DateTime newDateTime) {
         dayOffBloc.add(SetSelectedToDateEvent(
             setSelectedToDate:
-            DateFormat("dd-MM-yyyy 00:00:00").format(newDateTime)));
+            newDateTime));
       },
     ));
   }
