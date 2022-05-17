@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/blocs/daily_checkin/daily_check_in_bloc.dart';
 import 'package:toprate_hrm/common/config/routers_name.dart';
+import 'package:toprate_hrm/common/dialog/confirm_dialog.dart';
 import 'package:toprate_hrm/common/injector/injector.dart';
 import 'package:toprate_hrm/common/resource/name_image.dart';
 import 'package:toprate_hrm/common/resource/sizes.dart';
@@ -66,6 +68,34 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
           child: HttpStreamHandler<DailyCheckInBloc, BaseState>(
             bloc: _bloc,
             listener: (context, state) {
+              if(state is CheckBackState){
+                if(_bloc.count!=0)
+                  showConfirmDialog(context,S.of(context).translate("changeDateDialog") , "",
+                      onPressed: (){
+                        _bloc.add(BackDayEvent());
+                        Navigator.pop(context);
+                      }, onPressed2: (){
+                      _bloc.count=0;
+                      Navigator.pop(context);
+                      });
+                else  {
+                  _bloc.add(BackDayEvent());
+                }
+              }
+              if(state is CheckNextState){
+                if(_bloc.count!=0)
+                  showConfirmDialog(context,S.of(context).translate("changeDateDialog") , "",
+                      onPressed: (){
+                        _bloc.add(NextDayEvent());
+                        Navigator.pop(context);
+                      }, onPressed2: (){
+                  _bloc.count=0;
+                  Navigator.pop(context);
+                });
+                else   _bloc.add(NextDayEvent());
+              }
+              if(state is NextDayState) _bloc.count=0;
+              if(state is BackDayState) _bloc.count=0;
               if (state is showAlertBottomSheetDialogState) {
                 showAlert(context,
                     S.of(context).translate("textMessageThank"),
@@ -161,7 +191,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                 color: ThemeColor.clr_CE6161,
               ),
               onPressed: () {
-                _bloc.add(BackDayEvent());
+                _bloc.add(CheckBackEvent());
               }),
           GestureDetector(
             onTap: (){
@@ -179,7 +209,7 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                 color: ThemeColor.clr_CE6161,
               ),
               onPressed: () {
-                _bloc.add(NextDayEvent());
+                _bloc.add(CheckNextEvent());
               })
         ],
       ),
@@ -248,27 +278,34 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                 height: width_35,
               ),
             ),
-            Text(
-              _bloc.listProjectByDate.length > 0
-                  ? _bloc.listProjectByDate[index].name!
-                  : _bloc.listProjectData[index].stringNameSelectProject == null
-                      ? _bloc.listProjectData[index].stringNameDefault!
-                      : _bloc.listProjectData[index].stringNameSelectProject!,
-              style: TextStyle(
-                  color: _bloc.listProjectByDate.length > 0 &&
-                          _bloc.listProjectByDate[index].name != null
-                      ? ThemeColor.clr_FFFFFF
-                      : _bloc.listProjectData != []
-                          ? ThemeColor.clr_D6D9E0
-                          : _bloc.listProjectData[index]
-                                      .stringNameSelectProject !=
-                                  _bloc.listProjectData[index].stringNameDefault
-                              ? ThemeColor.clr_FFFFFF
-                              : ThemeColor.clr_D6D9E0,
-                  fontSize: fontSize_16,
-                  fontFamily: TextConstants.fontMontserrat,
-                  fontWeight: FontWeight.bold),
+            SizedBox(width: width_10,),
+            Expanded(
+              child: Center(
+                child: Text(
+                  _bloc.listProjectByDate.length > 0
+                      ? _bloc.listProjectByDate[index].name!
+                      : _bloc.listProjectData[index].stringNameSelectProject == null
+                          ? _bloc.listProjectData[index].stringNameDefault!
+                          : _bloc.listProjectData[index].stringNameSelectProject!,
+                  style: TextStyle(
+                      color: _bloc.listProjectByDate.length > 0 &&
+                              _bloc.listProjectByDate[index].name != null
+                          ? ThemeColor.clr_FFFFFF
+                          : _bloc.listProjectData != []
+                              ? ThemeColor.clr_D6D9E0
+                              : _bloc.listProjectData[index]
+                                          .stringNameSelectProject !=
+                                      _bloc.listProjectData[index].stringNameDefault
+                                  ? ThemeColor.clr_FFFFFF
+                                  : ThemeColor.clr_D6D9E0,
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: fontSize_16,
+                      fontFamily: TextConstants.fontMontserrat,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
+            SizedBox(width: width_10,),
             GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
@@ -574,8 +611,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
               width: width_24,
               height: width_24,
             ),
-            Container(
-              margin: EdgeInsets.only(left: width_8),
+            SizedBox(width: width_10,),
+            Expanded(
               child: Text(
                 _bloc.listProjectHistory[index].name!,
                 maxLines: 1,

@@ -84,5 +84,12 @@ class GetTimekeepingByUserAndByDateState extends ApiSuccessState {
 class SubmitFailState extends DailyCheckInState {
   SubmitFailState();
 }
+class CheckBackState extends DailyCheckInState {
+  CheckBackState();
+}
+class CheckNextState extends DailyCheckInState {
+  CheckNextState();
+}
+
 
 

@@ -45,3 +45,5 @@ class GetSettingState extends CheckinState{
 class InitDataState extends CheckinState{
   InitDataState();
 }
+
+

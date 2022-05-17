@@ -286,6 +286,7 @@ class TextStyleCommon {
       {Color? color, FontWeight? fontWeight, double? fontSize}) {
     return Theme.of(context).textTheme.headline1!.copyWith(
       fontSize: fontSize ?? 16,
+      overflow: TextOverflow.ellipsis,
       fontWeight: fontWeight ?? FontWeight.bold,
       color: color ?? ThemeColor.clr_FFFFFF,
       fontFamily: TextConstants.fontMontserrat,

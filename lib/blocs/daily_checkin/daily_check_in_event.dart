@@ -87,6 +87,12 @@ class GetProjectByDateEvent extends DailyCheckInEvent {
 class GetListEditBlocEvent extends DailyCheckInEvent {
   GetListEditBlocEvent();
 }
+class CheckBackEvent extends DailyCheckInEvent {
+  CheckBackEvent();
+}
+class CheckNextEvent extends DailyCheckInEvent {
+  CheckNextEvent();
+}
 
 
 
