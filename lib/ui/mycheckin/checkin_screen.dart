@@ -11,6 +11,7 @@ import 'package:toprate_hrm/common/resource/sizes.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
 import 'package:toprate_hrm/common/resource/text_style.dart';
 import 'package:toprate_hrm/common/resource/theme_color.dart';
+import 'package:toprate_hrm/common/utils/extensions.dart';
 import 'package:toprate_hrm/common/widgets/base_button.dart';
 import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:toprate_hrm/common/widgets/loading_widget.dart';
@@ -68,7 +69,9 @@ class _CheckinScreenState extends State<CheckinScreen> {
   void initState() {
     // TODO: implement initState
     _bloc.add(InitDataEvent());
-    // _bloc.add(InitDataDateEvent());
+    _bloc.add(GetDataTimeKeepingEvent());
+    _bloc.add(GetSettingEvent());
+
     super.initState();
   }
 
@@ -106,16 +109,18 @@ class _CheckinScreenState extends State<CheckinScreen> {
                   SizedBox(
                     height: height_20,
                   ),
-                  ListStatusView(),
+                  ListStatusViewNew(),
                   SizedBox(
                     height: height_50,
                   ),
                   GestureDetector(
-                    onTap:(){
-                       Navigator.pushNamed(context, RouteName.dailyCheckInScreen, arguments: _bloc.selectedDay);
-                       },
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteName.dailyCheckInScreen,
+                          arguments: _bloc.selectedDay);
+                    },
                     child: BaseButton(
-                      margin: EdgeInsets.only(left: height_62, right: height_62),
+                      margin: EdgeInsets.only(
+                          left: height_62, right: height_62),
                       height: height_56,
                       title: TextConstants.textCheckin,
                       style: TextStyleCommon.textButtonStyle(context),
@@ -145,7 +150,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
           ),
           GestureDetector(
             onTap: () {
-             Navigator.pushNamedAndRemoveUntil(context, RouteName.dashboard, (route) => true);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RouteName.dashboard, (route) => true);
             },
             child: Icon(
               Icons.arrow_back_ios,
@@ -167,51 +173,46 @@ class _CheckinScreenState extends State<CheckinScreen> {
     );
   }
 
-  Container headerCalendar(BuildContext context) {
+  Widget ListStatusViewNew() {
     return Container(
+      height: height_200,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-          color: ThemeColor.clr_FFFFFF,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(width_1),
-              topRight: Radius.circular(width_1))),
-      height: height_40,
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  showModalBottomSheet<void>(
-                    backgroundColor: ThemeColor.clr_FFFFFF,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return buildModalBottomSheet(context);
-                    },
-                  );
-                },
-                child: Container(
-                  height: height_32,
-                  child: Row(
-                    children: [
-                      Text(
-                        '${S.of(context).translate("month")} ${_bloc.stringData}',
-                        style: TextStyleCommon.textTitleStyle,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: height_11) ,
-                        child: Icon(
-                          Icons.keyboard_arrow_down,
-                          color: ThemeColor.clr_136849,
-                        ),
-                      ),
-                    ],
-                  ),
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+      ),
+      child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,
+        childAspectRatio: 4.0,
+        mainAxisSpacing: 4.0,
+        crossAxisSpacing: 4.0,
+      ),
+        itemCount: _bloc.listSetting.length,
+        itemBuilder:  (BuildContext context, int index) {
+          return Container(
+            height: 30,
+            child: Row(
+              children: <Widget>[
+                Container(
+                    height: 28,
+                    width: 28,
+                    decoration: BoxDecoration(
+                      color: Color(int.parse(
+                          "0xFF" + _bloc.listSetting[index].backgroundColor!)) ,
+                      borderRadius: BorderRadius.circular(28),
+                    )
                 ),
-              ),
+                SizedBox(
+                  width: width_11,
+                ),
+                Text(
+                  _bloc.listSetting[index].name!,
+                  style:
+                  TextStyle(fontSize: fontSize_14, fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        }
       ),
     );
   }
@@ -231,28 +232,31 @@ class _CheckinScreenState extends State<CheckinScreen> {
             firstDay: DateTime(1990),
             lastDay: DateTime(2050),
             calendarFormat: _bloc.format,
-            onFormatChanged: (CalendarFormat _format){
+            onFormatChanged: (CalendarFormat _format) {
               _bloc.add(FormatChangeEvent(_format));
             },
-            onDaySelected: (DateTime selectDay, DateTime focusDay){
-              print("Select Day ${selectDay}");
-              print(DateTime.now().toUtc());
-              if(selectDay.toString().substring(0,10)==DateTime.now().toString().substring(0,10)) _bloc.add(SelectDayEvent(selectDay, focusDay));
-                else if(selectDay.compareTo(DateTime.now())<0){
-                  for(int i=0;i<_bloc.listCheckin.length;i++){
-                    if (selectDay.compareTo(_bloc.listCheckin[i].notcheckinDay)==0) {
-                      if(_bloc.listCheckin[i].title=="HOLIDAY"||_bloc.listCheckin[i].title=="DAYOFF")
-                      _bloc.add(CantSeclectThisDayEvent());
-                      else  _bloc.add(SelectDayEvent(selectDay, focusDay));
-                    }
-                  }
-                }
-                else{
-                  _bloc.add(CantSeclectDayEvent());
-                }
-
+            onDaySelected: (DateTime selectDay, DateTime focusDay) {
+              // if (selectDay.toString().substring(0, 10) ==
+              //     DateTime.now().toString().substring(0, 10)){
+                _bloc.add(SelectDayEvent(selectDay, focusDay));
+              // }else
+              //   if (selectDay.compareTo(DateTime.now()) < 0) {
+              //   for (int i = 0; i < _bloc.listCheckin.length; i++) {
+              //     if (selectDay.compareTo(_bloc.listCheckin[i].notcheckinDay) ==
+              //         0) {
+              //       if (_bloc.listCheckin[i].title == "HOLIDAY" ||
+              //           _bloc.listCheckin[i].title == "DAYOFF")
+              //         _bloc.add(CantSeclectThisDayEvent());
+              //       else
+              //         _bloc.add(SelectDayEvent(selectDay, focusDay));
+              //     }
+              //   }
+              // }
+              // else {
+              //   _bloc.add(CantSeclectDayEvent());
+              // }
             },
-            selectedDayPredicate: (DateTime date){
+            selectedDayPredicate: (DateTime date) {
               return isSameDay(_bloc.selectedDay, date);
             },
 
@@ -263,81 +267,150 @@ class _CheckinScreenState extends State<CheckinScreen> {
 
             calendarBuilders: CalendarBuilders(
                 markerBuilder: (BuildContext context, date, events) {
+                  String dateFormat = date.convertDateTimeToString("dd-MM-yyyy 00:00:00");
+                  DateTime tempDate = dateFormat.convertStringToDateTime("dd-MM-yyyy 00:00:00");
                   return ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: _bloc.listCheckin.length,
-                      itemBuilder: (context,index){
-                        if(_bloc.listCheckin[index].title=="CHECKIN"&& date == _bloc.listCheckin[index].notcheckinDay){
+                      itemBuilder: (context, index) {
+                        if (_bloc.listCheckin[index].title == "CHECKIN" && tempDate.compareTo(
+                                _bloc.listCheckin[index].notcheckinDay) == 0) {
                           return Center(
                               child: Container(
-                                width: width_20,
-                                height: height_20,
-                                decoration: BoxDecoration(color: ThemeColor.clr_FF9B90,
+                                width: width_35,
+                                height: height_35,
+                                decoration: BoxDecoration(
+                                    color: ThemeColor.clr_FF9B90,
                                     shape: BoxShape.circle
                                 ),
-                                child: Center(child: Text(date.day.toString(),style: TextStyle(color: ThemeColor.clr_FFFFFF))),
+                                child: Center(child: Text(date.day.toString(),
+                                    style: TextStyle(
+                                        color: ThemeColor.clr_FFFFFF))),
                               ));
                         }
-                        else if(_bloc.listCheckin[index].title=="NOTCHECKIN"&& date == _bloc.listCheckin[index].notcheckinDay){
+                        else
+                        if (_bloc.listCheckin[index].title == "NOTCHECKIN" &&
+                            tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0) {
                           return Center(
                               child: Container(
-                                width: width_20,
-                                height: height_20,
-                                decoration: BoxDecoration(color:ThemeColor.clr_FFFFFF,
-                                    border: Border.all(color: ThemeColor.clr_000000),
+                                width: width_35,
+                                height: height_35,
+                                decoration: BoxDecoration(
+                                    color: ThemeColor.clr_4C5980,
+                                    border: Border.all(
+                                        color: ThemeColor.clr_000000),
                                     shape: BoxShape.circle
                                 ),
-                                child: Center(child: Text(date.day.toString(),style: TextStyle(color: ThemeColor.clr_000000))),
+                                child: Center(child: Text(date.day.toString(),
+                                    style: TextStyle(
+                                        color: ThemeColor.clr_000000))),
                               ));
                         }
-                        else if (_bloc.listCheckin[index].title=="DAYOFF"&& date == _bloc.listCheckin[index].notcheckinDay){
+                        else if (_bloc.listCheckin[index].title == "DAYOFF" &&
+                            tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0) {
                           return Center(
                               child: Container(
-                                width: width_20,
-                                height: height_20,
-                                decoration: BoxDecoration(color: ThemeColor.clr_8F8F8F,
+                                width: width_35,
+                                height: height_35,
+                                decoration: BoxDecoration(
+                                    color: ThemeColor.clr_979797,
                                     shape: BoxShape.circle
                                 ),
-                                child: Center(child: Text(date.day.toString(),style: TextStyle(color: ThemeColor.clr_FFFFFF))),
+                                child: Center(child: Text(date.day.toString(),
+                                    style: TextStyle(
+                                        color: ThemeColor.clr_FFFFFF))),
                               ));
                         }
-                        else if(_bloc.listCheckin[index].title=="HOLIDAY"&& date == _bloc.listCheckin[index].notcheckinDay){
+                        else if (_bloc.listCheckin[index].title == "HOLIDAY" &&
+                            tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0) {
                           return Center(
                               child: Container(
-                                width: width_20,
-                                height: height_20,
-                                decoration: BoxDecoration(color: ThemeColor.clr_F30000,
+                                width: width_35,
+                                height: height_35,
+                                decoration: BoxDecoration(
+                                    color: ThemeColor.clr_F30000,
                                     shape: BoxShape.circle
                                 ),
-                                child: Center(child: Text(date.day.toString(),style: TextStyle(color: ThemeColor.clr_FFFFFF,),textAlign: TextAlign.center,)),
+                                child: Center(child: Text(date.day.toString(),
+                                  style: TextStyle(
+                                    color: ThemeColor.clr_FFFFFF,),
+                                  textAlign: TextAlign.center,)),
                               ));
                         }
-                        else return Center(
-                              child: Container(
-                              ));
+                        else if (_bloc.listCheckin[index].title=="HALFDAYOFF" &&
+                            tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0){
+                          return Center(
+                            child:
+                            Container(
+                              width: width_35,
+                              height: height_35,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: ThemeColor.clr_000000),
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  stops: [0, 0.5, 0.5],
+                                  colors: [
+                                    ThemeColor.clr_F4F6FA,
+                                    ThemeColor.clr_F4F6FA,
+                                    ThemeColor.clr_8F8F8F
+                                  ],
+                                ),
+                              ),
 
+                              child: Center(child: Text(date.day.toString())),
+                            ),);
+                        }
+                        else if (_bloc.listCheckin[index].title == "HAFTDAYOFFCHECKIN" &&
+                            tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0){
+                          return Center(
+                            child:
+                            Container(
+                              width: width_20,
+                              height: height_20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  stops: [0, 0.5, 0.5],
+                                  colors: [
+                                    ThemeColor.clr_FF9B90,
+                                    ThemeColor.clr_FF9B90,
+                                    ThemeColor.clr_8F8F8F
+                                  ],
+                                ),
+                              ),
+
+                              child: Center(child: Text(date.day.toString())),
+                            ),);
+                        }
+                          return Center(
+                              child: Container(
+                              ));
                       }
 
                   );
-
                 },
-
                 dowBuilder: (context, day) {
-                if(day.weekday == DateTime.saturday){
-                  final text = DateFormat.E().format(day);
-                  return Center(
-                    child: Text(text,style: TextStyle(color: ThemeColor.clr_CE6161),),
-                  );
+                  if (day.weekday == DateTime.saturday) {
+                    final text = DateFormat.E().format(day);
+                    return Center(
+                      child: Text(
+                        text, style: TextStyle(color: ThemeColor.clr_CE6161),),
+                    );
+                  }
+                  if (day.weekday == DateTime.sunday) {
+                    final text = DateFormat.E().format(day);
+                    return Center(
+                      child: Text(
+                        text, style: TextStyle(color: ThemeColor.clr_CE6161),),
+                    );
+                  }
                 }
-                if(day.weekday == DateTime.sunday){
-                  final text = DateFormat.E().format(day);
-                  return Center(
-                    child: Text(text,style: TextStyle(color: ThemeColor.clr_CE6161),),
-                  );
-                }
-              }
-          ),
+            ),
 
             // styleForEvents: (day) => getColorForEvent(day),
             // eventLoader: _bloc.getEventsForDay,
@@ -394,96 +467,15 @@ class _CheckinScreenState extends State<CheckinScreen> {
                   color: ThemeColor.clr_C7C7C7,
                   borderRadius: BorderRadius.circular(height_8)),
             ),
-            _titleBottomSheet(context),
-            _listViewSelectAnIndustrialCluster(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _titleBottomSheet(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: width_14, right: width_14, top: height_25),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            TextConstants.textSelectTimeKeepingMonth,
-            style: TextStyle(
-              color: ThemeColor.clr_323232,
-              fontFamily: TextConstants.textNotoSans,
-              fontWeight: FontWeight.w700,
-              fontStyle: FontStyle.normal,
-              fontSize: fontSize_14,
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              TextConstants.textBack,
-              style: TextStyle(
-                color: ThemeColor.clr_136849,
-                fontFamily: TextConstants.fontInter,
-                fontWeight: FontWeight.w500,
-                fontStyle: FontStyle.normal,
-                fontSize: fontSize_14,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _listViewSelectAnIndustrialCluster(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-          itemCount: _bloc.listDataDate.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                _bloc.add(FillInformationEvent(
-                    date: _bloc
-                        .listDataDate[index].selectAnIndustrialRecruitment));
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(
-                    top: height_36, left: width_14, right: width_14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(bottom: height_10),
-                      child: Text(
-                        "${_bloc.listDataDate[index].selectAnIndustrialRecruitment}",
-                        style: TextStyle(
-                          color: ThemeColor.clr_323232,
-                          fontFamily: TextConstants.textNotoSans,
-                          fontWeight: FontWeight.w500,
-                          fontStyle: FontStyle.normal,
-                          fontSize: fontSize_14,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: ThemeColor.clr_DCE5DD,
-                      width: MediaQuery.of(context).size.width,
-                      height: height_1,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
-    );
-  }
 }
+
+
 
 int getHashCode(DateTime key) {
   return key.day + key.month + key.year;

@@ -32,4 +32,14 @@ class DailyCheckInDataSource {
     return response;
   }
 
+  Future<Response<OTimekeepingCalendar>> getCalendar() async {
+    final response = await apiClient.getTimekeepingApi().getTimekeepingCalendar();
+    return response;
+  }
+
+  Future<Response<BuiltList<OTimekeepingCalendarSettings>>> getSetting() async {
+    final response = await apiClient.getTimekeepingApi().getTimekeepingCalendarSettings();
+    return response;
+  }
+
 }

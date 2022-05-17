@@ -43,4 +43,20 @@ class DailyCheckInRepository {
       throw NetworkConnectionException();
     }
   }
+
+  Future<Response<OTimekeepingCalendar>> getCalendar() async {
+    if (await networkInfo.isConnected) {
+      return dailyCheckInDataSource.getCalendar();
+    } else {
+      throw NetworkConnectionException();
+    }
+  }
+
+  Future<Response<BuiltList<OTimekeepingCalendarSettings>>> getSetting() async {
+    if (await networkInfo.isConnected) {
+      return dailyCheckInDataSource.getSetting();
+    } else {
+      throw NetworkConnectionException();
+    }
+  }
 }
