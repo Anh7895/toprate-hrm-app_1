@@ -41,16 +41,21 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<CantSeclectDayEvent>((event, emit) => cantSelectDay(event, emit));
     on<FormatChangeEvent>((event, emit) => onFormatChange(event, emit));
     on<DayPredicateEvent>((event, emit) => onDayPredicate(event, emit));
+    on<CheckNextEvent>((event, emit) => checkNextData(event, emit));
+    on<CheckBackEvent>((event, emit) => checkBackData(event, emit));
    // on<GetTimekeepingByUserAndByDateEvent>((event, emit) => getTimekeepingByUserAndByDate(event, emit));
   }
 
   List<ProjectData> listProjectData = [];
+  List<ProjectData> listProjectConfirm = [];
   List<Project> listProjectByDate = [];
   DateTime dateTime = DateTime.now();
   DateTime dateToday = DateTime.now();
   bool isSelectDay = false;
   bool isCanGoToNextDay = false;
   String time = "";
+  // bool check = false;
+  int count =0;
   int numberBloc = 0;
   int? selectedIndex;
   int? intSelectData;
@@ -75,7 +80,24 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(time);
     emit(InitDataState());
   }
-
+  checkBackData(CheckBackEvent event, Emitter<BaseState> emit){
+    if(listProjectData.length!=listProjectConfirm.length) count=1;
+    else for(int i =0;i<listProjectConfirm.length;i++){
+      if(listProjectData[i].projectId!=listProjectConfirm[i].projectId){
+        count++;
+      }
+    }
+    emit(CheckBackState());
+  }
+  checkNextData(CheckNextEvent event, Emitter<BaseState> emit){
+    if(listProjectData.length!=listProjectConfirm.length) count=1;
+    else for(int i =0;i<listProjectConfirm.length;i++){
+      if(listProjectData[i].projectId!=listProjectConfirm[i].projectId){
+        count++;
+      }
+    }
+    emit(CheckNextState());
+  }
   initDate(InitDateEvent event, Emitter<BaseState> emit) async {
     dateselectcheckin = event.dateSelect;
     if (dateselectcheckin != null) {
@@ -88,6 +110,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   }
 
   backDay(BackDayEvent event, Emitter<BaseState> emit) async {
+    print("data: ${count} ${listProjectConfirm.length} ${listProjectData.length}");
     if(dateselectcheckin == null){
       if(isSelectDay == false){
         dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day - 1);
@@ -109,8 +132,9 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       isCanGoToNextDay = true;
       date = dateselectcheckin!.convertDateTimeToString("dd-MM-yyyy");
     }
-
+    count=0;
     print("selectedDay ${selectedDay}");
+    listProjectConfirm.clear();
     add(GetProjectByDateEvent(date: date));
     emit(BackDayState());
   }
@@ -149,6 +173,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   }
 
   nextDay(NextDayEvent event, Emitter<BaseState> emit) async {
+    print("data: ${count} ${listProjectConfirm.length} ${listProjectData.length}");
     if(dateselectcheckin == null){
       if(isSelectDay == false){
         final today = DateTime(dateToday.year, dateToday.month, dateToday.day);
@@ -156,6 +181,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         if (today != aDate) {
           dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day + 1);
           date = dateTime.convertDateTimeToString("dd-MM-yyyy");
+          listProjectConfirm.clear();
           add(GetProjectByDateEvent(date: date));
         }
 
@@ -169,6 +195,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         if (today != aDate) {
           selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day + 1);
           date = selectedDay.convertDateTimeToString("dd-MMM-yyyy");
+          listProjectConfirm.clear();
           add(GetProjectByDateEvent(date: date));
         }
         isCanGoToNextDay = selectedDay == today ? false : true;
@@ -227,6 +254,7 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
         listSettingBloc.clear();
         listProjectByDate.clear();
         listProjectData.clear();
+        listProjectConfirm.clear();
         final listModel = response?['data']
             .map<SettingBlock>((e) =>
                 standardSerializers.deserializeWith<SettingBlock>(
@@ -243,7 +271,14 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
                 coefficientPayId: listSettingBloc[i].coefficientPayId,
                 time: listSettingBloc[i].time,
                 projectId: null));
+            listProjectConfirm.add(ProjectData(
+                stringNameDefault: listSettingBloc[i].placeholder!,
+                stringNameSelectProject: null,
+                coefficientPayId: listSettingBloc[i].coefficientPayId,
+                time: listSettingBloc[i].time,
+                projectId: null));
           }
+          print("l ${listProjectConfirm.length}");
         }
         emit(GetAllSettingBlockState());
       }
@@ -292,11 +327,16 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
           }else{
             listProjectByDate.clear();
             listProjectData.clear();
+            listProjectConfirm.clear();
             response.data?.forEach((e) {
               if(e.project != null){
                 listProjectData.add(ProjectData(stringNameDefault: "Select 01 Project", stringNameSelectProject: e.project!.name,
                 coefficientPayId: e.coefficientPayId, time: e.hour, projectId: e.projectId, avatar: e.project!.avatarUrl, color: e.project!.background));
+                listProjectConfirm.add(ProjectData(stringNameDefault: "Select 01 Project", stringNameSelectProject: e.project!.name,
+                    coefficientPayId: e.coefficientPayId, time: e.hour, projectId: e.projectId, avatar: e.project!.avatarUrl, color: e.project!.background));
+
               }
+              print("l ${listProjectConfirm.length}");
             });
             add(GetListEditBlocEvent());
         }
@@ -328,21 +368,38 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
           int listBLoc = int.parse(listSettingBloc[0].number ?? "") - listProjectData.length;
           int listOTBloc = int.parse(listSettingBloc[0].number ?? "") + int.parse(listSettingBloc[1].number ?? "") - listProjectData.length;
           if(listBLoc > 0){
-            for(int t = 0; t < listBLoc; t++ )
+            for(int t = 0; t < listBLoc; t++ ){
               listProjectData.add(ProjectData(
                   stringNameDefault: listSettingBloc[i].placeholder!,
                   stringNameSelectProject: null,
                   coefficientPayId: listSettingBloc[i].coefficientPayId,
                   time: listSettingBloc[i].time,
                   projectId: null));
+              listProjectConfirm.add(ProjectData(
+                  stringNameDefault: listSettingBloc[i].placeholder!,
+                  stringNameSelectProject: null,
+                  coefficientPayId: listSettingBloc[i].coefficientPayId,
+                  time: listSettingBloc[i].time,
+                  projectId: null));
+            }
+
           } else {
-            for(int t = 0; t < listOTBloc; t++)
+            for(int t = 0; t < listOTBloc; t++){
               listProjectData.add(ProjectData(
                   stringNameDefault: listSettingBloc[i].placeholder!,
                   stringNameSelectProject: null,
                   coefficientPayId: listSettingBloc[i].coefficientPayId,
                   time: listSettingBloc[i].time,
                   projectId: null));
+              listProjectConfirm.add(ProjectData(
+                  stringNameDefault: listSettingBloc[i].placeholder!,
+                  stringNameSelectProject: null,
+                  coefficientPayId: listSettingBloc[i].coefficientPayId,
+                  time: listSettingBloc[i].time,
+                  projectId: null));
+              print("l ${listProjectConfirm.length}${listProjectConfirm[i].stringNameDefault}");
+            }
+
           }
         }
         emit(GetAllSettingBlockState());
