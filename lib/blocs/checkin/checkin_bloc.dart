@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:openapi/openapi.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
+import 'package:toprate_hrm/common/resource/strings.dart';
 import 'package:toprate_hrm/common/utils/extensions.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/select_an_industrial_recruiment_model.dart';
 import 'package:toprate_hrm/datasource/repository/daily_checkin_repository.dart';
@@ -117,6 +118,10 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
       }
     } on DioError catch (e) {
       emit(ApiErrorState(error: e));
+    } catch (e) {
+      return emit(
+          ApiErrorState(
+              errorMessage: TextConstants.text101Err));
     }
   }
 
@@ -168,6 +173,10 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     }
     on DioError catch (e) {
       emit(ApiErrorState(error: e));
+    } catch (e) {
+      return emit(
+          ApiErrorState(
+              errorMessage: TextConstants.text101Err));
     }
   }
 
