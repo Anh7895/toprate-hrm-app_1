@@ -149,10 +149,17 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
               });
             }
 
-            if(response.data?.halfDayOff != null){
-              response.data?.halfDayOff?.forEach((p0) {
+            if(response.data?.dayOffMorning != null){
+              response.data?.dayOffMorning?.forEach((p0) {
                 tempDate = p0.toString();
-                listCheckin.add(CheckinDay(tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "HALFDAYOFF"));
+                listCheckin.add(CheckinDay(tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFFMORNING"));
+              });
+            }
+
+            if(response.data?.dayOffAfternoon != null){
+              response.data?.dayOffAfternoon?.forEach((p0) {
+                tempDate = p0.toString();
+                listCheckin.add(CheckinDay(tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFFAFTERNOON"));
               });
             }
 

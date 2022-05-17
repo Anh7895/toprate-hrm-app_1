@@ -71,7 +71,6 @@ class _CheckinScreenState extends State<CheckinScreen> {
     _bloc.add(InitDataEvent());
     _bloc.add(GetDataTimeKeepingEvent());
     _bloc.add(GetSettingEvent());
-
     super.initState();
   }
 
