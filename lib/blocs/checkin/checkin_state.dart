@@ -6,13 +6,11 @@ abstract class CheckinState extends BaseState{}
 class CheckinInitial extends CheckinState {}
 
 class InitDataDateState extends CheckinState {
-  List<SelectAnIndustrialRecruitmentModel>? listDataDate;
-  InitDataDateState(this.listDataDate);
+  InitDataDateState();
 }
 
 class FillInformationState extends CheckinState {
-  final String? stringDate;
-  FillInformationState(this.stringDate);
+  FillInformationState();
 }
 
 class SelectDayState extends CheckinState {
@@ -37,11 +35,13 @@ class DayPredicateState extends CheckinState {
 
 
 class GetDataTimeKeepingState extends CheckinState{
-
   GetDataTimeKeepingState();
 }
 
-class InitDataState extends CheckinState{
+class GetSettingState extends CheckinState{
+  GetSettingState();
+}
 
+class InitDataState extends CheckinState{
   InitDataState();
 }

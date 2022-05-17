@@ -1,13 +1,16 @@
-import 'dart:async';
 import 'dart:collection';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:openapi/openapi.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
+import 'package:toprate_hrm/common/resource/strings.dart';
+import 'package:toprate_hrm/common/utils/extensions.dart';
 import 'package:toprate_hrm/datasource/data/model/entity/select_an_industrial_recruiment_model.dart';
+import 'package:toprate_hrm/datasource/repository/daily_checkin_repository.dart';
 import 'package:toprate_hrm/ui/mycheckin/checkin_screen.dart';
 import 'package:toprate_hrm/ui/mycheckin/event_data.dart';
 
@@ -15,13 +18,14 @@ part 'checkin_event.dart';
 part 'checkin_state.dart';
 
 class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
-  List<SelectAnIndustrialRecruitmentModel> listDataDate = [];
   DateTime dateToday = DateTime.now();
-  // final CheckinRepository checkinRepository;
-//  CalendarTimekeeping? calendarTimekeeping;
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
+  final DailyCheckInRepository dailyCheckInRepository;
+  OTimekeepingCalendar? calendarTimekeeping;
+  List<CheckinDay> listCheckin =[];
+  List<OTimekeepingCalendarSettings> listSetting = [];
 
   LinkedHashMap<DateTime, List<Event>> kEvents =
   LinkedHashMap<DateTime, List<Event>>(
@@ -38,10 +42,10 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
 
   String? stringData = '';
 
-  CheckinBloc() : super(CheckinInitial()) {
+  CheckinBloc(this.dailyCheckInRepository) : super(CheckinInitial()) {
     on<CheckinEvent>((event, emit) {
-      // add(GetDataTimeKeepingEvent(date: DateFormat("MM-yyyy").format(dateToday)));
-      emit(InitDataDateState(listDataDate));
+
+      emit(InitDataDateState());
     });
     on<InitDataEvent>((event, emit) {
       fakeDataCheckinDay();
@@ -53,22 +57,21 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     on<CantSeclectThisDayEvent>((event, emit) => cantSelectThisDay(event, emit));
     on<FormatChangeEvent>((event, emit) => onFormatChange(event, emit));
     on<DayPredicateEvent>((event, emit) => onDayPredicate(event, emit));
-  //   on<FillInformationEvent>((event, emit) {
-  //     stringData = event.date;
-  //     dateToday = DateFormat("MM/yyyy").parse(event.date!);
-  //     kEvents.clear();
-  //     listEvent.clear();
-  //     // add(GetDataTimeKeepingEvent(date: "${stringData?.split('/').first}-${stringData?.split('/').last}"));
-  //     emit(FillInformationState(listDataDate[0].selectAnIndustrialRecruitment));
-  //   });
-  //
-  //   on<GetDataTimeKeepingEvent>((event, emit) => getTimeKeeping(event, emit));
+    // on<FillInformationEvent>((event, emit) {
+    //   stringData = event.date;
+    //   dateToday = DateFormat("MM/yyyy").parse(event.date!);
+    //   kEvents.clear();
+    //   listEvent.clear();
+    //   add(GetDataTimeKeepingEvent());
+    //   emit(FillInformationState());
+    // });
+    on<GetDataTimeKeepingEvent>((event, emit) => getTimeKeeping(event, emit));
+    on<GetSettingEvent>((event, emit) => getSetting(event, emit));
   }
 
   onDaySelect(SelectDayEvent event, Emitter<BaseState> emit) async {
     selectedDay = event.selectDay!;
     focusedDay = event.focusDay!;
-    print("asfasfasfad ${selectedDay}");
     emit(SelectDayState());
   }
 
@@ -100,71 +103,83 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     emit(DayPredicateState());
   }
 
+  getSetting(GetSettingEvent evet, Emitter<BaseState> emit) async {
+    try{
+      emit(StartCallApiState());
+      final response = await dailyCheckInRepository.getSetting();
+      if(response == null){
+        print("Error : data is null");
+      } else {
+        response.data?.forEach((e){
+          if(e != null) {
+            listSetting.add(e);
+          }
+        });
+      }
+    } on DioError catch (e) {
+      emit(ApiErrorState(error: e));
+    } catch (e) {
+      return emit(
+          ApiErrorState(
+              errorMessage: TextConstants.text101Err));
+    }
+  }
 
-  // getMonthFilter() {
-  //   DateFormat formatter = DateFormat('MM/yyyy');
-  //   stringData = formatter.format(dateToday);
-  //   for (int i = 0; i < 12; i++) {
-  //     print("I $i");
-  //     listDataDate.add(SelectAnIndustrialRecruitmentModel(
-  //         selectAnIndustrialRecruitment:
-  //         formatter.format(DateTime(dateToday.year, dateToday.month - i))));
-  //   }
-  // }
 
+  getTimeKeeping(GetDataTimeKeepingEvent event, Emitter<BaseState> emit) async {
+    String tempDate;
+    try{
+      emit(StartCallApiState());
+          final response = await dailyCheckInRepository.getCalendar();
+          print(response);
+          if (response == null){
+            print("Error : data is null");
+          } else {
+            response.data as OTimekeepingCalendar;
+            calendarTimekeeping = response.data;
 
-  // getTimeKeeping(GetDataTimeKeepingEvent event, Emitter<BaseState> emit){}
+            if(response.data?.checkin != null) {
+              response.data?.checkin?.forEach((p0) {
+                tempDate = p0.toString();
+                listCheckin.add(CheckinDay(
+                    tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"),
+                    "CHECKIN"));
+              });
+            }
 
-  // getTimeKeeping(
-  //     GetDataTimeKeepingEvent event, Emitter<BaseState> emit) async {
-  //   DateTime tempDate;
-  //   try {
-  //     emit(StartCallApiState());
-  //     final response = await checkinRepository.getTimeKeeping(event.date);
-  //     if (response == null) {
-  //       print("Error: data is null");
-  //     } else {
-  //       response.data as CalendarTimekeeping;
-  //       calendarTimekeeping = response.data;
-  //       print(response.data?.timekeeping?.dayShift);
-  //       response.data?.timekeeping?.dayShift?.forEach((p0) {
-  //         tempDate =  DateFormat("dd-MM-yyyy").parse(p0.date!);
-  //         listEvent[DateTime(tempDate.day)] =
-  //             List.generate(1, (index) => Event(EventStatus.notCheckin));
-  //       });
-  //       response.data?.timekeeping?.nightShift?.forEach((p0) {
-  //         tempDate =  DateFormat("dd-MM-yyyy").parse(p0.date!);
-  //         print("date $tempDate");
-  //         listEvent[DateTime(tempDate.day)] =
-  //             List.generate(1, (index) => Event(EventStatus.checkedIn));
-  //       });
-  //       response.data?.timekeeping?.dayHoliday?.forEach((p0) {
-  //         tempDate =  DateFormat("dd-MM-yyyy").parse(p0.date!);
-  //         print("date $tempDate");
-  //         listEvent[DateTime(tempDate.day)] =
-  //             List.generate(1, (index) => Event(EventStatus.dayOff));
-  //       });
-  //       response.data?.timekeeping?.nightHoliday?.forEach((p0) {
-  //         tempDate =  DateFormat("dd-MM-yyyy").parse(p0.date!);
-  //         print("date $tempDate");
-  //         listEvent[DateTime(tempDate.day)] =
-  //             List.generate(1, (index) => Event(EventStatus.holiday));
-  //       });
-  //       print("List Data ${listEvent.entries}");
-  //       kEvents.addAll(listEvent);
-  //       print("List Data ${kEvents.length}");
-  //       emit(GetDataTimeKeepingState());
-  //     }
-  //   } on DioError catch (e) {
-  //     print("Error $e");
-  //     emit(ApiErrorState(error: e));
-  //   } catch (e) {
-  //     emit(
-  //         ApiErrorState(
-  //             errorMessage: TextConstants.text101Err));    }
-  //
-  // }
-  List<CheckinDay> listCheckin =[];
+            if(response.data?.dayOff != null){
+              response.data?.dayOff?.forEach((p0) {
+                tempDate = p0.toString();
+                listCheckin.add(CheckinDay(tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFF"));
+              });
+            }
+
+            if(response.data?.dayOffMorning != null){
+              response.data?.dayOffMorning?.forEach((p0) {
+                tempDate = p0.toString();
+                listCheckin.add(CheckinDay(tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFFMORNING"));
+              });
+            }
+
+            if(response.data?.dayOffAfternoon != null){
+              response.data?.dayOffAfternoon?.forEach((p0) {
+                tempDate = p0.toString();
+                listCheckin.add(CheckinDay(tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFFAFTERNOON"));
+              });
+            }
+
+            emit(GetDataTimeKeepingState());
+          }
+    }
+    on DioError catch (e) {
+      emit(ApiErrorState(error: e));
+    } catch (e) {
+      return emit(
+          ApiErrorState(
+              errorMessage: TextConstants.text101Err));
+    }
+  }
+
 
 
   @override
@@ -174,18 +189,7 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     // TODO: implement mapEventToState
   }
   fakeDataCheckinDay(){
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,1), "FREE"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,2), "NOTCHECKIN"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,3), "NOTCHECKIN"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,4), "CHECKIN"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,5), "NOTCHECKIN"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,6), "DAYOFF"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,7), "HOLIDAY"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,8), "FREE"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,9), "NOTCHECKIN"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,10), "CHECKIN"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,11), "CHECKIN"));
-    listCheckin.add(CheckinDay( DateTime.utc(2022,5,12), "NOTCHECKIN"));
+
   }
 
 }
@@ -193,4 +197,9 @@ class CheckinDay{
   DateTime notcheckinDay;
   String? title;
   CheckinDay(this.notcheckinDay, this.title);
+}
+
+class EventSetting {
+  EventStatus status;
+  EventSetting(this.status);
 }

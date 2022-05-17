@@ -35,10 +35,13 @@ class DayPredicateEvent extends CheckinEvent {
 class InitDataDateEvent extends CheckinEvent {}
 
 class GetDataTimeKeepingEvent extends CheckinEvent {
-  final String? date;
-
-  GetDataTimeKeepingEvent({this.date});
+  GetDataTimeKeepingEvent();
 }
+
+class GetSettingEvent extends CheckinEvent {
+  GetSettingEvent();
+}
+
 
 class InitDataEvent extends CheckinEvent {
   InitDataEvent();
