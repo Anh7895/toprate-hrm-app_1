@@ -93,6 +93,11 @@ class CheckBackEvent extends DailyCheckInEvent {
 class CheckNextEvent extends DailyCheckInEvent {
   CheckNextEvent();
 }
+class CheckChooseEvent extends DailyCheckInEvent {
+  final DateTime? selectDay;
+  final DateTime? focusDay;
+  CheckChooseEvent(this.selectDay, this.focusDay);
+}
 
 
 

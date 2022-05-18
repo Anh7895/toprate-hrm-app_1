@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:toprate_hrm/blocs/my_day_off/my_day_off_bloc.dart';
 import 'package:toprate_hrm/common/config/routers_name.dart';
 import 'package:toprate_hrm/ui/dashboard/dashboard_screen.dart';
 import 'package:toprate_hrm/ui/day_off/day_off_screen.dart';
 import 'package:toprate_hrm/ui/login/login_screen.dart';
+import 'package:toprate_hrm/ui/my_day_off/my_day_off_screen.dart';
 import 'package:toprate_hrm/ui/mycheckin/checkin_screen.dart';
 import 'package:toprate_hrm/ui/notification/notification_screen.dart';
 import 'package:toprate_hrm/ui/splash/splash_screen.dart';
@@ -14,6 +16,7 @@ import 'package:toprate_hrm/ui/user/user_screen.dart';
 import 'package:toprate_hrm/ui/report/report_screen.dart';
 
 import 'daily_check_in/daily_checkin_screen.dart';
+import 'edit_day_off/edit_day_off_screen.dart';
 import 'login/login_screen.dart';
 
 class Routes {
@@ -62,6 +65,16 @@ class Routes {
             builder: (_) => UserScreen(),
             settings:
             RouteSettings(name: RouteName.user));
+      case RouteName.myDayOffScreen:
+        return MaterialPageRoute(
+            builder: (_) => MyDayOffScreen(),
+            settings:
+            RouteSettings(name: RouteName.myDayOffScreen));
+      case RouteName.editDayOffScreen:
+        return MaterialPageRoute(
+            builder: (_) => EditDayOffScreen(myDayOff: settings.arguments as MyDayOff,),
+            settings:
+            RouteSettings(name: RouteName.editDayOffScreen));
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

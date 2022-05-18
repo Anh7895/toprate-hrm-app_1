@@ -68,5 +68,11 @@
   "chooseReasons": "Choose reasons",
   "submitDayOffSuccess": "Your request has been sent successfully!",
   "NotReason": "You did not choose a reason.",
-  "changeDateDialog": "Are you sure you want to change the date without saving?"
+  "changeDateDialog": "Are you sure you want to change the date without saving?",
+  "textMyDayOff": "My day off",
+  "delete": "Delete",
+  "status": "Status",
+  "by": "by"
+
+
 }

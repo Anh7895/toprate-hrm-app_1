@@ -383,7 +383,27 @@ class TextStyleCommon {
       fontFamily: TextConstants.fontMontserrat,
     );
   }
-
-
+  static TextStyle textDateMyDayOffStyle(BuildContext context,
+      {Color? color, FontWeight? fontWeight, double? fontSize}) {
+    return Theme.of(context).textTheme.headline1!.copyWith(
+      fontSize: fontSize ?? 8,
+      fontWeight: fontWeight ?? FontWeight.w500,
+      color: color ?? ThemeColor.clr_FFFFFF,
+      fontFamily: TextConstants.fontMontserrat,
+    );
+  }
+  static TextStyle textStatusMyDayOffStyle(BuildContext context,
+      {Color? color, FontWeight? fontWeight, double? fontSize}) {
+    return Theme
+        .of(context)
+        .textTheme
+        .headline1!
+        .copyWith(
+      fontSize: fontSize ?? 12,
+      fontWeight: fontWeight ?? FontWeight.bold,
+      color: color ?? ThemeColor.clr_CE6161,
+      fontFamily: TextConstants.fontMontserrat,
+    );
+  }
 }
 
