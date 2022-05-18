@@ -42,6 +42,9 @@ class GetSettingEvent extends CheckinEvent {
   GetSettingEvent();
 }
 
+class HaftDayOffEvent extends CheckinEvent {
+  HaftDayOffEvent();
+}
 
 class InitDataEvent extends CheckinEvent {
   InitDataEvent();

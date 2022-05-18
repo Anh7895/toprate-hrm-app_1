@@ -34,12 +34,6 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
   );
 
   Map<DateTime, List<Event>> listEvent = {};
-
-
-  List<Event> getEventsForDay(DateTime day) {
-    return kEvents[DateTime(day.day)] ?? [];
-  }
-
   String? stringData = '';
 
   CheckinBloc(this.dailyCheckInRepository) : super(CheckinInitial()) {
@@ -57,16 +51,9 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     on<CantSeclectThisDayEvent>((event, emit) => cantSelectThisDay(event, emit));
     on<FormatChangeEvent>((event, emit) => onFormatChange(event, emit));
     on<DayPredicateEvent>((event, emit) => onDayPredicate(event, emit));
-    // on<FillInformationEvent>((event, emit) {
-    //   stringData = event.date;
-    //   dateToday = DateFormat("MM/yyyy").parse(event.date!);
-    //   kEvents.clear();
-    //   listEvent.clear();
-    //   add(GetDataTimeKeepingEvent());
-    //   emit(FillInformationState());
-    // });
     on<GetDataTimeKeepingEvent>((event, emit) => getTimeKeeping(event, emit));
     on<GetSettingEvent>((event, emit) => getSetting(event, emit));
+    on<HaftDayOffEvent>((event, emit) => haftDayOff(event, emit));
   }
 
   onDaySelect(SelectDayEvent event, Emitter<BaseState> emit) async {
@@ -115,6 +102,7 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
             listSetting.add(e);
           }
         });
+        emit(GetSettingState());
       }
     } on DioError catch (e) {
       emit(ApiErrorState(error: e));
@@ -125,9 +113,11 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     }
   }
 
-
   getTimeKeeping(GetDataTimeKeepingEvent event, Emitter<BaseState> emit) async {
-    String tempDate;
+    String checkin;
+    String dayoff;
+    String dayoffMorning;
+    String dayoffAfternoon;
     try{
       emit(StartCallApiState());
           final response = await dailyCheckInRepository.getCalendar();
@@ -140,34 +130,35 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
 
             if(response.data?.checkin != null) {
               response.data?.checkin?.forEach((p0) {
-                tempDate = p0.toString();
+                checkin = p0.toString();
                 listCheckin.add(CheckinDay(
-                    tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"),
+                    checkin.convertStringToDateTime("dd-MM-yyyy 00:00:00"),
                     "CHECKIN"));
               });
             }
 
             if(response.data?.dayOff != null){
               response.data?.dayOff?.forEach((p0) {
-                tempDate = p0.toString();
-                listCheckin.add(CheckinDay(tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFF"));
+                dayoff = p0.toString();
+                listCheckin.add(CheckinDay(dayoff.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFF"));
               });
             }
 
             if(response.data?.dayOffMorning != null){
               response.data?.dayOffMorning?.forEach((p0) {
-                tempDate = p0.toString();
-                listCheckin.add(CheckinDay(tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFFMORNING"));
+                dayoffMorning = p0.toString();
+                listCheckin.add(CheckinDay(dayoffMorning.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFFMORNING"));
               });
             }
 
             if(response.data?.dayOffAfternoon != null){
               response.data?.dayOffAfternoon?.forEach((p0) {
-                tempDate = p0.toString();
-                listCheckin.add(CheckinDay(tempDate.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFFAFTERNOON"));
+                dayoffAfternoon = p0.toString();
+                listCheckin.add(CheckinDay(dayoffAfternoon.convertStringToDateTime("dd-MM-yyyy 00:00:00"), "DAYOFFAFTERNOON"));
               });
             }
-
+            add(HaftDayOffEvent());
+            add(GetSettingEvent());
             emit(GetDataTimeKeepingState());
           }
     }
@@ -179,6 +170,30 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
               errorMessage: TextConstants.text101Err));
     }
   }
+
+
+  haftDayOff(HaftDayOffEvent evet, Emitter<BaseState> emit) async {
+    for(int i=0; i < listCheckin.length ; i++){
+      for (int e = 0; e < listCheckin.length; e++){
+        if(listCheckin[i].title == "CHECKIN" &&
+            listCheckin[e].title == "DAYOFFMORNING" &&
+            listCheckin[i].notcheckinDay == listCheckin[e].notcheckinDay){
+          listCheckin.removeAt(e);
+          listCheckin[i].title = "DAYOFFMORNINGCHECKIN";
+          print("asdddd ${listCheckin[e].title}");
+        } else
+        if(listCheckin[i].title == "CHECKIN" &&
+            listCheckin[e].title == "DAYOFFAFTERNOON" &&
+            listCheckin[i].notcheckinDay == listCheckin[e].notcheckinDay){
+          listCheckin.removeAt(e);
+          listCheckin[i].title = "DAYOFFAFTERNOONCHECKIN";
+          print("addd ${listCheckin[i].title}");
+        }
+      }
+    }
+    emit(HaftDayOffState());
+  }
+
 
 
 
