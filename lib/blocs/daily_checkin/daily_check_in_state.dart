@@ -90,6 +90,9 @@ class CheckBackState extends DailyCheckInState {
 class CheckNextState extends DailyCheckInState {
   CheckNextState();
 }
+class CheckChooseState extends DailyCheckInState {
+  CheckChooseState();
+}
 
 
 

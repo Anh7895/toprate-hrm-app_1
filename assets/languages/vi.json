@@ -68,5 +68,9 @@
   "chooseReasons": "Chọn lý do",
   "submitDayOffSuccess": "Lịch xin nghỉ của bạn đã được gửi",
   "NotReason": "Bạn đã không chọn một lý do.",
-  "changeDateDialog": "Bạn chắc chắn muốn chuyển ngày mà không lưu chứ? "
+  "changeDateDialog": "Bạn chắc chắn muốn chuyển ngày mà không lưu chứ? ",
+  "textMyDayOff": "Ngày nghỉ của tôi",
+  "delete": "Xóa",
+  "status": "Trạng thái",
+  "by": "bởi"
 }

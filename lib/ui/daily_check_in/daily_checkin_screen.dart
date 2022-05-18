@@ -82,6 +82,22 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                   _bloc.add(BackDayEvent());
                 }
               }
+              if(state is CheckChooseState){
+                if(_bloc.count!=0)
+                  showConfirmDialog(context,S.of(context).translate("changeDateDialog") , "",
+                      onPressed: (){
+                        _bloc.add(SelectDayEvent(_bloc.selectDay, _bloc.focusDay));
+                        _bloc.add(InitDataEvent());
+                        Navigator.pop(context);
+                      }, onPressed2: (){
+                        _bloc.count=0;
+                        Navigator.pop(context);
+                      });
+                else {
+                  _bloc.add(SelectDayEvent(_bloc.selectDay, _bloc.focusDay));
+                  _bloc.add(InitDataEvent());
+                }
+              }
               if(state is CheckNextState){
                 if(_bloc.count!=0)
                   showConfirmDialog(context,S.of(context).translate("changeDateDialog") , "",
@@ -465,8 +481,8 @@ class _DailyCheckInScreenState extends State<DailyCheckInScreen> {
                     },
                     onDaySelected: (DateTime selectDay, DateTime focusDay){
                       if(selectDay.compareTo(DateTime.now()) <= 0){
-                        _bloc.add(SelectDayEvent(selectDay, focusDay));
-                        _bloc.add(InitDataEvent());
+                        _bloc.add(CheckChooseEvent(selectDay, focusDay));
+
                         Navigator.pop(context);
                       }else {
                         _bloc.add(CantSeclectDayEvent());

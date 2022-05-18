@@ -165,7 +165,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                             child: HomeCardItem(text: S.of(context).translate("textMyCheckin"), url: svg_ic_my_checkin, textStyle: TextStyleCommon.textCustomCardStyle(context, color: ThemeColor.clr_4C5980))),
                                         GestureDetector(
                                             onTap: (){
-                                              Navigator.pushNamed(context,RouteName.dayOffScreen);
+                                              Navigator.pushNamed(context,RouteName.myDayOffScreen);
                                             },
                                             child: HomeCardItem(text: S.of(context).translate("textDayOff"), url:  svg_ic_day_off, textStyle: TextStyleCommon.textCustomCardStyle(context, color: ThemeColor.clr_4C5980),)),
                                         GestureDetector(

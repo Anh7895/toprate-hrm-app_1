@@ -10,4 +10,6 @@ class RouteName {
   static const notification = '/notification';
   static const report = '/report';
   static const user = '/user';
+  static const myDayOffScreen = '/mydayoff';
+  static const editDayOffScreen = '/editmydayoff';
 }

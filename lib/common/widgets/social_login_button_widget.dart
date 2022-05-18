@@ -61,10 +61,11 @@ class SocialLoginButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Container(
-                  margin: EdgeInsets.all(8),
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                   height: height,
                   width: width,
-                  child: Row(
+                  child: Stack(
+                      alignment: Alignment.centerLeft,
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -80,16 +81,15 @@ class SocialLoginButton extends StatelessWidget {
                               width: size,
                               height: size,
                             ),
-                      SizedBox(width: width_40,),
-                      Container(
-                          margin: EdgeInsets.only(left: 4),
-                          child: Text(loginName!,
-                              style: styleName == null
-                                  ? TextStyle(
-                                      color: ThemeColor.clr_3E3E3E,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)
-                                  : styleName)),
+                      Center(
+                        child: Text(loginName!,
+                            style: styleName == null
+                                ? TextStyle(
+                                    color: ThemeColor.clr_3E3E3E,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)
+                                : styleName),
+                      ),
                     ],
                   ),
                 ),

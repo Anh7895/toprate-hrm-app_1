@@ -43,6 +43,11 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
     on<DayPredicateEvent>((event, emit) => onDayPredicate(event, emit));
     on<CheckNextEvent>((event, emit) => checkNextData(event, emit));
     on<CheckBackEvent>((event, emit) => checkBackData(event, emit));
+    on<CheckChooseEvent>((event, emit){
+      selectDay = event.selectDay;
+      focusDay = event.focusDay;
+      checkChooseData(event, emit);
+    });
    // on<GetTimekeepingByUserAndByDateEvent>((event, emit) => getTimekeepingByUserAndByDate(event, emit));
   }
 
@@ -53,6 +58,8 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
   DateTime dateToday = DateTime.now();
   bool isSelectDay = false;
   bool isCanGoToNextDay = false;
+  DateTime? selectDay;
+  DateTime? focusDay;
   String time = "";
   // bool check = false;
   int count =0;
@@ -97,6 +104,15 @@ class DailyCheckInBloc extends Bloc<DailyCheckInEvent, BaseState> {
       }
     }
     emit(CheckNextState());
+  }
+  checkChooseData(CheckChooseEvent event, Emitter<BaseState> emit){
+    if(listProjectData.length!=listProjectConfirm.length) count=1;
+    else for(int i =0;i<listProjectConfirm.length;i++){
+      if(listProjectData[i].projectId!=listProjectConfirm[i].projectId){
+        count++;
+      }
+    }
+    emit(CheckChooseState());
   }
   initDate(InitDateEvent event, Emitter<BaseState> emit) async {
     dateselectcheckin = event.dateSelect;
