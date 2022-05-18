@@ -16,9 +16,7 @@ import 'package:toprate_hrm/common/widgets/base_button.dart';
 import 'package:toprate_hrm/common/widgets/http_stream_handler.dart';
 import 'package:toprate_hrm/common/widgets/loading_widget.dart';
 import 'package:toprate_hrm/ui/mycheckin/event_data.dart';
-
 import '../../common/multi_language/internationalization.dart';
-import 'component/status_view.dart';
 
 class CheckinScreen extends StatefulWidget {
   CheckinScreen({Key? key}) : super(key: key);
@@ -70,7 +68,6 @@ class _CheckinScreenState extends State<CheckinScreen> {
     // TODO: implement initState
     _bloc.add(InitDataEvent());
     _bloc.add(GetDataTimeKeepingEvent());
-    _bloc.add(GetSettingEvent());
     super.initState();
   }
 
@@ -174,18 +171,19 @@ class _CheckinScreenState extends State<CheckinScreen> {
 
   Widget ListStatusViewNew() {
     return Container(
-      height: height_200,
+      height: height_120,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Colors.white,
       ),
-      child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,
+      child: _bloc.listSetting.length > 0 ? GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,
         childAspectRatio: 4.0,
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
       ),
         itemCount: _bloc.listSetting.length,
+        shrinkWrap: true,
         itemBuilder:  (BuildContext context, int index) {
           return Container(
             height: 30,
@@ -212,6 +210,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
             ),
           );
         }
+      ) : SizedBox(
+        height: height_20,
       ),
     );
   }
@@ -220,6 +220,13 @@ class _CheckinScreenState extends State<CheckinScreen> {
     return Container(
       padding: EdgeInsets.all(height_32),
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(radius_12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 5),)],
         color: Colors.white,
       ),
       child: Column(
@@ -277,15 +284,16 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                 _bloc.listCheckin[index].notcheckinDay) == 0) {
                           return Center(
                               child: Container(
-                                width: width_35,
-                                height: height_35,
+                                width: width_25,
+                                height: height_25,
                                 decoration: BoxDecoration(
                                     color: ThemeColor.clr_FF9B90,
                                     shape: BoxShape.circle
                                 ),
                                 child: Center(child: Text(date.day.toString(),
                                     style: TextStyle(
-                                        color: ThemeColor.clr_FFFFFF))),
+                                      color: ThemeColor.clr_000000,),
+                                  textAlign: TextAlign.center,)),
                               ));
                         }
                         else
@@ -293,8 +301,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                             tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0) {
                           return Center(
                               child: Container(
-                                width: width_35,
-                                height: height_35,
+                                width: width_25,
+                                height: height_25,
                                 decoration: BoxDecoration(
                                     color: ThemeColor.clr_4C5980,
                                     border: Border.all(
@@ -303,72 +311,135 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                 ),
                                 child: Center(child: Text(date.day.toString(),
                                     style: TextStyle(
-                                        color: ThemeColor.clr_000000))),
+                                      color: ThemeColor.clr_000000,),
+                                  textAlign: TextAlign.center,)),
                               ));
                         }
                         else if (_bloc.listCheckin[index].title == "DAYOFF" &&
                             tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0) {
-                          return Center(
-                              child: Container(
-                                width: width_35,
-                                height: height_35,
-                                decoration: BoxDecoration(
-                                    color: ThemeColor.clr_979797,
-                                    shape: BoxShape.circle
-                                ),
-                                child: Center(child: Text(date.day.toString(),
-                                    style: TextStyle(
-                                        color: ThemeColor.clr_FFFFFF))),
-                              ));
-                        }
+                            return Center(
+                                child: Container(
+                                  width: width_25,
+                                  height: height_25,
+                                  decoration: BoxDecoration(
+                                      color: ThemeColor.clr_979797,
+                                      shape: BoxShape.circle
+                                  ),
+                                  child: Center(child: Text(date.day.toString(),
+                                      style: TextStyle(
+                                        color: ThemeColor.clr_000000,),
+                                    textAlign: TextAlign.center,)),
+                                ));
+                          }
                         else if (_bloc.listCheckin[index].title == "HOLIDAY" &&
                             tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0) {
                           return Center(
                               child: Container(
-                                width: width_35,
-                                height: height_35,
+                                width: width_25,
+                                height: height_25,
                                 decoration: BoxDecoration(
                                     color: ThemeColor.clr_F30000,
                                     shape: BoxShape.circle
                                 ),
                                 child: Center(child: Text(date.day.toString(),
                                   style: TextStyle(
-                                    color: ThemeColor.clr_FFFFFF,),
+                                    color: ThemeColor.clr_000000,),
                                   textAlign: TextAlign.center,)),
                               ));
                         }
-                        else if (_bloc.listCheckin[index].title=="HALFDAYOFF" &&
-                            tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0){
+                       else if (_bloc.listCheckin[index].title ==
+                            "DAYOFFMORNINGCHECKIN" &&
+                            tempDate.compareTo(_bloc.listCheckin[index]
+                                .notcheckinDay) == 0) {
                           return Center(
                             child:
                             Container(
-                              width: width_35,
-                              height: height_35,
+                              width: width_25,
+                              height: height_25,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(color: ThemeColor.clr_000000),
                                 gradient: LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
                                   stops: [0, 0.5, 0.5],
                                   colors: [
-                                    ThemeColor.clr_F4F6FA,
-                                    ThemeColor.clr_F4F6FA,
-                                    ThemeColor.clr_8F8F8F
+                                    ThemeColor.clr_8F8F8F,
+                                    ThemeColor.clr_8F8F8F,
+                                    ThemeColor.clr_FF9B90
                                   ],
                                 ),
                               ),
 
-                              child: Center(child: Text(date.day.toString())),
+                              child: Center(child: Text(date.day.toString(),
+                                style: TextStyle(
+                                  color: ThemeColor.clr_000000,),
+                                textAlign: TextAlign.center,
+                              )),
                             ),);
                         }
-                        else if (_bloc.listCheckin[index].title == "HAFTDAYOFFCHECKIN" &&
+                        else if (_bloc.listCheckin[index].title=="DAYOFFAFTERNOON" &&
                             tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0){
                           return Center(
                             child:
                             Container(
-                              width: width_20,
-                              height: height_20,
+                              width: width_25,
+                              height: height_25,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  stops: [0, 0.5, 0.5],
+                                  colors: [
+                                    ThemeColor.clr_FFFFFF,
+                                    ThemeColor.clr_FFFFFF,
+                                    ThemeColor.clr_979797
+                                  ],
+                                ),
+                              ),
+
+                              child: Center(child: Text(date.day.toString(),
+                                style: TextStyle(
+                                  color: ThemeColor.clr_000000,),
+                                textAlign: TextAlign.center,
+                              )),
+                            ),);
+                        }
+                        else if (_bloc.listCheckin[index].title=="DAYOFFMORNING" &&
+                            tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0){
+                          return Center(
+                            child:
+                            Container(
+                              width: width_25,
+                              height: height_25,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  stops: [0, 0.5, 0.5],
+                                  colors: [
+                                    ThemeColor.clr_979797,
+                                    ThemeColor.clr_979797,
+                                    ThemeColor.clr_FFFFFF
+                                  ],
+                                ),
+                              ),
+
+                              child: Center(child: Text(date.day.toString(),
+                                style: TextStyle(
+                                  color: ThemeColor.clr_000000,),
+                                textAlign: TextAlign.center,
+                              )),
+                            ),);
+                        }
+                        else if (_bloc.listCheckin[index].title == "DAYOFFAFTERNOONCHECKIN" &&
+                            tempDate.compareTo(_bloc.listCheckin[index].notcheckinDay) == 0){
+                          return Center(
+                            child:
+                            Container(
+                              width: width_25,
+                              height: height_25,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 gradient: LinearGradient(
@@ -383,7 +454,11 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                 ),
                               ),
 
-                              child: Center(child: Text(date.day.toString())),
+                              child: Center(child: Text(date.day.toString(),
+                                style: TextStyle(
+                                  color: ThemeColor.clr_000000,),
+                                textAlign: TextAlign.center,
+                              )),
                             ),);
                         }
                           return Center(
@@ -410,9 +485,6 @@ class _CheckinScreenState extends State<CheckinScreen> {
                   }
                 }
             ),
-
-            // styleForEvents: (day) => getColorForEvent(day),
-            // eventLoader: _bloc.getEventsForDay,
             onCalendarCreated: (controller) {},
             calendarStyle: CalendarStyle(
               weekendTextStyle: TextStyle(color: ThemeColor.clr_CE6161),
@@ -471,10 +543,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
       ),
     );
   }
-
 }
-
-
 
 int getHashCode(DateTime key) {
   return key.day + key.month + key.year;
