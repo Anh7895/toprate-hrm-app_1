@@ -18,6 +18,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toprate_hrm/ui/daily_check_in/daily_checkin_screen.dart';
 import 'package:toprate_hrm/ui/day_off/day_off_screen.dart';
 import 'package:toprate_hrm/ui/report/report_screen.dart';
+import 'package:toprate_hrm/ui/user/newuser_screen.dart';
 import 'package:toprate_hrm/ui/user/user_screen.dart';
 
 import '../../common/multi_language/internationalization.dart';
@@ -134,7 +135,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 HomeScreens(),
                 DailyCheckInScreen(),
-               // UserScreen(),
+               NewUserScreen(),
                // ReportScreen(),
               ],
               controller: _bloc.controller,
@@ -164,11 +165,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           icon: SvgPicture.asset(ic_checkin),
           label: S.of(context).translate("checkIn"),
         ),
-        // BottomNavigationBarItem(
-        //   activeIcon: SvgPicture.asset(ic_personal, color: ThemeColor.clr_CE6161),
-        //   icon: SvgPicture.asset(ic_personal),
-        //   label: S.of(context).translate("personal"),
-        // ),
+        BottomNavigationBarItem(
+          activeIcon: SvgPicture.asset(ic_personal, color: ThemeColor.clr_CE6161),
+          icon: SvgPicture.asset(ic_personal),
+          label: S.of(context).translate("personal"),
+        ),
         // BottomNavigationBarItem(
         //   activeIcon: SvgPicture.asset(ic_chart, color: ThemeColor.clr_CE6161),
         //   icon: SvgPicture.asset(ic_chart),

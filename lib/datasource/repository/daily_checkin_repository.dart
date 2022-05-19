@@ -44,9 +44,9 @@ class DailyCheckInRepository {
     }
   }
 
-  Future<Response<OTimekeepingCalendar>> getCalendar() async {
+  Future<Response<OTimekeepingCalendar>> getCalendar(String? month) async {
     if (await networkInfo.isConnected) {
-      return dailyCheckInDataSource.getCalendar();
+      return dailyCheckInDataSource.getCalendar(month);
     } else {
       throw NetworkConnectionException();
     }

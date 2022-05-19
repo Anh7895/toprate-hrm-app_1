@@ -12,7 +12,7 @@ import 'package:toprate_hrm/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:openapi/openapi.dart';
-import 'package:toprate_hrm/ui/user/user_screen.dart';
+import 'package:toprate_hrm/ui/user/newuser_screen.dart';
 import 'package:toprate_hrm/ui/report/report_screen.dart';
 
 import 'daily_check_in/daily_checkin_screen.dart';
@@ -62,7 +62,7 @@ class Routes {
 
       case RouteName.user:
         return MaterialPageRoute(
-            builder: (_) => UserScreen(),
+            builder: (_) => NewUserScreen(),
             settings:
             RouteSettings(name: RouteName.user));
       case RouteName.myDayOffScreen:

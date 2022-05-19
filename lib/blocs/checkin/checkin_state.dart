@@ -42,6 +42,10 @@ class GetSettingState extends CheckinState{
   GetSettingState();
 }
 
+class GetColorSettingState extends CheckinState{
+  GetColorSettingState();
+}
+
 class HaftDayOffState extends CheckinState{
   HaftDayOffState();
 }

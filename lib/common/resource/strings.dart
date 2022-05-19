@@ -102,6 +102,8 @@ class TextConstants {
   //User
   static const textChoose = "Select your working mode";
   static const textWorkingMode = "Select 01 working mode";
+  static const textBasicInfor = "Basic Info";
+
   //Daily CheckIn
   static const textSubmit = "Submit";
   static const textOk = "Ok";

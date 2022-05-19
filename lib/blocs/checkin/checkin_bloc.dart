@@ -9,7 +9,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:toprate_hrm/blocs/base_state/base_state.dart';
 import 'package:toprate_hrm/common/resource/strings.dart';
 import 'package:toprate_hrm/common/utils/extensions.dart';
-import 'package:toprate_hrm/datasource/data/model/entity/select_an_industrial_recruiment_model.dart';
 import 'package:toprate_hrm/datasource/repository/daily_checkin_repository.dart';
 import 'package:toprate_hrm/ui/mycheckin/checkin_screen.dart';
 import 'package:toprate_hrm/ui/mycheckin/event_data.dart';
@@ -26,6 +25,10 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
   OTimekeepingCalendar? calendarTimekeeping;
   List<CheckinDay> listCheckin =[];
   List<OTimekeepingCalendarSettings> listSetting = [];
+  String? colorNotCheckin;
+  String? colorCheckIn;
+  String? colorDayOff;
+  String? colorHoliday;
 
   LinkedHashMap<DateTime, List<Event>> kEvents =
   LinkedHashMap<DateTime, List<Event>>(
@@ -38,11 +41,11 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
 
   CheckinBloc(this.dailyCheckInRepository) : super(CheckinInitial()) {
     on<CheckinEvent>((event, emit) {
-
       emit(InitDataDateState());
     });
     on<InitDataEvent>((event, emit) {
-      fakeDataCheckinDay();
+      add(GetDataTimeKeepingEvent(date: DateFormat("MM-yyyy").format(dateToday)));
+      add(GetSettingEvent());
       emit(InitDataState());
     });
 
@@ -53,6 +56,7 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     on<DayPredicateEvent>((event, emit) => onDayPredicate(event, emit));
     on<GetDataTimeKeepingEvent>((event, emit) => getTimeKeeping(event, emit));
     on<GetSettingEvent>((event, emit) => getSetting(event, emit));
+    on<GetColorSettingEvent>((event, emit) => getColorSetting(event, emit));
     on<HaftDayOffEvent>((event, emit) => haftDayOff(event, emit));
   }
 
@@ -102,6 +106,7 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
             listSetting.add(e);
           }
         });
+        add(GetColorSettingEvent());
         emit(GetSettingState());
       }
     } on DioError catch (e) {
@@ -113,6 +118,25 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     }
   }
 
+  getColorSetting(GetColorSettingEvent evet, Emitter<BaseState> emit) async{
+    for(int i=0; i < listSetting.length ; i++){
+      if(listSetting[i].name == "Not checkin"){
+        colorNotCheckin = listSetting[i].backgroundColor;
+      }
+      if(listSetting[i].name == "Check in"){
+        colorCheckIn = listSetting[i].backgroundColor;
+      }
+      if(listSetting[i].name == "Day off"){
+        colorDayOff = listSetting[i].backgroundColor;
+      }
+      if(listSetting[i].name == "Holiday"){
+        colorHoliday = listSetting[i].backgroundColor;
+      }
+      print("ssssss ${colorCheckIn}");
+    }
+    emit(GetColorSettingState());
+  }
+
   getTimeKeeping(GetDataTimeKeepingEvent event, Emitter<BaseState> emit) async {
     String checkin;
     String dayoff;
@@ -120,7 +144,7 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     String dayoffAfternoon;
     try{
       emit(StartCallApiState());
-          final response = await dailyCheckInRepository.getCalendar();
+          final response = await dailyCheckInRepository.getCalendar(event.date);
           print(response);
           if (response == null){
             print("Error : data is null");
@@ -158,7 +182,6 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
               });
             }
             add(HaftDayOffEvent());
-            add(GetSettingEvent());
             emit(GetDataTimeKeepingState());
           }
     }
@@ -194,17 +217,11 @@ class CheckinBloc extends Bloc<CheckinEvent, BaseState> {
     emit(HaftDayOffState());
   }
 
-
-
-
   @override
   Stream<CheckinState> mapEventToState(
       CheckinEvent event,
       ) async* {
     // TODO: implement mapEventToState
-  }
-  fakeDataCheckinDay(){
-
   }
 
 }
