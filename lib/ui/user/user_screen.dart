@@ -24,7 +24,6 @@ import '../../datasource/data/model/entity/chart_model.dart';
 import '../login/login_screen.dart';
 
 class UserScreen extends StatefulWidget {
-  const UserScreen({Key? key}) : super(key: key);
 
   @override
   State<UserScreen> createState() => _UserScreenState();
@@ -71,25 +70,6 @@ class _UserScreenState extends State<UserScreen> {
                           Container(
                             width: width,
                             margin: EdgeInsets.symmetric(horizontal: width_10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  child:Text(S.of(context).translate("vn"),style:TextStyleCommon.textTitleStyle),
-                                ),
-                                GestureDetector(
-                                  onTap: (){
-                                    _bloc.add(LogoutEvent());
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.logout,color: ThemeColor.clr_CE6161,),
-                                      Text(S.of(context).translate("textButtonLogout"),style: TextStyleCommon.textTitleStyle),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                           SizedBox(height: height_10,),
                           Stack(
@@ -478,82 +458,7 @@ class _UserScreenState extends State<UserScreen> {
                               ),
                             ],
                           ),
-                          Container(
-                            width: width,
-                            margin: EdgeInsets.symmetric(horizontal: width_10),
-                            child: Column(
-                              children: [
-                                SizedBox(height: height_30,),
-                                Container(
-                                  width:width,
-                                    child: Text(S.of(context).translate("yourWorkingToday"),textAlign: TextAlign.left,style: TextStyleCommon.textTitleStyle)),
-                                SizedBox(height: height_10,),
-                                Container(
-                                  width: width,
-                                  decoration: BoxDecoration(
-                                      color: ThemeColor.clr_CE6161,
-                                      borderRadius: BorderRadius.circular(radius_16),
-                                      border: Border.all(color: ThemeColor.clr_D6D9E0)),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.symmetric(vertical: height_20,horizontal: width_20),
-                                        height: 50,
-                                        width: width,
-                                        decoration: BoxDecoration(
-                                          color: ThemeColor.clr_FFFFFF,
-                                          borderRadius: BorderRadius.circular(radius_16),
-                                          border: Border.all(color: ThemeColor.clr_000000),
-
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Text(S.of(context).translate("textWorkingMode"), style: TextStyleCommon.textNormalStyle,),
-
-                                            Container(
-                                              margin: EdgeInsets.only(right: width_10),
-                                              color: ThemeColor.clr_FFFFFF,
-                                              child: GestureDetector(
-                                                  onTap: (){
-                                                    _showMyDialog(context);
-                                                  },
-                                                  child: Icon(Icons.keyboard_arrow_down_outlined,color: ThemeColor.clr_CE6161,)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                           SizedBox(height: height_20,),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: width_10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(S.of(context).translate("textProjectTimeYesterday"),style: TextStyleCommon.textTitleStyle),
-                                Container(
-                                    width: width,
-                                    child: SfCartesianChart(
-                                        primaryXAxis: CategoryAxis(),
-                                        primaryYAxis: NumericAxis(minimum: 0, maximum: 16, interval: 2),
-                                        tooltipBehavior: _tooltip,
-                                        series: <ChartSeries<ChartData, String>>[
-                                          BarSeries<ChartData, String>(
-                                              dataSource: _bloc.chartData,
-                                              xValueMapper: (ChartData data, _) => data.x,
-                                              yValueMapper: (ChartData data, _) => data.y,
-                                              name: 'LastDayTime',
-                                              color: ThemeColor.clr_CE6161)
-                                        ])),
-                              ],
-                            ),
-                          ),
-
                         ]
                       )
                     ),
@@ -601,100 +506,5 @@ class _UserScreenState extends State<UserScreen> {
             child: child,
           ),
         ));
-  }
-  _showMyDialog(BuildContext context) async {
-    return await showDialog<void>(
-      context: context,
-      barrierDismissible: true, // user must tap button!
-      builder: (context) {
-        return HttpStreamHandler<UserBloc, BaseState>(
-            bloc: _bloc,
-            listener: (context, state) {},
-            builder: (context, setState) {
-              return Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(radius_16),
-                ),
-                child: Container(
-                  height: height_344,
-                  width:  MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: height_20),
-                        child: Text(
-                          TextConstants.textWorkingMode,
-                          style: TextStyleCommon.textTitleStyle,
-                        ),
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            physics: BouncingScrollPhysics(),
-                            itemCount: 3,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                  onTap: () {
-
-                                  },
-                                  child: _buildItemListTask(index));
-                            }),
-                      ),
-                      SizedBox(
-                        height: height_15,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: height_8),
-                        child: GestureDetector(
-                          onTap: () {
-
-                          },
-                          child: BaseButton(
-                            height: height_45,
-                            width: width_200,
-                            title: TextConstants.textOk,
-                            style: TextStyleCommon.textButtonStyle(context),
-                            backgroundColor: ThemeColor.clr_CE6161,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            });
-      },
-    );
-  }
-  Widget _buildItemListTask(int index) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: width_8, vertical: height_4),
-      height: height_45,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(radius_20)),
-          color: ThemeColor.clr_FFEBEB),
-      child: Container(
-        margin: EdgeInsets.only(left: width_20),
-        child: Row(
-          children: [
-
-            Container(
-              margin: EdgeInsets.only(left: width_8),
-              child: Text(
-                "OK",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    color: ThemeColor.clr_4C5980,
-                    fontSize: fontSize_16,
-                    fontWeight: FontWeight.w500),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 }

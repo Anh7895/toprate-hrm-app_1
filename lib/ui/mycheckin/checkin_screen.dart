@@ -26,7 +26,6 @@ class CheckinScreen extends StatefulWidget {
 }
 
 class _CheckinScreenState extends State<CheckinScreen> {
-
   CheckinBloc _bloc = Injector.resolve<CheckinBloc>();
 
   @override
@@ -67,7 +66,6 @@ class _CheckinScreenState extends State<CheckinScreen> {
   void initState() {
     // TODO: implement initState
     _bloc.add(InitDataEvent());
-    _bloc.add(GetDataTimeKeepingEvent());
     super.initState();
   }
 
@@ -82,9 +80,9 @@ class _CheckinScreenState extends State<CheckinScreen> {
       padding: EdgeInsets.symmetric(horizontal: height_25),
       child: Column(
         children: [
-          SizedBox(height: height_15),
+          SizedBox(height: height_28),
           _topNavigation(),
-          SizedBox(height: height_15),
+          SizedBox(height: height_26),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -142,7 +140,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
       child: Row(
         children: [
           SizedBox(
-            width: width_20,
+            width: width_5,
           ),
           GestureDetector(
             onTap: () {
@@ -189,6 +187,9 @@ class _CheckinScreenState extends State<CheckinScreen> {
             height: 30,
             child: Row(
               children: <Widget>[
+                SizedBox(
+                  width: width_10,
+                ),
                 Container(
                     height: 28,
                     width: 28,
@@ -244,7 +245,11 @@ class _CheckinScreenState extends State<CheckinScreen> {
             onDaySelected: (DateTime selectDay, DateTime focusDay) {
               // if (selectDay.toString().substring(0, 10) ==
               //     DateTime.now().toString().substring(0, 10)){
+              if(selectDay.compareTo(DateTime.now()) <= 0){
                 _bloc.add(SelectDayEvent(selectDay, focusDay));
+              } else {
+                _bloc.add(CantSeclectDayEvent());
+              }
               // }else
               //   if (selectDay.compareTo(DateTime.now()) < 0) {
               //   for (int i = 0; i < _bloc.listCheckin.length; i++) {
@@ -287,7 +292,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                 width: width_25,
                                 height: height_25,
                                 decoration: BoxDecoration(
-                                    color: ThemeColor.clr_FF9B90,
+                                    color: Color(int.parse(
+                                        "0xFF" + _bloc.colorCheckIn!)),
                                     shape: BoxShape.circle
                                 ),
                                 child: Center(child: Text(date.day.toString(),
@@ -304,7 +310,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                 width: width_25,
                                 height: height_25,
                                 decoration: BoxDecoration(
-                                    color: ThemeColor.clr_4C5980,
+                                    color:  Color(int.parse(
+                                        "0xFF" + _bloc.colorNotCheckin!)),
                                     border: Border.all(
                                         color: ThemeColor.clr_000000),
                                     shape: BoxShape.circle
@@ -322,7 +329,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                   width: width_25,
                                   height: height_25,
                                   decoration: BoxDecoration(
-                                      color: ThemeColor.clr_979797,
+                                      color:  Color(int.parse(
+                                          "0xFF" + _bloc.colorDayOff!)),
                                       shape: BoxShape.circle
                                   ),
                                   child: Center(child: Text(date.day.toString(),
@@ -338,7 +346,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                 width: width_25,
                                 height: height_25,
                                 decoration: BoxDecoration(
-                                    color: ThemeColor.clr_F30000,
+                                    color:  Color(int.parse(
+                                        "0xFF" + _bloc.colorHoliday!)),
                                     shape: BoxShape.circle
                                 ),
                                 child: Center(child: Text(date.day.toString(),
@@ -363,9 +372,12 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                   end: Alignment.centerRight,
                                   stops: [0, 0.5, 0.5],
                                   colors: [
-                                    ThemeColor.clr_8F8F8F,
-                                    ThemeColor.clr_8F8F8F,
-                                    ThemeColor.clr_FF9B90
+                                    Color(int.parse(
+                                        "0xFF" + _bloc.colorDayOff!)),
+                                    Color(int.parse(
+                                        "0xFF" + _bloc.colorDayOff!)),
+                                    Color(int.parse(
+                                        "0xFF" + _bloc.colorCheckIn!)),
                                   ],
                                 ),
                               ),
@@ -393,7 +405,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                   colors: [
                                     ThemeColor.clr_FFFFFF,
                                     ThemeColor.clr_FFFFFF,
-                                    ThemeColor.clr_979797
+                                    Color(int.parse(
+                                        "0xFF" + _bloc.colorDayOff!))
                                   ],
                                 ),
                               ),
@@ -419,8 +432,10 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                   end: Alignment.centerRight,
                                   stops: [0, 0.5, 0.5],
                                   colors: [
-                                    ThemeColor.clr_979797,
-                                    ThemeColor.clr_979797,
+                                    Color(int.parse(
+                                        "0xFF" + _bloc.colorDayOff!)),
+                                    Color(int.parse(
+                                        "0xFF" + _bloc.colorDayOff!)),
                                     ThemeColor.clr_FFFFFF
                                   ],
                                 ),
@@ -447,9 +462,12 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                   end: Alignment.centerRight,
                                   stops: [0, 0.5, 0.5],
                                   colors: [
-                                    ThemeColor.clr_FF9B90,
-                                    ThemeColor.clr_FF9B90,
-                                    ThemeColor.clr_8F8F8F
+                                    Color(int.parse(
+                                        "0xFF" + _bloc.colorCheckIn!)),
+                                    Color(int.parse(
+                                        "0xFF" + _bloc.colorCheckIn!)),
+                                    Color(int.parse(
+                                        "0xFF" + _bloc.colorDayOff!)),
                                   ],
                                 ),
                               ),

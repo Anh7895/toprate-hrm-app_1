@@ -32,8 +32,8 @@ class DailyCheckInDataSource {
     return response;
   }
 
-  Future<Response<OTimekeepingCalendar>> getCalendar() async {
-    final response = await apiClient.getTimekeepingApi().getTimekeepingCalendar();
+  Future<Response<OTimekeepingCalendar>> getCalendar(String? month) async {
+    final response = await apiClient.getTimekeepingApi().getTimekeepingCalendar(month: month);
     return response;
   }
 
